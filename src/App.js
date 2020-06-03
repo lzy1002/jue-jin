@@ -1,26 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import {Switch, Route, Redirect} from "react-router-dom";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import Home from "./views/Home/Home.js";
+import Pins from "./views/Pins/Pins.js";
+import Search from "./views/Search/Search.js";
+import Books from "./views/Books/Books.js";
+import Profile from "./views/Profile/Profile.js";
+
+import TabBar from "./components/content/TabBar/TabBar.js";
+
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+  }
+
+  render() {
+    return (
+      <div className="app-wrapper" style={{width: "100%", height: "100%"}}>
+        <Switch>
+          <Route path="/home" component={Home}/>
+          <Route path="/pins" component={Pins}/>
+          <Route path="/search" component={Search}/>
+          <Route path="/books" component={Books}/>
+          <Route path="/profile" component={Profile}/>
+          <Redirect from="/" to="/home/recommend"/>
+        </Switch>
+        <TabBar/>
+      </div>
+    )
+  }
+
 }
 
 export default App;

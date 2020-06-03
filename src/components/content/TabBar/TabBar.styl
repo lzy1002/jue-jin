@@ -1,0 +1,19 @@
+@import "../../../assets/stylus/variable.styl"
+
+.tabBar-wrapper
+  position fixed
+  left 0
+  right 0
+  bottom 0
+  height 40px
+  display flex
+  background-color $color-background-d
+  .tabBar-item
+    flex 1
+    text-align center
+    line-height 36px
+    color $color-text-d
+    &.active
+      color $color-theme
+    .iconfont
+      font-size 28px

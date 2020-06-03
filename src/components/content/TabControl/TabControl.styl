@@ -1,0 +1,27 @@
+@import "../../../assets/stylus/variable.styl"
+@import "../../../assets/stylus/mixin.styl"
+
+.tabControl-wrapper
+  display flex
+  background-color $color-theme
+  .title-box
+    flex 1
+    overflow hidden
+    no-wrap()
+    .title-item
+      display inline-block
+      font-size $font-size-medium
+      padding 10px 15px
+      color #cfcfd3
+      &.active
+        color $color-text-ll
+  .arrow-box
+    width 45px
+    text-align center
+    .arrow
+      display inline-block
+      width 0
+      height 0
+      margin-top 12px
+      border 8px solid transparent
+      border-top 8px solid #fff
