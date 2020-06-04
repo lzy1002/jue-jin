@@ -8,7 +8,7 @@ class TabBar extends React.Component {
     super(props);
     console.log(this.props);
     this.state = {
-      home: "/home"
+      home: "/home/recommend"
     }
   }
 

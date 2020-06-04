@@ -5,6 +5,7 @@
   display flex
   background-color $color-theme
   .title-box
+    position relative
     flex 1
     overflow hidden
     no-wrap()
@@ -15,6 +16,12 @@
       color #cfcfd3
       &.active
         color $color-text-ll
+    .bottom-line
+      position absolute
+      left 0
+      bottom 0
+      height 3px
+      background-color $color-background-d
   .arrow-box
     width 45px
     text-align center
