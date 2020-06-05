@@ -3,6 +3,11 @@ import propTypes from "prop-types";
 import {CSSTransition, TransitionGroup} from "react-transition-group";
 import {Switch, withRouter} from "react-router-dom";
 
+import {prefixStyle} from "../../../assets/js/dom.js";
+
+const TRANSFORM = prefixStyle("transform");
+const TRANSITION = prefixStyle("transition");
+
 class ReactSlideTransition extends React.Component {
   static defaultProps = {
     routerList: []
@@ -33,23 +38,23 @@ class ReactSlideTransition extends React.Component {
   }
 
   onEntering(node) {
-    node.style.transition = "all 0.5s ease";
-    node.style.transform = "translateX(0)";
+    node.style[TRANSITION] = "all 0.5s ease";
+    node.style[TRANSFORM] = "translateX(0)";
   }
 
   onExit(node) {  // node为当前正在显示并且即将要离开的路由页面的dom元素
-    node.style.transform = "translateX(0)";
+    node.style[TRANSFORM] = "translateX(0)";
   }
 
   onExiting(node) {
     const oldIndex = this.props.routerList.findIndex(item => item.path === this.oldPath);
     const newIndex = this.props.routerList.findIndex(item => item.path === this.props.location.pathname);
     if(newIndex < oldIndex) {
-      node.style.transition = "all 0.5s ease";
-      node.style.transform = "translateX(100%)";
+      node.style[TRANSITION] = "all 0.5s ease";
+      node.style[TRANSFORM] = "translateX(100%)";
     }else if(newIndex > oldIndex) {
-      node.style.transition = "all 0.5s ease";
-      node.style.transform = "translateX(-100%)";
+      node.style[TRANSITION] = "all 0.5s ease";
+      node.style[TRANSFORM] = "translateX(-100%)";
     }
   }
 

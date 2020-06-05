@@ -1,0 +1,33 @@
+@import "../../../assets/stylus/variable.styl";
+@import "../../../assets/stylus/mixin.styl";
+
+.hotArticle-wrapper
+  background-color $color-background-d
+  margin-bottom 10px
+  .title-box
+    display flex
+    height 38px
+    justify-content space-between
+    align-items center
+    padding 0 10px
+    border-1px($color-border)
+    .title
+      font-size 15px
+      color $color-theme
+      .iconfont
+        margin-right 5px
+    .delete-box
+      extend-click()
+  .article-box
+    .article-item
+      border-1px($color-border)
+      padding 10px
+      .article-title
+        font-size $font-size-medium
+        color $color-title
+        margin-bottom 12px
+      .article-info
+        font-size $font-size-small
+        color $color-text-l
+        margin-bottom 12px
+
