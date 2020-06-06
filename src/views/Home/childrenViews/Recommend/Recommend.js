@@ -25,18 +25,16 @@ class Recommend extends React.Component {
     this.pullUpLoad = true;
   }
 
-  componentWillMount() {
+  componentDidMount() {
+    if(this.props.articleFeed) return;  // 当路由切换时 当前页面会被销毁 但是redux中已经存储的数据不会被销毁 当再次切换回该组件时 先判断redux中是否已经存在即将要获取的数据了 如果存在则不获取
     this.setState({
       refreshIsShow: true
     });
-  }
-
-  componentDidMount() {
-    if(this.props.articleFeed) return;  // 当路由切换时 当前页面会被销毁 但是redux中已经存储的数据不会被销毁 当再次切换回该组件时 先判断redux中是否已经存在即将要获取的数据了 如果存在则不获取
     this.props.sagaInitHomeRecommend();  // 调用方法派发调用saga的行为标识对象 获取数据修改redux的state
   }
 
-  componentWillReceiveProps() {
+  componentWillReceiveProps(nextProps) {
+    if(!nextProps.articleFeed) return;  // 这一步判断是为了解决页面初次渲染时 就算redux中没有数据 也会触发一次该生命周期函数 导致refresh组件不会显示的问题  也就是说只有当redux存在真实的数据之后才会让refresh组件隐藏
     this.setState({
       refreshIsShow: false
     });
@@ -50,15 +48,12 @@ class Recommend extends React.Component {
     this.setState({
       refreshIsShow: true
     });
-    window.setTimeout(() => {
+    window.setTimeout(() => {  // 这里的延迟是为了让refresh组件至少显示一秒 如果不延迟 那么数据的获取会很快 两次setState时间过短 以最后一次为准 导致refresh组件不显示
       this.props.sagaInitHomeRecommend();
     }, 1000)
   }
 
   handlePullUpLoad() {
-    this.setState({
-      loadingIsShow: true
-    });
     this.props.sagaMoreHomeRecommend(this.props.articleFeed.items.pageInfo.endCursor);
   }
 

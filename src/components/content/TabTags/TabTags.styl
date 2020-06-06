@@ -1,0 +1,31 @@
+@import "../../../assets/stylus/variable.styl"
+@import "../../../assets/stylus/mixin.styl"
+
+.tabTags-wrapper
+  width 100%
+  height 40px
+  background-color $color-background-d
+  border-1px($color-border)
+  .tabTags-box
+    height 40px
+    display inline-block
+    align-items center
+    overflow hidden
+    padding 0 5px
+    .tags-item
+      display flex
+      align-items center
+      float left
+      height 40px
+      margin-right 10px
+      span
+        display inline-block
+        font-size $font-size-small
+        padding 6px 14px
+        color $color-text-d
+        background-color #f4f7fa
+        border-radius 12px
+      &.active
+        span
+          color $color-text-ll
+          background-color $color-theme
