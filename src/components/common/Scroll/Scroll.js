@@ -4,17 +4,21 @@ import BScroll from "better-scroll";
 
 class Scroll extends React.Component {
   static defaultProps = {
+    click: true,
     probeType: 0,
     pullUpLoad: false,
     pullDownRefresh: false,
+    handleScrolling: () => {},
     handlePullUpLoad: () => {},
     handlePullDownRefresh: () => {}
   };
 
   static propTypes = {
+    click: propTypes.bool,
     probeType: propTypes.number,
     pullUpLoad: propTypes.bool,
     pullDownRefresh: propTypes.bool,
+    handleScrolling: propTypes.func,
     handlePullUpLoad: propTypes.func,
     handlePullDownRefresh: propTypes.func
   };
@@ -31,14 +35,16 @@ class Scroll extends React.Component {
 
   initBScroll() {
     this.BScroll = new BScroll(this.wrapper.current, {
+      click: this.props.click,
       probeType: this.props.probeType,
       pullUpLoad: this.props.pullUpLoad,
-      pullDownRefresh: this.props.pullDownRefresh
+      pullDownRefresh: this.props.pullDownRefresh,
+      // preventDefault: false
     });
 
     if(this.props.probeType >= 2) {
       this.BScroll.on("scroll", (position) => {
-        console.log(position);
+        this.props.handleScrolling(position);
       })
     }
 
@@ -61,6 +67,10 @@ class Scroll extends React.Component {
 
   refresh() {
     this.BScroll.refresh();
+  }
+
+  scrollTo() {
+    this.BScroll.scrollTo(...arguments);
   }
 
   render() {

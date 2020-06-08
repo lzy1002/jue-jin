@@ -9,10 +9,16 @@ import Scroll from "../../../../components/common/Scroll/Scroll.js";
 
 import TabTags from "../../../../components/content/TabTags/TabTags.js";
 import ArticleItem from "../../../../components/content/ArticleItem/ArticleItem.js";
+import Refresh from "../../../../components/content/Refresh/Refresh.js";
+import Loading from "../../../../components/content/Loading/Loading.js";
 
 class Hot extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      refreshIsShow: false
+    };
 
     this.sign = "THREE_DAYS_HOTTEST";
     this.tabTagsList = [
@@ -24,26 +30,43 @@ class Hot extends React.Component {
 
     this.pullDownRefresh = true;
     this.pullUpLoad = true;
+
+    this.scroll = React.createRef();
   }
 
   componentDidMount() {
     if(this.props.articleFeed) return;
-    console.log(123);
+    this.setState({
+      refreshIsShow: true
+    });
     this.props.sagaInitHomeHot(this.sign);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(!nextProps.articleFeed) return;
+    this.setState({
+      refreshIsShow: false
+    })
   }
 
   componentDidUpdate() {
-    console.log(this.props);
+    if(this.sign !== this.props.sign) {
+      this.scroll.current.scrollTo(0, 0, 0);
+    }
+    this.sign = this.props.sign;
   }
 
   handleTagsItemClick(sign) {
-    this.sign = sign;
-    this.props.sagaInitHomeHot(this.sign);
-
+    this.props.sagaInitHomeHot(sign);
   }
 
   handlePullDownRefresh() {
-    this.props.sagaInitHomeHot(this.sign);
+    this.setState({
+      refreshIsShow: true
+    });
+    window.setTimeout(() => {
+      this.props.sagaInitHomeHot(this.sign);
+    }, 1000);
   }
 
   handlePullUpLoad() {
@@ -53,12 +76,18 @@ class Hot extends React.Component {
   render() {
     return (
       <div className="hot-wrapper">
+        <div style={{display: this.state.refreshIsShow ? "block" : "none"}}>
+          <Refresh/>
+        </div>
         <TabTags actionSign={this.props.sign} tabTagsList={this.tabTagsList} handleTagsItemClick={this.handleTagsItemClick.bind(this)}/>
         <div className="hot-box">
-          <Scroll pullDownRefresh={this.pullDownRefresh} pullUpLoad={this.pullUpLoad} handlePullDownRefresh={this.handlePullDownRefresh.bind(this)} handlePullUpLoad={this.handlePullUpLoad.bind(this)}>
+          <Scroll ref={this.scroll} pullDownRefresh={this.pullDownRefresh} pullUpLoad={this.pullUpLoad} handlePullDownRefresh={this.handlePullDownRefresh.bind(this)} handlePullUpLoad={this.handlePullUpLoad.bind(this)}>
             {this.props.articleFeed ? this.props.articleFeed.items.edges.map((item, index) => (
               <ArticleItem key={index} articleItemData={item.node}/>
             )) : undefined}
+            <div style={{display: this.props.articleFeed ? "block" : "none"}}>
+              <Loading/>
+            </div>
           </Scroll>
         </div>
       </div>

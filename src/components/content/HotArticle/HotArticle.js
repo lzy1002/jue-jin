@@ -1,7 +1,10 @@
 import React from "react";
 import propTypes from "prop-types";
+import {withRouter} from "react-router-dom";
 
 import "./HotArticle.styl";
+
+import RelatedItem from "../RelatedItem/RelatedItem.js";
 
 class HotArticle extends React.Component {
   static defaultProps = {
@@ -15,18 +18,6 @@ class HotArticle extends React.Component {
   constructor(props) {
     super(props);
     console.log(this.props);
-  }
-
-  getPublishData(createdAt) {
-    const createDate = new Date(createdAt).getTime();
-    const nowDate = new Date().getTime();
-    const publishDate = nowDate - createDate;
-    const hour = publishDate / 1000 / 60 / 60;
-    if(hour >= 24) {
-      return Math.floor(hour / 24) + "天前";
-    }
-
-    return Math.floor(hour) + "小时前";
   }
 
   render() {
@@ -43,12 +34,7 @@ class HotArticle extends React.Component {
         </div>
         <div className="article-box">
           {this.props.hotArticleList.map((item, index) => (
-            <div key={item.entry.id} className="article-item border-1px">
-              <h3 className="article-title">{item.entry.title}</h3>
-              <p className="article-info">
-                <span>{item.entry.likeCount}赞 · {item.entry.user.username} · {this.getPublishData.call(this, item.entry.createdAt)}</span>
-              </p>
-            </div>
+            <RelatedItem key={item.entry.id} relatedItemData={item.entry}/>
           ))}
         </div>
       </div>
@@ -57,4 +43,4 @@ class HotArticle extends React.Component {
 
 }
 
-export default HotArticle;
+export default withRouter(HotArticle);

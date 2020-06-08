@@ -1,5 +1,6 @@
 import React from "react";
 import propTypes from "prop-types";
+import {withRouter} from "react-router-dom";
 
 import "./ArticleItem.styl";
 
@@ -17,9 +18,13 @@ class ArticleItem extends React.Component {
 
   }
 
+  handleArticleItemClick(articleItemData) {
+    this.props.history.push(`/article/${articleItemData.id}`);
+  }
+
   render() {
     return (
-      <div className="articleItem-wrapper">
+      <div className="articleItem-wrapper" onClick={this.handleArticleItemClick.bind(this, this.props.articleItemData)}>
         <div className="articleItem-header">
           <div className="user-box">
             <div className="avatar">
@@ -28,8 +33,8 @@ class ArticleItem extends React.Component {
             <span className="username">{this.props.articleItemData.user.username}</span>
           </div>
           <div className="language-box">
-            {this.props.articleItemData.tags.map((item, index) => (
-              <span key={item.id}>{item.title}{index !== this.props.articleItemData.tags.length - 1 ? "/" : undefined}</span>
+            {this.props.articleItemData.tags.slice(0, 2).map((item, index) => (
+              <span key={item.id}>{item.title}{index !== this.props.articleItemData.tags.slice(0, 2).length - 1 ? "/" : undefined}</span>
             ))}
           </div>
         </div>
@@ -52,4 +57,4 @@ class ArticleItem extends React.Component {
 
 }
 
-export default ArticleItem;
+export default withRouter(ArticleItem);

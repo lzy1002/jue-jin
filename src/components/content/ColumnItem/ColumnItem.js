@@ -1,5 +1,6 @@
 import React from "react";
 import propTypes from "prop-types";
+import {withRouter} from "react-router-dom";
 
 import "./ColumnItem.styl";
 
@@ -28,9 +29,13 @@ class ColumnItem extends React.Component {
     }
   }
 
+  handleColumnItemClick(columnItemData) {
+    this.props.history.push(`/article/${columnItemData.objectId}`);
+  }
+
   render() {
     return (
-      <div className="columnItem-wrapper">
+      <div className="columnItem-wrapper" onClick={this.handleColumnItemClick.bind(this, this.props.columnItemData)}>
         <div className="columnItem-header">
           <div className="user-box">
             <div className="avatar-box">
@@ -87,4 +92,4 @@ class ColumnItem extends React.Component {
 
 }
 
-export default ColumnItem;
+export default withRouter(ColumnItem);

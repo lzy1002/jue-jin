@@ -6,6 +6,7 @@ import Pins from "./views/Pins/Pins.js";
 import Search from "./views/Search/Search.js";
 import Books from "./views/Books/Books.js";
 import Profile from "./views/Profile/Profile.js";
+import Article from "./views/Article/Article.js";
 
 import TabBar from "./components/content/TabBar/TabBar.js";
 
@@ -24,6 +25,7 @@ class App extends React.Component {
           <Route path="/search" component={Search}/>
           <Route path="/books" component={Books}/>
           <Route path="/profile" component={Profile}/>
+          <Route path="/article/:articleId" component={Article}/>
           <Redirect from="/" to="/home/recommend"/>
         </Switch>
         <TabBar/>
