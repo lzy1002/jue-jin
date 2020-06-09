@@ -4,6 +4,8 @@ import {withRouter} from "react-router-dom";
 
 import "./RelatedItem.styl";
 
+import {publishDate} from "../../../assets/js/utils.js";
+
 class RelatedItem extends React.Component {
   static defaultProps = {
     relatedItemData: {}
@@ -18,20 +20,8 @@ class RelatedItem extends React.Component {
 
   }
 
-  getPublishData(createdAt) {
-    const createDate = new Date(createdAt).getTime();
-    const nowDate = new Date().getTime();
-    const publishDate = nowDate - createDate;
-    const hour = publishDate / 1000 / 60 / 60;
-    if(hour >= 24) {
-      return Math.floor(hour / 24) + "天前";
-    }
-
-    return Math.floor(hour) + "小时前";
-  }
-
   handleArticleItemClick(articleItemData) {
-    this.props.history.push(`/article/${articleItemData.id || articleItemData.objectId}`);
+    this.props.history.replace(`/article/${articleItemData.id || articleItemData.objectId}`);
   }
 
   render() {
@@ -39,7 +29,7 @@ class RelatedItem extends React.Component {
       <div className="related-wrapper border-1px" onClick={this.handleArticleItemClick.bind(this, this.props.relatedItemData)}>
         <h3 className="related-title">{this.props.relatedItemData.title}</h3>
         <p className="related-info">
-          <span>{this.props.relatedItemData.likeCount || this.props.relatedItemData.collectionCount}赞 · {this.props.relatedItemData.user.username} · {this.getPublishData.call(this, this.props.relatedItemData.createdAt)}</span>
+          <span>{this.props.relatedItemData.likeCount || this.props.relatedItemData.collectionCount}赞 · {this.props.relatedItemData.user.username} · {publishDate(this.props.relatedItemData.createdAt)}</span>
         </p>
       </div>
     )

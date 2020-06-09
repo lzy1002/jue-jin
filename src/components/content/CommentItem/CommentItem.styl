@@ -1,0 +1,62 @@
+@import "../../../assets/stylus/variable.styl"
+@import "../../../assets/stylus/mixin.styl"
+
+.commentItem-wrapper
+  padding 12px 10px
+  background-color $color-background-d
+  border-1px($color-border)
+  .commentItem-header
+    display flex
+    align-items center
+    margin-bottom 5px
+    .user-box
+      flex 1
+      display flex
+      align-items center
+      .avatar-box
+        width 38px
+        height 38px
+        border-radius 50%
+        overflow hidden
+        margin-right 10px
+        img
+          width 100%
+          height 100%
+      .user-info
+        .username
+          color #6a8ba3
+          margin-bottom 3px
+          span
+            margin-right 5px
+            vertical-align middle
+          img
+            height 12px
+            vertical-align middle
+        .job
+          font-size $font-size-small
+          color $color-text-l
+    .option-box
+      width 50px
+      display flex
+      justify-content space-between
+      align-items center
+      color $color-text-l
+      .like, .comment
+        .iconfont
+          font-size $font-size-small
+        .count
+          font-size $font-size-small
+          margin-left 5px
+  .commentItem-content
+    padding-left 48px
+    .user-comment
+      line-height 1.4
+      margin-bottom 10px
+    .reply
+      padding 13px
+      background-color $color-background
+      .reply-item
+        line-height 1.4
+        margin-bottom 5px
+        .username
+          color #000

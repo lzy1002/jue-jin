@@ -1,9 +1,12 @@
 import React from "react";
 import propTypes from "prop-types";
+import {withRouter} from "react-router-dom";
 
-import "./User.styl";
+import "./UserBox.styl";
 
-class User extends React.Component {
+import {levelIcon} from "../../../assets/js/utils.js";
+
+class UserBox extends React.Component {
   static defaultProps = {
     userData: {}
   };
@@ -17,27 +20,20 @@ class User extends React.Component {
 
   }
 
-  levelIcon(level) {
-    switch (level) {
-      case 1: return "https://b-gold-cdn.xitu.io/v3/static/img/lv-1.636691c.svg";
-      case 2: return "https://b-gold-cdn.xitu.io/v3/static/img/lv-2.f597b88.svg";
-      case 3: return "https://b-gold-cdn.xitu.io/v3/static/img/lv-3.e108c68.svg";
-      case 4: return "https://b-gold-cdn.xitu.io/v3/static/img/lv-4.2c3fafd.svg";
-      case 5: return "https://b-gold-cdn.xitu.io/v3/static/img/lv-5.f8d5198.svg";
-      case 6: return "https://b-gold-cdn.xitu.io/v3/static/img/lv-6.74bd93a.svg";
-    }
+  handleAvatarBoxClick(userData) {
+    this.props.history.push(`/user/${userData.objectId}`);
   }
 
   render() {
     return (
-      <div className="user-wrapper">
-        <div className="avatar-box">
+      <div className="userBox-wrapper">
+        <div className="avatar-box" onClick={this.handleAvatarBoxClick.bind(this, this.props.userData)}>
           <img src={this.props.userData.avatarLarge} alt=""/>
         </div>
         <div className="content-box">
           <p className="username">
             <span>{this.props.userData.username}</span>
-            <img src={this.levelIcon(this.props.userData.level)} alt=""/>
+            <img src={levelIcon(this.props.userData.level)} alt=""/>
           </p>
           <p className="info">
             <span>{this.props.userData.jobTitle}</span>
@@ -57,4 +53,4 @@ class User extends React.Component {
 
 }
 
-export default User;
+export default withRouter(UserBox);

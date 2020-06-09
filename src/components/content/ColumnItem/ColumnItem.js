@@ -4,6 +4,8 @@ import {withRouter} from "react-router-dom";
 
 import "./ColumnItem.styl";
 
+import {levelIcon} from "../../../assets/js/utils.js";
+
 class ColumnItem extends React.Component {
   static defaultProps = {
     columnItemData: {}
@@ -18,19 +20,13 @@ class ColumnItem extends React.Component {
 
   }
 
-  levelIcon(level) {
-    switch (level) {
-      case 1: return "https://b-gold-cdn.xitu.io/v3/static/img/lv-1.636691c.svg";
-      case 2: return "https://b-gold-cdn.xitu.io/v3/static/img/lv-2.f597b88.svg";
-      case 3: return "https://b-gold-cdn.xitu.io/v3/static/img/lv-3.e108c68.svg";
-      case 4: return "https://b-gold-cdn.xitu.io/v3/static/img/lv-4.2c3fafd.svg";
-      case 5: return "https://b-gold-cdn.xitu.io/v3/static/img/lv-5.f8d5198.svg";
-      case 6: return "https://b-gold-cdn.xitu.io/v3/static/img/lv-6.74bd93a.svg";
-    }
-  }
-
   handleColumnItemClick(columnItemData) {
     this.props.history.push(`/article/${columnItemData.objectId}`);
+  }
+
+  handleAvatarBoxClick(e, columnItemData) {
+    this.props.history.push(`/user/${columnItemData.user.objectId}`);
+    e.stopPropagation();
   }
 
   render() {
@@ -38,13 +34,13 @@ class ColumnItem extends React.Component {
       <div className="columnItem-wrapper" onClick={this.handleColumnItemClick.bind(this, this.props.columnItemData)}>
         <div className="columnItem-header">
           <div className="user-box">
-            <div className="avatar-box">
+            <div className="avatar-box" onClick={e => this.handleAvatarBoxClick.call(this, e, this.props.columnItemData)}>
               <img src={this.props.columnItemData.user.avatarLarge} alt=""/>
             </div>
             <div className="user-info">
               <p className="username">
                 <span>{this.props.columnItemData.user.username}</span>
-                <img src={this.levelIcon(this.props.columnItemData.user.level)} alt=""/>
+                <img src={levelIcon(this.props.columnItemData.user.level)} alt=""/>
               </p>
               <p className="post">
                 <span className="job-title">{this.props.columnItemData.user.jobTitle}</span>

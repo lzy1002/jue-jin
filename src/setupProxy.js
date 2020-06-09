@@ -36,6 +36,13 @@ module.exports = function (app) {
       pathRewrite: {
         "/article/comment": ""
       }
+    }),
+    proxy.createProxyMiddleware("/user/info", {
+      target: "https://lccro-api-ms.juejin.im",
+      changeOrigin: true,
+      pathRewrite: {
+        "/user/info": "/v1/get_multi_user"
+      }
     })
   )
 

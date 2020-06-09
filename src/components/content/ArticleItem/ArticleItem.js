@@ -22,11 +22,16 @@ class ArticleItem extends React.Component {
     this.props.history.push(`/article/${articleItemData.id}`);
   }
 
+  handleUserBoxClick(e, articleItemData) {
+    this.props.history.push(`/user/${articleItemData.user.id}`);
+    e.stopPropagation();  // 阻止合成事件间的事件冒泡
+  }
+
   render() {
     return (
       <div className="articleItem-wrapper" onClick={this.handleArticleItemClick.bind(this, this.props.articleItemData)}>
         <div className="articleItem-header">
-          <div className="user-box">
+          <div className="user-box" onClick={e => this.handleUserBoxClick.call(this, e, this.props.articleItemData)}>
             <div className="avatar">
               <img src={this.props.articleItemData.user.avatarLarge} alt=""/>
             </div>

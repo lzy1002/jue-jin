@@ -75,7 +75,7 @@ class Scroll extends React.Component {
 
   render() {
     return (
-      <div className="scroll-wrapper" ref={this.wrapper} style={{width: "100%", height: "100%", overflow: "hidden"}}>
+      <div className="scroll-wrapper" ref={this.wrapper} style={{width: "100%", height: "100%"}}>
         <div className="content">
           {this.props.children}
         </div>

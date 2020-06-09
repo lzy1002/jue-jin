@@ -1,5 +1,5 @@
 import React from "react";
-import {Switch, Route, Redirect} from "react-router-dom";
+import {Switch, Route, Redirect, withRouter} from "react-router-dom";
 
 import Home from "./views/Home/Home.js";
 import Pins from "./views/Pins/Pins.js";
@@ -7,13 +7,14 @@ import Search from "./views/Search/Search.js";
 import Books from "./views/Books/Books.js";
 import Profile from "./views/Profile/Profile.js";
 import Article from "./views/Article/Article.js";
+import User from "./views/User/User.js";
 
 import TabBar from "./components/content/TabBar/TabBar.js";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-
+    console.log(props);
   }
 
   render() {
@@ -26,6 +27,7 @@ class App extends React.Component {
           <Route path="/books" component={Books}/>
           <Route path="/profile" component={Profile}/>
           <Route path="/article/:articleId" component={Article}/>
+          <Route path="/user/:userId" component={User}/>
           <Redirect from="/" to="/home/recommend"/>
         </Switch>
         <TabBar/>
@@ -35,4 +37,4 @@ class App extends React.Component {
 
 }
 
-export default App;
+export default withRouter(App);

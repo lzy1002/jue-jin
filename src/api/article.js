@@ -50,9 +50,9 @@ export function getArticleDetailRelated(articleId) {
   })
 }
 
-export function getArticleDetailComment(articleId) {
+export function getArticleDetailComment(articleId, createdAt = "") {  // createdAt是当前最后一条评论的创建时间 作用是获取更多评论
   const params = {
-    createdAt: "",
+    createdAt,
     rankType: "new",
     src: "android"
   };
