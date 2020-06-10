@@ -20,8 +20,9 @@
     align-items center
     padding 0 15px
     color $color-text-ll
-    background-color $color-theme
+    transition background-color 0.5s ease
     z-index 10
+    overflow hidden
     .back
       margin-right 20px
       extend-click()
@@ -36,6 +37,7 @@
         display flex
         align-items center
         font-size $font-size-large
+        transition all 0.5s ease
         span
           margin-right 5px
     .more
@@ -50,71 +52,76 @@
     left 0
     right 0
     bottom 0
-    background-color $color-text-ll
     .user-info
       position relative
       padding 0 15px
       border-bottom 10px solid $color-background
-    .avatar-box
-      position absolute
-      top -39px
-      width 78px
-      height 78px
-      border-radius 50%
-      overflow hidden
-      border 3px solid #eee
-      img
-        width 100%
-        height 100%
-    .content-box
-      padding-top 48px
-      padding-bottom 8px
-      .info-top
-        display flex
-        margin-bottom 8px
-        .detail
-          flex 1
-          margin-right 20px
-          .username
-            margin-bottom 5px
-            span
-              font-size $font-size-large-x
-              font-weight 700
-              margin-right 5px
-              vertical-align middle
-            img
-              vertical-align middle
-          .job
-            font-size $font-size-small-x
-            line-height 1.4
-          .favorableAuthor
-            font-size $font-size-small
-            color #007fff
-        .button-box
-          width 75px
-          .follow-btn
-            width 75px
-            padding 8px 0
-            color #6cbd45
-            border 1px solid #6cbd45
-            text-align center
-            border-radius 3px
-            .iconfont
-              font-size $font-size-small-x
-              margin-right 5px
-      .desc
-        font-size $font-size-small-x
-        color $color-text-l
-        margin-bottom 10px
-      .info-bottom
+      background-color $color-background-d
+      .avatar-box
+        position absolute
+        top -39px
+        width 78px
+        height 78px
+        border-radius 50%
         overflow hidden
-        .info-bottom-item
-          float left
-          margin-right 15px
-          .count
-            font-size $font-size-medium-x
-            font-weight 700
-            margin-bottom 3px
-          .text
-            font-size $font-size-small-x
-            color $color-text-l
+        border 3px solid #eee
+        background-position center center
+        background-size 100% 100%
+        background-repeat no-repeat
+      .content-box
+        padding-top 48px
+        padding-bottom 8px
+        .info-top
+          display flex
+          margin-bottom 8px
+          .detail
+            flex 1
+            margin-right 20px
+            .username
+              margin-bottom 5px
+              span
+                font-size $font-size-large-x
+                font-weight 700
+                margin-right 5px
+                vertical-align middle
+              img
+                vertical-align middle
+            .job
+              font-size $font-size-small-x
+              line-height 1.4
+            .favorableAuthor
+              font-size $font-size-small
+              color #007fff
+          .button-box
+            width 75px
+            .follow-btn
+              width 75px
+              padding 8px 0
+              color #6cbd45
+              border 1px solid #6cbd45
+              text-align center
+              border-radius 3px
+              .iconfont
+                font-size $font-size-small-x
+                margin-right 5px
+        .desc
+          font-size $font-size-small-x
+          color $color-text-l
+          margin-bottom 10px
+        .info-bottom
+          overflow hidden
+          .info-bottom-item
+            float left
+            margin-right 15px
+            .count
+              font-size $font-size-medium-x
+              font-weight 700
+              margin-bottom 3px
+            .text
+              font-size $font-size-small-x
+              color $color-text-l
+    .tab-box
+      width 100%
+      height 34px
+      background-color $color-background-d
+      border-1px($color-border)

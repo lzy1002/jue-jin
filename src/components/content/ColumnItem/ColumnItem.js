@@ -37,7 +37,7 @@ class ColumnItem extends React.Component {
             <div className="avatar-box" onClick={e => this.handleAvatarBoxClick.call(this, e, this.props.columnItemData)}>
               <img src={this.props.columnItemData.user.avatarLarge} alt=""/>
             </div>
-            <div className="user-info">
+            <div className="info">
               <p className="username">
                 <span>{this.props.columnItemData.user.username}</span>
                 <img src={levelIcon(this.props.columnItemData.user.level)} alt=""/>

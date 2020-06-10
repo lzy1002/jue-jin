@@ -8,11 +8,13 @@ import {levelIcon} from "../../../assets/js/utils.js";
 
 class UserBox extends React.Component {
   static defaultProps = {
-    userData: {}
+    userData: {},
+    createdAt: ""
   };
 
   static propTypes = {
-    userData: propTypes.object
+    userData: propTypes.object,
+    createdAt: propTypes.string
   };
 
   constructor(props) {
@@ -41,6 +43,12 @@ class UserBox extends React.Component {
               <span> @ </span>
               : undefined}
             <span>{this.props.userData.company}</span>
+            {this.props.createdAt ?
+              <span>
+                <span> · </span>
+                <span>{this.props.createdAt}</span>
+              </span>
+            : undefined}
           </p>
         </div>
         <div className="follow-btn">

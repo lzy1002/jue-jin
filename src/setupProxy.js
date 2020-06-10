@@ -43,7 +43,28 @@ module.exports = function (app) {
       pathRewrite: {
         "/user/info": "/v1/get_multi_user"
       }
-    })
+    }),
+    proxy.createProxyMiddleware("/user/pins", {
+      target: "https://short-msg-ms.juejin.im",
+      changeOrigin: true,
+      pathRewrite: {
+        "/user/pins": "/v1/getUserList"
+      }
+    }),
+    proxy.createProxyMiddleware("/user/posts", {
+      target: "http://timeline-merger-ms.juejin.im",
+      changeOrigin: true,
+      pathRewrite: {
+        "/user/posts": "/v1/get_entry_by_self"
+      }
+    }),
+    proxy.createProxyMiddleware("/user/share", {
+      target: "http://timeline-merger-ms.juejin.im",
+      changeOrigin: true,
+      pathRewrite: {
+        "/user/share": "/v1/get_entry_by_self"
+      }
+    }),
   )
 
 };

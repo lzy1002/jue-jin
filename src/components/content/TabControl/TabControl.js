@@ -6,11 +6,21 @@ import "./TabControl.styl";
 
 class TabControl extends React.Component {
   static defaultProps = {
-    titleList: []
+    titleList: [],
+    tabBgColor: "#0180ff",
+    lineBgColor: "#fff",
+    activeColor: "#fff",
+    titleColor: "#cfcfd3",
+    arrowIsShow: true
   };
 
   static propTypes = {
-    titleList: propTypes.array
+    titleList: propTypes.array,
+    tabBgColor: propTypes.string,
+    lineBgColor: propTypes.string,
+    activeColor: propTypes.string,
+    titleColor: propTypes.string,
+    arrowIsShow: propTypes.bool
   };
 
   constructor(props) {
@@ -46,16 +56,18 @@ class TabControl extends React.Component {
 
   render() {
     return (
-      <div className="tabControl-wrapper">
+      <div className="tabControl-wrapper" style={{backgroundColor: this.props.tabBgColor}}>
         <div className="title-box" ref={this.titleBox}>
           {this.props.titleList.map((item, index) => (
-            <NavLink className="title-item" to={item.path} path={item.path} key={item.path}>{item.title}</NavLink>
+            <NavLink className="title-item" activeStyle={{color: this.props.activeColor}} style={{color: this.props.titleColor}} to={item.path} path={item.path} key={item.path}>{item.title}</NavLink>
           ))}
-          <div className="bottom-line" style={{width: this.state.lineWidth + "px", left: this.state.lineLeft + "px", transition: `all ${this.state.delay}ms ease`}}></div>
+          <div className="bottom-line" style={{backgroundColor: this.props.lineBgColor, width: this.state.lineWidth + "px", left: this.state.lineLeft + "px", transition: `all ${this.state.delay}ms ease`}}></div>
         </div>
-        <div className="arrow-box">
-          <div className="arrow"></div>
-        </div>
+        {this.props.arrowIsShow ?
+          <div className="arrow-box">
+            <div className="arrow"></div>
+          </div>
+        : undefined}
       </div>
     )
   }
