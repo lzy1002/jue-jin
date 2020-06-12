@@ -21,11 +21,11 @@ class ColumnItem extends React.Component {
   }
 
   handleColumnItemClick(columnItemData) {
-    this.props.history.push(`/article/${columnItemData.objectId}`);
+    this.props.history.push(`/article/${columnItemData.objectId || columnItemData.id}`);
   }
 
   handleAvatarBoxClick(e, columnItemData) {
-    this.props.history.push(`/user/${columnItemData.user.objectId}`);
+    this.props.history.push(`/user/${columnItemData.user.id || columnItemData.user.objectId}`);
     e.stopPropagation();
   }
 

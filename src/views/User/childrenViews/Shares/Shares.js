@@ -1,12 +1,12 @@
 import React from "react";
 
-import "./Share.styl";
+import "./Shares.styl";
 
 import {getUserShare} from "../../../../api/user.js";
 
 import ShareItem from "../../../../components/content/ShareItem/ShareItem.js";
 
-class Share extends React.Component {
+class Shares extends React.Component {
   constructor(props) {
     super(props);
 
@@ -31,7 +31,7 @@ class Share extends React.Component {
 
   render() {
     return (
-      <div className="share-wrapper">
+      <div className="userShares-wrapper">
         {this.state.userShare.map((item, index) => (
           <ShareItem key={item.objectId} shareItemData={item}/>
         ))}
@@ -41,4 +41,4 @@ class Share extends React.Component {
 
 }
 
-export default Share;
+export default Shares;

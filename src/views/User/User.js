@@ -6,16 +6,19 @@ import "./User.styl";
 import {getUserInfo} from "../../api/user.js";
 
 import {levelIcon} from "../../assets/js/utils.js";
+import {prefixStyle} from "../../assets/js/dom.js";
 
 import Scroll from "../../components/common/Scroll/Scroll.js";
 
 import TabControl from "../../components/content/TabControl/TabControl.js";
 
-import Active from "./childrenViews/Active/Active.js";
-import Post from "./childrenViews/Post/Post.js";
-import Pin from "./childrenViews/Pin/Pin.js";
-import Share from "./childrenViews/Share/Share.js";
+import Actives from "./childrenViews/Actives/Actives.js";
+import Posts from "./childrenViews/Posts/Posts.js";
+import Pins from "./childrenViews/Pins/Pins.js";
+import Shares from "./childrenViews/Shares/Shares.js";
 import More from "./childrenViews/More/More.js";
+
+const TRANSFORM = prefixStyle("transform");
 
 class User extends React.Component {
   constructor(props) {
@@ -28,8 +31,8 @@ class User extends React.Component {
     };
 
     this.defaultAvatar = "https://b-gold-cdn.xitu.io/v3/static/img/default-avatar.e30559a.svg";
-    this.headerHeight = 50;
-    this.userContentTop = 140;
+    this.headerHeight = -1;
+    this.userContentTop = -1;
 
     this.activeColor = "#333";
     this.tabBgColor = "#fff";
@@ -39,12 +42,26 @@ class User extends React.Component {
 
     this.probeType = 3;
 
+    this.header = React.createRef();
+    this.whiteBlock = React.createRef();
+    this.userContent = React.createRef();
+
   }
 
   componentDidMount() {
+    this.headerHeight = this.header.current.offsetHeight;
+    this.userContentTop = this.userContent.current.offsetTop;
+    this.whiteBlock.current.style[TRANSFORM] = `translate3d(0, ${this.userContentTop}px, 0)`;
+
     const userId = this.props.match.params.userId;
     this.getUserInfo(userId);
 
+  }
+
+  componentWillReceiveProps(nextProps) {  // 路由发生变化重新获取数据
+    if(this.props.match.params.userId === nextProps.match.params.userId) return;
+    const userId = nextProps.match.params.userId;
+    this.getUserInfo(userId);
   }
 
   getUserInfo(userId) {
@@ -53,10 +70,10 @@ class User extends React.Component {
       this.setState({
         userInfo: res.data.d[userId],
         titleList: [
-          {path: `/user/${userId}/active`, title: "动态"},
-          {path: `/user/${userId}/post`, title: `专栏 ${res.data.d[userId].postedPostsCount}`},
-          {path: `/user/${userId}/pin`, title: `沸点 ${res.data.d[userId].pinCount}`},
-          {path: `/user/${userId}/share`, title: `分享 ${res.data.d[userId].postedEntriesCount}`},
+          {path: `/user/${userId}/actives`, title: "动态"},
+          {path: `/user/${userId}/posts`, title: `专栏 ${res.data.d[userId].postedPostsCount}`},
+          {path: `/user/${userId}/pins`, title: `沸点 ${res.data.d[userId].pinCount}`},
+          {path: `/user/${userId}/shares`, title: `分享 ${res.data.d[userId].postedEntriesCount}`},
           {path: `/user/${userId}/more`, title: "更多"}
         ]
       })
@@ -65,6 +82,12 @@ class User extends React.Component {
 
   handleScrolling(position) {
     const {x, y} = position;
+
+    this.headerChange(x, y);
+    this.whiteBlockMove(x, y);
+  }
+
+  headerChange(x, y) {
     if(-y >= this.userContentTop - this.headerHeight && this.state.headerTrans !== true) {
       this.setState({
         headerTrans: true
@@ -76,11 +99,24 @@ class User extends React.Component {
     }
   }
 
+  whiteBlockMove(x, y) {
+    if(-y >= this.userContentTop) {
+      this.whiteBlock.current.style[TRANSFORM] = `translate3d(0, ${0}px, 0)`;
+      return;
+    }
+    this.whiteBlock.current.style[TRANSFORM] = `translate3d(0, ${this.userContentTop + y}px, 0)`;
+  }
+
+  handleBack() {
+    this.props.history.goBack();
+  }
+
   render() {
     return (
       <div className="user-wrapper">
-        <div className="user-header" style={{backgroundColor: this.state.headerTrans ? "#0180ff" : "transparent"}}>
-          <div className="back">
+        <div className="white-block" ref={this.whiteBlock}></div>
+        <div className="user-header" ref={this.header} style={{backgroundColor: this.state.headerTrans ? "#0180ff" : "transparent"}}>
+          <div className="back" onClick={this.handleBack.bind(this)}>
             <i className="iconfont icon-fanhui"></i>
           </div>
           <div className="content">
@@ -94,7 +130,7 @@ class User extends React.Component {
           </div>
         </div>
 
-        <div className="user-content">
+        <div className="user-content" ref={this.userContent}>
           <Scroll probeType={this.probeType} handleScrolling={this.handleScrolling.bind(this)}>
             <div className="user-info">
               <div className="avatar-box" style={{backgroundImage: `url(${this.state.userInfo.avatarLarge || this.defaultAvatar})`}}></div>
@@ -108,7 +144,7 @@ class User extends React.Component {
                     <p className="job">{this.state.userInfo.jobTitle}</p>
                     {this.state.userInfo.roles && this.state.userInfo.roles.favorableAuthor.isGranted ?
                       <p className="favorableAuthor">掘金优秀作者</p>
-                      : undefined}
+                    : undefined}
                   </div>
                   <div className="button-box">
                     <div className="follow-btn">
@@ -150,12 +186,12 @@ class User extends React.Component {
             </div>
 
             <Switch>
-              <Route path="/user/:userId/active" component={Active}/>
-              <Route path="/user/:userId/post" component={Post}/>
-              <Route path="/user/:userId/pin" component={Pin}/>
-              <Route path="/user/:userId/share" component={Share}/>
+              <Route path="/user/:userId/actives" component={Actives}/>
+              <Route path="/user/:userId/posts" component={Posts}/>
+              <Route path="/user/:userId/pins" component={Pins}/>
+              <Route path="/user/:userId/shares" component={Shares}/>
               <Route path="/user/:userId/more" component={More}/>
-              <Redirect from="/user/:userId" to="/user/:userId/active"/>
+              <Redirect from="/user/:userId" to="/user/:userId/actives"/>
             </Switch>
 
           </Scroll>

@@ -1,4 +1,5 @@
-import React, {Fragment} from "react";
+import React from "react";
+import {withRouter} from "react-router-dom";
 import propTypes from "prop-types";
 
 import "./PinItem.styl";
@@ -52,15 +53,26 @@ class PinItem extends React.Component {
     }
   }
 
-  handleOpenTextClick() {
+  handleOpenTextClick(e) {
     this.setState(prevState => ({
       isAll: !prevState.isAll
-    }))
+    }));
+    e.stopPropagation();
+  }
+
+  handlePinItemClick(pinItemData) {
+    console.log(pinItemData);
+    this.props.history.push(`/pin/${pinItemData.objectId}`);
+  }
+
+  handleTopicClick(e, topicId) {
+    this.props.history.push(`/topic/${topicId}`);
+    e.stopPropagation();
   }
 
   render() {
     return (
-      <div className="pinItem-wrapper">
+      <div className="pinItem-wrapper" onClick={this.handlePinItemClick.bind(this, this.props.pinItemData)}>
         <div className="pinItem-header">
           <div className="user-box">
             <UserBox userData={this.props.pinItemData.user} createdAt={publishDate(this.props.pinItemData.createdAt)}/>
@@ -79,7 +91,7 @@ class PinItem extends React.Component {
             <div className="all-text" ref={this.allText}>
               {this.props.pinItemData.content}
             </div>
-            <div className="open-text" style={{display: this.state.openTextIsShow ? "block" : "none"}} onClick={this.handleOpenTextClick.bind(this)}>{this.state.isAll ? "收起全文" : "展开全文"}</div>
+            <div className="open-text" style={{display: this.state.openTextIsShow ? "block" : "none"}} onClick={e => this.handleOpenTextClick.call(this, e)}>{this.state.isAll ? "收起全文" : "展开全文"}</div>
           </div>
           {this.props.pinItemData.pictures.length ?
             <div className="image-box">
@@ -95,7 +107,7 @@ class PinItem extends React.Component {
           : undefined}
           {this.props.pinItemData.topic ?
             <div className="tag-box">
-              <div className="tag-item">{this.props.pinItemData.topic.title}</div>
+              <div className="tag-item" onClick={e => this.handleTopicClick.call(this, e, this.props.pinItemData.topic.objectId)}>{this.props.pinItemData.topic.title}</div>
             </div>
           : undefined}
         </div>
@@ -120,4 +132,4 @@ class PinItem extends React.Component {
 
 }
 
-export default PinItem;
+export default withRouter(PinItem);

@@ -1,6 +1,6 @@
 import React from "react";
 import propTypes from "prop-types";
-import {NavLink, withRouter} from "react-router-dom";
+import {withRouter} from "react-router-dom";
 
 import "./TabControl.styl";
 
@@ -27,8 +27,8 @@ class TabControl extends React.Component {
     super(props);
 
     this.state = {
-      lineWidth: 0,
-      lineLeft: 0,
+      lineWidth: -1,
+      lineLeft: -1,
       delay: 0
     };
 
@@ -41,11 +41,13 @@ class TabControl extends React.Component {
   }
 
   componentDidUpdate() {
+    this.links = Array.prototype.slice.call(this.titleBox.current.children).slice(0, this.titleBox.current.children.length - 1);
     this.lineMove.call(this, 500);
   }
 
   lineMove(delay) {
     const activeLink = this.links.find(item => item.getAttribute("path") === this.props.location.pathname);
+    if(!activeLink) return;
     if(this.state.lineWidth === activeLink.offsetWidth && this.state.lineLeft === activeLink.offsetLeft) return;
     this.setState({
       lineWidth: activeLink.offsetWidth,
@@ -54,12 +56,16 @@ class TabControl extends React.Component {
     })
   }
 
+  changePath(path) {
+    this.props.history.replace(path);
+  }
+
   render() {
     return (
       <div className="tabControl-wrapper" style={{backgroundColor: this.props.tabBgColor}}>
         <div className="title-box" ref={this.titleBox}>
           {this.props.titleList.map((item, index) => (
-            <NavLink className="title-item" activeStyle={{color: this.props.activeColor}} style={{color: this.props.titleColor}} to={item.path} path={item.path} key={item.path}>{item.title}</NavLink>
+            <div className="title-item" onClick={this.changePath.bind(this, item.path)} style={{color: this.props.location.pathname === item.path ? this.props.activeColor : this.props.titleColor}} path={item.path} key={item.path}>{item.title}</div>
           ))}
           <div className="bottom-line" style={{backgroundColor: this.props.lineBgColor, width: this.state.lineWidth + "px", left: this.state.lineLeft + "px", transition: `all ${this.state.delay}ms ease`}}></div>
         </div>

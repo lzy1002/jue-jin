@@ -95,3 +95,15 @@ export function getUserShare(userId) {
   })
 
 }
+
+export function getUserLike(userId) {
+  const params = {
+    page: 0,
+    pageSize: 20
+  };
+
+  return request({
+    url: `/user/like/v1/user/${userId}/like/entry`,
+    params
+  })
+}

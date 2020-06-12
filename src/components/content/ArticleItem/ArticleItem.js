@@ -19,11 +19,11 @@ class ArticleItem extends React.Component {
   }
 
   handleArticleItemClick(articleItemData) {
-    this.props.history.push(`/article/${articleItemData.id}`);
+    this.props.history.push(`/article/${articleItemData.id || articleItemData.objectId}`);
   }
 
   handleUserBoxClick(e, articleItemData) {
-    this.props.history.push(`/user/${articleItemData.user.id}`);
+    this.props.history.push(`/user/${articleItemData.user.id || articleItemData.user.objectId}`);
     e.stopPropagation();  // 阻止合成事件间的事件冒泡
   }
 

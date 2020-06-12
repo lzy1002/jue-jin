@@ -58,7 +58,7 @@ class CommentItem extends React.Component {
 
         <div className="commentItem-content">
           <p className="user-comment">{this.props.commentItemData.content}</p>
-          {this.props.commentItemData.topComment.length ?
+          {this.props.commentItemData.topComment ?
             <ul className="reply">
               {this.props.commentItemData.topComment.map((item, index) => (
                 <li key={item.id} className="reply-item">

@@ -39,6 +39,7 @@ class Scroll extends React.Component {
       probeType: this.props.probeType,
       pullUpLoad: this.props.pullUpLoad,
       pullDownRefresh: this.props.pullDownRefresh,
+      stopPropagation: true
       // preventDefault: false
     });
 

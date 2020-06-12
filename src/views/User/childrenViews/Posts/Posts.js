@@ -1,12 +1,12 @@
 import React from "react";
 
-import "./Post.styl";
+import "./Posts.styl";
 
 import {getUserPosts} from "../../../../api/user.js";
 
 import ArticleItem from "../../../../components/content/ArticleItem/ArticleItem.js";
 
-class Post extends React.Component {
+class Posts extends React.Component {
   constructor(props) {
     super(props);
 
@@ -32,7 +32,7 @@ class Post extends React.Component {
 
   render() {
     return (
-      <div className="post-wrapper">
+      <div className="userPosts-wrapper">
         {this.state.userPosts.map((item, index) => (
           <ArticleItem key={item.objectId} articleItemData={item}/>
         ))}
@@ -42,4 +42,4 @@ class Post extends React.Component {
 
 }
 
-export default Post;
+export default Posts;

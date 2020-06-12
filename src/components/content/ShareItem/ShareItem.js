@@ -1,4 +1,5 @@
 import React from "react";
+import {withRouter} from "react-router-dom";
 import propTypes from "prop-types";
 
 import "./ShareItem.styl";
@@ -19,9 +20,13 @@ class ShareItem extends React.Component {
 
   }
 
+  handleShareItemClick(shareItemData) {
+    this.props.history.push(`/article/${shareItemData.objectId}`);
+  }
+
   render() {
     return (
-      <div className="shareItem-wrapper">
+      <div className="shareItem-wrapper border-1px" onClick={this.handleShareItemClick.bind(this, this.props.shareItemData)}>
         <div className="shareItem-content">
           <h3 className="title">{this.props.shareItemData.title}</h3>
           <p className="info">
@@ -41,4 +46,4 @@ class ShareItem extends React.Component {
 
 }
 
-export default ShareItem;
+export default withRouter(ShareItem);

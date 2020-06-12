@@ -1,12 +1,12 @@
 import React from "react";
 
-import "./Pin.styl";
+import "./Pins.styl";
 
 import {getUserPins} from "../../../../api/user.js";
 
 import PinItem from "../../../../components/content/PinItem/PinItem.js";
 
-class Pin extends React.Component {
+class Pins extends React.Component {
   constructor(props) {
     super(props);
 
@@ -32,7 +32,7 @@ class Pin extends React.Component {
 
   render() {
     return (
-      <div className="pin-wrapper">
+      <div className="userPins-wrapper">
         {this.state.pins.list ? this.state.pins.list.map((item, index) => (
           <PinItem key={index} pinItemData={item}/>
         )) : undefined}
@@ -42,4 +42,4 @@ class Pin extends React.Component {
 
 }
 
-export default Pin;
+export default Pins;

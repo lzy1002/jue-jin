@@ -23,7 +23,7 @@ class UserBox extends React.Component {
   }
 
   handleAvatarBoxClick(userData) {
-    this.props.history.push(`/user/${userData.objectId}`);
+    this.props.history.push(`/user/${userData.id || userData.objectId}`);
   }
 
   render() {

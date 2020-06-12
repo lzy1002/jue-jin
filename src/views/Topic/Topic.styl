@@ -1,0 +1,94 @@
+@import "../../assets/stylus/variable.styl"
+@import "../../assets/stylus/mixin.styl"
+
+.topic-wrapper
+  position absolute
+  top 0
+  left 0
+  right 0
+  bottom 0
+  background-color $color-background
+  z-index 9
+  padding-top 50px
+  .topic-header
+    border-1px($color-border)
+    position fixed
+    top 0
+    left 0
+    right 0
+    display flex
+    align-items center
+    height 50px
+    padding 0 15px
+    background-color $color-background-d
+    .back
+      margin-right 20px
+      extend-click()
+      .iconfont
+        font-size $font-size-large-x
+    .content
+      flex 1
+      font-size $font-size-large-x
+    .share
+      margin-left 10px
+      .iconfont
+        font-size $font-size-large-x
+  .topic-content
+    width 100%
+    height 100%
+    overflow hidden
+    .topic-info
+      background-color $color-background-d
+      padding 10px
+      .info-top
+        display flex
+        margin-bottom 10px
+        .img-box
+          width 75px
+          height 75px
+          margin-right 10px
+          background-repeat no-repeat
+          background-size cover
+          background-position center center
+          border-radius 5px
+        .info-content
+          flex 1
+          display flex
+          flex-direction column
+          justify-content space-between
+          margin-right 10px
+          .title
+            font-size $font-size-large-x
+            font-weight 400
+            line-height 1.2
+          .other
+            overflow: hidden
+            .other-item
+              float left
+              margin-right 25px
+              .count
+                font-size $font-size-medium-x
+                line-height 1.2
+                text-align center
+              .text
+                font-size $font-size-small-x
+                color $color-text-l
+                line-height 1.2
+                text-align center
+        .follow-box
+          display flex
+          align-items flex-end
+          .follow-btn
+            width 75px
+            padding 7px 0
+            font-size 13px
+            color #6cbd45
+            border 1px solid #6cbd45
+            border-radius 2px
+            text-align center
+            .iconfont
+              font-size 13px
+              margin-right 5px
+      .info-desc
+        color $color-text-l
+        line-height 1.3

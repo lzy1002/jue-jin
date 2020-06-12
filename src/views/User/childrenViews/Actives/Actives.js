@@ -1,6 +1,6 @@
 import React, {Fragment} from "react";
 
-import "./Active.styl";
+import "./Actives.styl";
 
 import {getUserActive} from "../../../../api/user.js";
 
@@ -8,7 +8,7 @@ import PinItem from "../../../../components/content/PinItem/PinItem.js";
 import ColumnItem from "../../../../components/content/ColumnItem/ColumnItem.js";
 import FollowedItem from "../../../../components/content/FollowedItem/FollowedItem.js";
 
-class Active extends React.Component {
+class Actives extends React.Component {
   constructor(props) {
     super(props);
 
@@ -34,7 +34,7 @@ class Active extends React.Component {
 
   render() {
     return (
-      <div className="active-wrapper">
+      <div className="userActives-wrapper">
         {this.state.userActive.map((item, index) => (
           <Fragment key={index}>
             {item.userActivity.action === "PUBLISH_PIN" ?
@@ -63,4 +63,4 @@ class Active extends React.Component {
 
 }
 
-export default Active;
+export default Actives;
