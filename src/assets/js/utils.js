@@ -3,7 +3,10 @@ export const publishDate = (createdAt) => {
   const nowDate = new Date().getTime();
   const publishDate = nowDate - createDate;
   const hour = publishDate / 1000 / 60 / 60;
-  if(hour >= 24) {
+
+  if(hour < 1) {
+    return Math.floor(publishDate / 1000 / 60) + "分钟前";
+  }else if(hour >= 24) {
     return Math.floor(hour / 24) + "天前";
   }
 

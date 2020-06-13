@@ -28,6 +28,9 @@
         font-size $font-size-large-x
     .content
       flex 1
+      height 50px
+      display flex
+      align-items center
       font-size $font-size-large-x
     .share
       margin-left 10px
@@ -40,6 +43,7 @@
     .topic-info
       background-color $color-background-d
       padding 10px
+      margin-bottom 10px
       .info-top
         display flex
         margin-bottom 10px
@@ -92,3 +96,23 @@
       .info-desc
         color $color-text-l
         line-height 1.3
+      .info-attenders
+        display flex
+        align-items center
+        margin-top 10px
+        .attenders-box
+          overflow hidden
+          .avatar-item
+            float left
+            width 20px
+            height 20px
+            border-radius 50%
+            overflow hidden
+            margin-right 5px
+            img
+              width 100%
+              height 100%
+        .total
+          color $color-text-l
+    .tabControl-box
+      border-1px($color-border)

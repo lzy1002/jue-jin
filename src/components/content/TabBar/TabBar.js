@@ -8,7 +8,8 @@ class TabBar extends React.Component {
     super(props);
     console.log(this.props);
     this.state = {
-      home: "/home/recommend"
+      home: "/home/recommend",
+      pins: "/pins/recommend"
     }
   }
 
@@ -16,6 +17,12 @@ class TabBar extends React.Component {
     if(this.props.location.pathname.startsWith("/home/") && this.state.home !== this.props.location.pathname) {
       this.setState({
         home: this.props.location.pathname
+      })
+    }
+
+    if(this.props.location.pathname.startsWith("/pins/") && this.state.pins !== this.props.location.pathname) {
+      this.setState({
+        pins: this.props.location.pathname
       })
     }
   }
@@ -26,7 +33,7 @@ class TabBar extends React.Component {
         <NavLink to={this.state.home} className={`tabBar-item ${this.props.location.pathname.includes("/home") ? "active" : ""}`}>
           <i className="iconfont icon-home"></i>
         </NavLink>
-        <NavLink to="/pins" className="tabBar-item">
+        <NavLink to={this.state.pins} className={`tabBar-item ${this.props.location.pathname.includes("/pins") ? "active" : ""}`}>
           <i className="iconfont icon-pin"></i>
         </NavLink>
         <NavLink to="/search" className="tabBar-item">

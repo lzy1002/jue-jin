@@ -22,14 +22,15 @@ class UserBox extends React.Component {
 
   }
 
-  handleAvatarBoxClick(userData) {
+  handleAvatarBoxClick(e, userData) {
     this.props.history.push(`/user/${userData.id || userData.objectId}`);
+    e.stopPropagation();
   }
 
   render() {
     return (
       <div className="userBox-wrapper">
-        <div className="avatar-box" onClick={this.handleAvatarBoxClick.bind(this, this.props.userData)}>
+        <div className="avatar-box" onClick={e => this.handleAvatarBoxClick.call(this, e, this.props.userData)}>
           <img src={this.props.userData.avatarLarge} alt=""/>
         </div>
         <div className="content-box">
@@ -43,9 +44,11 @@ class UserBox extends React.Component {
               <span> @ </span>
               : undefined}
             <span>{this.props.userData.company}</span>
+            {this.props.userData.jobTitle || this.props.userData.company ?
+              <span> · </span>
+            : undefined}
             {this.props.createdAt ?
               <span>
-                <span> · </span>
                 <span>{this.props.createdAt}</span>
               </span>
             : undefined}

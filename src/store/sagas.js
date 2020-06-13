@@ -4,6 +4,7 @@ import * as TYPES from "./action-types.js";
 import actionCreator from "./actionCreator/index.js";
 
 import {getHomeRecommend, getHomeFollow, getHomeHot} from "../api/home.js";
+import {getPinsRecommend, getPinsHot} from "../api/pins.js";
 
 function* initHomeRecommend(action) {
   const res = yield getHomeRecommend();
@@ -39,13 +40,41 @@ function* moreHomeHot(action) {
   yield put(actionCreator.home.moreHomeHot(action.sign, res.data.data));
 }
 
+function* initPinsRecommend(action) {
+  const res = yield getPinsRecommend();
+  console.log(res);
+  yield put(actionCreator.pins.initPinsRecommend(res.data.data.recommendedActivityFeed));
+}
+
+function* morePinsRecommend(action) {
+  console.log(action);
+  const res = yield getPinsRecommend(action.lastId);
+  yield put(actionCreator.pins.morePinsRecommend(res.data.data.recommendedActivityFeed));
+}
+
+function* initPinsHot(action) {
+  const res = yield getPinsHot();
+  yield put(actionCreator.pins.initPinsHot(res.data.data.popularPinList.items));
+  console.log(res);
+}
+
+function* morePinsHot(action) {
+  const res = yield getPinsHot(action.lastId);
+  console.log(res.data.data.popularPinList.items);
+  yield put(actionCreator.pins.morePinsHot(res.data.data.popularPinList.items));
+}
+
 function* mySaga() {
   yield takeEvery(TYPES.SAGA_INIT_HOME_RECOMMEND, initHomeRecommend);
   yield takeEvery(TYPES.SAGA_MORE_HOME_RECOMMEND, moreHomeRecommend);
   yield takeEvery(TYPES.SAGA_INIT_HOME_FOLLOW, initHomeFollow);
   yield takeEvery(TYPES.SAGA_MORE_HOME_FOLLOW, moreHomeFollow);
   yield takeEvery(TYPES.SAGA_INIT_HOME_HOT, initHomeHot);
-  yield takeEvery(TYPES.SAGA_MORE_HOME_HOT, moreHomeHot)
+  yield takeEvery(TYPES.SAGA_MORE_HOME_HOT, moreHomeHot);
+  yield takeEvery(TYPES.SAGA_INIT_PINS_RECOMMEND, initPinsRecommend);
+  yield takeEvery(TYPES.SAGA_MORE_PINS_RECOMMEND, morePinsRecommend);
+  yield takeEvery(TYPES.SAGA_INIT_PINS_HOT, initPinsHot);
+  yield takeEvery(TYPES.SAGA_MORE_PINS_HOT, morePinsHot);
 }
 
 export default mySaga;

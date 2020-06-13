@@ -71,6 +71,10 @@ class Pin extends React.Component {
     })
   }
 
+  handleTopicItemClick(topicId) {
+    this.props.history.push(`/topic/${topicId}`);
+  }
+
   render() {
     return(
       <div className="pin-wrapper">
@@ -110,7 +114,7 @@ class Pin extends React.Component {
 
               {this.state.pinContentData.topic ?
                 <div className="topic-box">
-                  <div className="topic-item">{this.state.pinContentData.topic.title}</div>
+                  <div className="topic-item" onClick={this.handleTopicItemClick.bind(this, this.state.pinContentData.topic.objectId)}>{this.state.pinContentData.topic.title}</div>
                 </div>
               : undefined}
             </div>

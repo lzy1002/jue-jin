@@ -86,6 +86,27 @@ module.exports = function (app) {
         "/topic/info": ""
       }
     }),
+    proxy.createProxyMiddleware("/topic/attenders", {
+      target: "https://short-msg-ms.juejin.im",
+      changeOrigin: true,
+      pathRewrite: {
+        "/topic/attenders": "/v1/topic/attenders"
+      }
+    }),
+    proxy.createProxyMiddleware("/topic/rank", {
+      target: "https://short-msg-ms.juejin.im",
+      changeOrigin: true,
+      pathRewrite: {
+        "/topic/rank": "/v1/pinList/topic"
+      }
+    }),
+    proxy.createProxyMiddleware("/topic/newest", {
+      target: "https://short-msg-ms.juejin.im",
+      changeOrigin: true,
+      pathRewrite: {
+        "/topic/newest": "/v1/pinList/topic"
+      }
+    })
 
   )
 

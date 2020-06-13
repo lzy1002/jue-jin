@@ -62,11 +62,11 @@ class PinItem extends React.Component {
 
   handlePinItemClick(pinItemData) {
     console.log(pinItemData);
-    this.props.history.push(`/pin/${pinItemData.objectId}`);
+    this.props.history.push(`/pin/${pinItemData.objectId || pinItemData.id}`);
   }
 
-  handleTopicClick(e, topicId) {
-    this.props.history.push(`/topic/${topicId}`);
+  handleTopicClick(e, topic) {
+    this.props.history.push(`/topic/${topic.id || topic.objectId}`);
     e.stopPropagation();
   }
 
@@ -107,7 +107,7 @@ class PinItem extends React.Component {
           : undefined}
           {this.props.pinItemData.topic ?
             <div className="tag-box">
-              <div className="tag-item" onClick={e => this.handleTopicClick.call(this, e, this.props.pinItemData.topic.objectId)}>{this.props.pinItemData.topic.title}</div>
+              <div className="tag-item" onClick={e => this.handleTopicClick.call(this, e, this.props.pinItemData.topic)}>{this.props.pinItemData.topic.title}</div>
             </div>
           : undefined}
         </div>

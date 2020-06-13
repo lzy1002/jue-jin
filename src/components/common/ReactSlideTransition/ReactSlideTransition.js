@@ -24,6 +24,7 @@ class ReactSlideTransition extends React.Component {
 
   componentWillReceiveProps() { // 该生命周期函数不会在页面第一次展示时触发 会在路由切换时触发 在该生命周期函数中拿到的路由地址是即将离开的路由地址
     this.oldPath = this.props.location.pathname;
+
   }
 
   onEnter(node) {  // node为即将要进入的路由页面的dom元素

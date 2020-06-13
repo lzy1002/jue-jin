@@ -1,7 +1,9 @@
 import home from "./home.js";
+import pins from "./pins.js";
 
 let actionCreator = {
-  home
+  home,
+  pins
 };
 
 export default actionCreator;

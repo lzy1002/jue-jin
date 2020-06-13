@@ -14,3 +14,62 @@ export function getTopicInfo(topicId) {
   })
 
 }
+
+export function getTopicAttenders(topicId) {
+  const params = {
+    topicId: topicId,
+    page: 0,
+    pageSize: 20,
+    uid: "",
+    token: "",
+    device_id: 9685,
+    client_id: 9685,
+    src: "android"
+  };
+
+  return request({
+    url: "/topic/attenders",
+    params
+  })
+
+}
+
+export function getTopicRank(topicId) {
+  const params = {
+    topicId: topicId,
+    sortType: "rank",
+    page: 0,
+    pageSize: 20,
+    uid: "",
+    token: "",
+    device_id: 9685,
+    client_id: 9685,
+    src: "android"
+  };
+
+  return request({
+    url: "/topic/rank",
+    params
+  })
+
+}
+
+export function getTopicNewest(topicId) {
+  const params = {
+    topicId: topicId,
+    sortType: "newest",
+    page: 0,
+    pageSize: 20,
+    uid: "",
+    token: "",
+    device_id: 9685,
+    client_id: 9685,
+    src: "android"
+  };
+
+  return request({
+    url: "/topic/newest",
+    params
+  })
+
+}
