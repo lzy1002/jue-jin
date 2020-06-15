@@ -106,6 +106,13 @@ module.exports = function (app) {
       pathRewrite: {
         "/topic/newest": "/v1/pinList/topic"
       }
+    }),
+    proxy.createProxyMiddleware("/topics/list", {
+      target: "https://short-msg-ms.juejin.im",
+      changeOrigin: true,
+      pathRewrite: {
+        "/topics/list": "/v1/topicList"
+      }
     })
 
   )

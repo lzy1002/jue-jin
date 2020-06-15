@@ -10,6 +10,8 @@ import Article from "./views/Article/Article.js";
 import User from "./views/User/User.js";
 import Pin from "./views/Pin/Pin.js";
 import Topic from "./views/Topic/Topic.js";
+import Authors from "./views/Authors/Authors.js";
+import Topics from "./views/Topics/Topics.js";
 
 import TabBar from "./components/content/TabBar/TabBar.js";
 
@@ -32,6 +34,8 @@ class App extends React.Component {
           <Route path="/user/:userId" component={User}/>
           <Route path="/pin/:pinId" component={Pin}/>
           <Route path="/topic/:topicId" component={Topic}/>
+          <Route path="/authors" component={Authors}/>
+          <Route path="/topics" component={Topics}/>
           <Redirect from="/" to="/home/recommend"/>
         </Switch>
         <TabBar/>

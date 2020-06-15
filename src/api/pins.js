@@ -41,3 +41,23 @@ export function getPinsHot(lastId = "") {
   })
 
 }
+
+export function getPinsFollow(extensions = []) {
+  const data = {
+    extensions: {
+      query: {
+        id: "038909ed3577b0925031b01b445819a0"
+      }
+    },
+    variables: {
+      excluded: extensions,
+      limit: 8
+    }
+  };
+
+  return request({
+    method: "post",
+    url: "https://android-api.juejin.im/graphql",
+    data
+  })
+}

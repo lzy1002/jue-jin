@@ -1,4 +1,5 @@
 @import "../../../../assets/stylus/variable.styl"
+@import "../../../../assets/stylus/mixin.styl"
 
 .pinsFollow-wrapper
   position absolute
@@ -7,3 +8,22 @@
   right 0
   bottom 40px
   background-color $color-background
+  overflow hidden
+  .loginTip-box
+    margin-bottom 10px
+  .followUser-box
+    background-color $color-background-d
+    .title
+      padding 8px 10px
+      border-1px($color-border)
+    .change
+      text-align center
+      padding 10px
+      color $color-theme
+      font-size $font-size-medium
+      .iconfont
+        font-size $font-size-medium
+        vertical-align middle
+        margin-right 5px
+      span
+        vertical-align middle

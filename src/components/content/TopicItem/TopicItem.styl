@@ -1,0 +1,32 @@
+@import "../../../assets/stylus/variable.styl"
+@import "../../../assets/stylus/mixin.styl"
+
+.topicItem-wrapper
+  display flex
+  align-items center
+  padding 10px
+  background-color $color-background-d
+  border-1px($color-border)
+  .img-box
+    width 50px
+    height 50px
+    background-repeat no-repeat
+    background-size cover
+    background-position center center
+    margin-right 10px
+  .content
+    flex 1
+    .title
+      font-size $font-size-large
+      margin-bottom 8px
+    .info
+      font-size $font-size-small-x
+      color $color-text-l
+  .follow-btn
+    width 50px
+    height 25px
+    line-height 25px
+    text-align center
+    color $color-theme
+    background-color #eee
+    border-radius 12px

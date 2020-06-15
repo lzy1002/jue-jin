@@ -27,3 +27,6 @@ export const INIT_PINS_HOT = "INIT_PINS_HOT";
 
 export const SAGA_MORE_PINS_HOT = "SAGA_MORE_PINS_HOT";
 export const MORE_PINS_HOT = "MORE_PINS_HOT";
+
+export const SAGA_INIT_PINS_FOLLOW = "SAGA_INIT_PINS_FOLLOW";
+export const INIT_PINS_FOLLOW = "INIT_PINS_FOLLOW";

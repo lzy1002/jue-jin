@@ -1,6 +1,6 @@
 import * as TYPES from "../action-types.js";
 
-function pins(state = {recommend: {}, hot: {}}, action) {
+function pins(state = {recommend: {}, hot: {}, follow: {}}, action) {
   state = JSON.parse(JSON.stringify(state));
   switch (action.type) {
     case TYPES.INIT_PINS_RECOMMEND: {
@@ -19,6 +19,10 @@ function pins(state = {recommend: {}, hot: {}}, action) {
     case TYPES.MORE_PINS_HOT: {
       state.hot.edges.push(...action.hot.edges);
       state.hot.pageInfo = action.hot.pageInfo;
+      break;
+    }
+    case TYPES.INIT_PINS_FOLLOW: {
+      state.follow = action.follow;
       break;
     }
   }
