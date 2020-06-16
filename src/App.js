@@ -12,6 +12,7 @@ import Pin from "./views/Pin/Pin.js";
 import Topic from "./views/Topic/Topic.js";
 import Authors from "./views/Authors/Authors.js";
 import Topics from "./views/Topics/Topics.js";
+import Result from "./views/Result/Result.js";
 
 import TabBar from "./components/content/TabBar/TabBar.js";
 
@@ -36,6 +37,7 @@ class App extends React.Component {
           <Route path="/topic/:topicId" component={Topic}/>
           <Route path="/authors" component={Authors}/>
           <Route path="/topics" component={Topics}/>
+          <Route path="/result" component={Result}/>
           <Redirect from="/" to="/home/recommend"/>
         </Switch>
         <TabBar/>

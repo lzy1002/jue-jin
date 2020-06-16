@@ -33,8 +33,8 @@ class UserItem extends React.Component {
             <span>{this.props.userItemData.user.username}</span>
             <img src={levelIcon(this.props.userItemData.user.level)} alt=""/>
           </p>
-          <p className="desc">{this.props.userItemData.title}</p>
-          <p className="info">{this.props.userItemData.info}</p>
+          {this.props.userItemData.title ? <p className="desc">{this.props.userItemData.title}</p> : undefined}
+          {this.props.userItemData.info ? <p className="info">{this.props.userItemData.info}</p> : undefined}
         </div>
         <div className="follow-btn" onClick={e => e.stopPropagation()}>
           <i className="iconfont icon-Add1"></i>

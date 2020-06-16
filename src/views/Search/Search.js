@@ -34,10 +34,14 @@ class Search extends React.Component {
     })
   }
 
+  handleSearchBarClick() {
+    this.props.history.push("/result");
+  }
+
   render() {
     return (
       <div className="search-wrapper">
-        <SearchBar tagBoxIsShow={this.tagBoxIsShow}/>
+        <SearchBar tagBoxIsShow={this.tagBoxIsShow} handleSearchBarClick={this.handleSearchBarClick.bind(this)}/>
         <div className="search-content">
           <Scroll>
             <ImageSlider>
@@ -47,18 +51,18 @@ class Search extends React.Component {
             </ImageSlider>
 
             <div className="option-box">
-              <div className="option-item">
+              <Link to="/home/hot" className="option-item">
                 <i className="iconfont icon-wenzhang"></i>
                 <span>文章榜</span>
-              </div>
+              </Link>
               <Link to="/authors" className="option-item">
                 <i className="iconfont icon-huangguan"></i>
                 <span>作者榜</span>
               </Link>
-              <div className="option-item">
+              <Link to="/pins/recommend" className="option-item">
                 <i className="iconfont icon-kanyikantubiao"></i>
                 <span>看一看</span>
-              </div>
+              </Link>
               <Link to="/topics" className="option-item">
                 <i className="iconfont icon-huati"></i>
                 <span>话题广场</span>

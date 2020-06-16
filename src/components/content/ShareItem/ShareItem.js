@@ -21,7 +21,7 @@ class ShareItem extends React.Component {
   }
 
   handleShareItemClick(shareItemData) {
-    this.props.history.push(`/article/${shareItemData.objectId}`);
+    this.props.history.push(`/article/${shareItemData.objectId || shareItemData.id}`);
   }
 
   render() {

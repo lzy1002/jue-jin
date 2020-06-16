@@ -5,11 +5,13 @@ import "./SearchBar.styl";
 
 class SearchBar extends React.Component {
   static defaultProps = {
-    tagBoxIsShow: true
+    tagBoxIsShow: true,
+    handleSearchBarClick: () => {}
   };
 
   static propTypes = {
-    tagBoxIsShow: propTypes.bool
+    tagBoxIsShow: propTypes.bool,
+    handleSearchBarClick: propTypes.func
   };
 
   constructor(props) {
@@ -20,7 +22,7 @@ class SearchBar extends React.Component {
   render() {
     return (
       <div className="searchBar-wrapper">
-        <div className="search-box">
+        <div className="search-box" onClick={() => this.props.handleSearchBarClick()}>
           <i className="iconfont icon-sousuo"></i>
           <span className="text">搜索文章、用户、标签</span>
         </div>

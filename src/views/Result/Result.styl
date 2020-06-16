@@ -1,0 +1,73 @@
+@import "../../assets/stylus/variable.styl"
+@import "../../assets/stylus/mixin.styl"
+
+.result-wrapper
+  position relative
+  width 100%
+  height 100%
+  z-index 9
+  background-color $color-background
+  .result-header
+    width 100%
+    height 50px
+    display flex
+    align-items center
+    padding 0 15px
+    color $color-text-ll
+    background-color $color-theme
+    .back
+      margin-right 20px
+      extend-click()
+      .iconfont
+        font-size $font-size-large-x
+    .search-box
+      flex 1
+      height 100%
+      display flex
+      align-items center
+      input
+        width 100%
+        height 30px
+        background-color transparent
+        border none
+        outline none
+        font-size $font-size-large
+        color $color-text-ll
+        &::-webkit-input-placeholder
+          color #ddd
+    .clear
+      margin-left 20px
+      extend-click()
+      .iconfont
+        font-size 24px
+  .history-box
+    position absolute
+    top 50px
+    left 0
+    right 0
+    bottom 0
+    background-color $color-background
+    .history-item
+      display flex
+      font-size $font-size-large
+      padding 10px 10px
+      background-color $color-background-d
+      border-1px($color-border)
+      p
+        flex 1
+      .iconfont
+        font-size 21px
+        &.icon-history
+          margin-right 10px
+  .clear-history
+    text-align center
+    font-size $font-size-medium-x
+    padding 12px 0
+    background-color $color-background-d
+  .result-box
+    position absolute
+    top 50px
+    left 0
+    right 0
+    bottom 0
+    background-color $color-background

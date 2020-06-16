@@ -23,11 +23,14 @@ class Home extends React.Component {
     ];
   }
 
-  render() {
+  handleSearchBarClick() {
+    this.props.history.push("/result");
+  }
 
+  render() {
     return (
       <div className="home-wrapper">
-        <SearchBar/>
+        <SearchBar handleSearchBarClick={this.handleSearchBarClick.bind(this)}/>
         <TabControl titleList={this.titleList}/>
         <ReactSlideTransition routerList={this.titleList}>  {/*使用该组件内部所有的路由页面都需要手动设置position: absolute 否则会出现切换时页面不在同一水平线上的问题*/}
           <Route path="/home/follow" component={Follow}/>

@@ -113,6 +113,13 @@ module.exports = function (app) {
       pathRewrite: {
         "/topics/list": "/v1/topicList"
       }
+    }),
+    proxy.createProxyMiddleware("/books/all", {
+      target: "https://xiaoce-timeline-api-ms.juejin.im",
+      changeOrigin: true,
+      pathRewrite: {
+        "/books/all": "/v1/getListByLastTime"
+      }
     })
 
   )

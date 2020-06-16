@@ -11,7 +11,8 @@ class TabControl extends React.Component {
     lineBgColor: "#fff",
     activeColor: "#fff",
     titleColor: "#cfcfd3",
-    arrowIsShow: true
+    arrowIsShow: true,
+    titleCenter: false
   };
 
   static propTypes = {
@@ -20,7 +21,8 @@ class TabControl extends React.Component {
     lineBgColor: propTypes.string,
     activeColor: propTypes.string,
     titleColor: propTypes.string,
-    arrowIsShow: propTypes.bool
+    arrowIsShow: propTypes.bool,
+    titleCenter: propTypes.bool
   };
 
   constructor(props) {
@@ -63,7 +65,7 @@ class TabControl extends React.Component {
   render() {
     return (
       <div className="tabControl-wrapper" style={{backgroundColor: this.props.tabBgColor}}>
-        <div className="title-box" ref={this.titleBox}>
+        <div className="title-box" style={{textAlign: this.props.titleCenter ? "center" : "left"}} ref={this.titleBox}>
           {this.props.titleList.map((item, index) => (
             <div className="title-item" onClick={this.changePath.bind(this, item.path)} style={{color: this.props.location.pathname === item.path ? this.props.activeColor : this.props.titleColor}} path={item.path} key={item.path}>{item.title}</div>
           ))}
