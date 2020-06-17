@@ -1,0 +1,45 @@
+@import "../../../assets/stylus/variable.styl"
+@import "../../../assets/stylus/mixin.styl"
+
+.bookItem-wrapper
+  display flex
+  align-items center
+  padding 10px 10px 20px 10px
+  background-color $color-background-d
+  border-1px($color-border)
+  .book-avatar
+    width 52px
+    height 72px
+    background-repeat no-repeat
+    background-size 100% 100%
+    background-position center center
+    margin-right 10px
+    box-shadow 3px 4px 12px 0 rgba(0, 0, 0, 0.2)
+  .content
+    flex 1
+    margin-right 10px
+    .title
+      font-size $font-size-medium
+      line-height 1.2
+      margin-bottom 10px
+    .username
+      font-size $font-size-small-x
+      margin-bottom 10px
+      span
+        vertical-align bottom
+        margin-right 5px
+      img
+        width 22px
+        vertical-align bottom
+    .info
+      font-size $font-size-small-x
+      color $color-text-l
+  .price-btn
+    width 80px
+    height 30px
+    line-height 30px
+    text-align center
+    padding 0 15px
+    color #0077ff
+    background-color #f0f7ff
+    border-radius 15px

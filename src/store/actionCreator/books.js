@@ -12,6 +12,18 @@ let books = {
       type: TYPES.INIT_BOOKS_ALL,
       all
     }
+  },
+  sagaMoreBooksAll(pageNum) {
+    return {
+      type: TYPES.SAGA_MORE_BOOKS_ALL,
+      pageNum
+    }
+  },
+  moreBooksAll(all) {
+    return {
+      type: TYPES.MORE_BOOKS_ALL,
+      all
+    }
   }
 };
 

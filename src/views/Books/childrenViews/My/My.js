@@ -11,7 +11,7 @@ class My extends React.Component {
   render() {
     return (
       <div className="booksMy-wrapper">
-        My
+
       </div>
     )
   }

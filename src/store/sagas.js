@@ -78,6 +78,12 @@ function* initBooksAll(action) {
   yield put(actionCreator.books.initBooksAll(res.data.d));
 }
 
+function* moreBooksAll(action) {
+  const res = yield getBooksAll(action.pageNum);
+  yield put(actionCreator.books.moreBooksAll(res.data.d));
+
+}
+
 function* mySaga() {
   yield takeEvery(TYPES.SAGA_INIT_HOME_RECOMMEND, initHomeRecommend);
   yield takeEvery(TYPES.SAGA_MORE_HOME_RECOMMEND, moreHomeRecommend);
@@ -91,6 +97,7 @@ function* mySaga() {
   yield takeEvery(TYPES.SAGA_MORE_PINS_HOT, morePinsHot);
   yield takeEvery(TYPES.SAGA_INIT_PINS_FOLLOW, initPinsFollow);
   yield takeEvery(TYPES.SAGA_INIT_BOOKS_ALL, initBooksAll);
+  yield takeEvery(TYPES.SAGA_MORE_BOOKS_ALL, moreBooksAll);
 }
 
 export default mySaga;

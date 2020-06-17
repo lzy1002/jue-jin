@@ -13,6 +13,7 @@ import Topic from "./views/Topic/Topic.js";
 import Authors from "./views/Authors/Authors.js";
 import Topics from "./views/Topics/Topics.js";
 import Result from "./views/Result/Result.js";
+import Book from "./views/Book/Book.js";
 
 import TabBar from "./components/content/TabBar/TabBar.js";
 
@@ -38,6 +39,7 @@ class App extends React.Component {
           <Route path="/authors" component={Authors}/>
           <Route path="/topics" component={Topics}/>
           <Route path="/result" component={Result}/>
+          <Route path="/book/:bookId" component={Book}/>
           <Redirect from="/" to="/home/recommend"/>
         </Switch>
         <TabBar/>

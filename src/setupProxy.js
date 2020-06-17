@@ -120,6 +120,27 @@ module.exports = function (app) {
       pathRewrite: {
         "/books/all": "/v1/getListByLastTime"
       }
+    }),
+    proxy.createProxyMiddleware("/book/info", {
+      target: "https://xiaoce-cache-api-ms.juejin.im",
+      changeOrigin: true,
+      pathRewrite: {
+        "/book/info": "/v1/get"
+      }
+    }),
+    proxy.createProxyMiddleware("/book/buyer", {
+      target: "https://xiaoce-cache-api-ms.juejin.im",
+      changeOrigin: true,
+      pathRewrite: {
+        "/book/buyer": "/v1/getListBuy"
+      }
+    }),
+    proxy.createProxyMiddleware("/book/section", {
+      target: "https://xiaoce-cache-api-ms.juejin.im",
+      changeOrigin: true,
+      pathRewrite: {
+        "/book/section": "/v1/getListSection"
+      }
     })
 
   )

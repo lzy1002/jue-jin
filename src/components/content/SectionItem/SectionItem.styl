@@ -1,0 +1,29 @@
+@import "../../../assets/stylus/variable.styl"
+@import "../../../assets/stylus/mixin.styl"
+
+.sectionItem-wrapper
+  display flex
+  padding 15px 10px 15px 15px
+  background-color $color-background-d
+  border-1px($color-border)
+  .num
+    display flex
+    justify-content center
+    align-items center
+    width 20px
+    text-align center
+    margin-right 10px
+    color #b5b7ba
+  .content
+    flex 1
+    .title
+      font-size $font-size-medium-x
+      font-weight 400
+      line-height 1.4
+      margin-bottom 8px
+      color #000
+    .info
+      font-size $font-size-small
+      color #b2bac2
+      span:first-child
+        margin-right 10px

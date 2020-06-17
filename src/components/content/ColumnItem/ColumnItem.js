@@ -71,11 +71,11 @@ class ColumnItem extends React.Component {
         <div className="columnItem-footer">
           <div className="footer-item">
             <i className="iconfont icon-dianzan"></i>
-            <span>点赞</span>
+            <span>{this.props.columnItemData.collectionCount || "点赞"}</span>
           </div>
           <div className="footer-item">
             <i className="iconfont icon-pinglun"></i>
-            <span>{this.props.columnItemData.commentsCount}</span>
+            <span>{this.props.columnItemData.commentsCount || "评论"}</span>
           </div>
           <div className="footer-item">
             <i className="iconfont icon-fenxiang"></i>
