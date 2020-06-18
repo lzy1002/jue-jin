@@ -1,8 +1,13 @@
 import React from "react";
+import {connect} from "react-redux";
 import propTypes from "prop-types";
 import {withRouter} from "react-router-dom";
 
 import "./ArticleItem.styl";
+
+import actionCreator from "../../../store/actionCreator/index.js";
+
+import {ArticleCls} from "../../../assets/js/class.js";
 
 class ArticleItem extends React.Component {
   static defaultProps = {
@@ -27,9 +32,31 @@ class ArticleItem extends React.Component {
     e.stopPropagation();  // 阻止合成事件间的事件冒泡
   }
 
+  handleThumbClick(originArticle) {
+    console.log(originArticle);
+    const article = new ArticleCls(originArticle);
+    this.props.changeArticleThumbState(article);
+  }
+
+  isThumb(objectId, thumbCount) {
+    const index = this.props.articleThumbList.findIndex(item => item.objectId === objectId);
+    if(index !== -1) {
+      return thumbCount + 1;
+    }else {
+      return thumbCount;
+    }
+
+  }
+
+  thumbIsActive(objectId) {
+    const index = this.props.articleThumbList.findIndex(item => item.objectId === objectId);
+    return index !== -1;
+
+  }
+
   render() {
     return (
-      <div className="articleItem-wrapper" onClick={this.handleArticleItemClick.bind(this, this.props.articleItemData)}>
+      <div className="articleItem-wrapper">
         <div className="articleItem-header">
           <div className="user-box" onClick={e => this.handleUserBoxClick.call(this, e, this.props.articleItemData)}>
             <div className="avatar">
@@ -43,7 +70,7 @@ class ArticleItem extends React.Component {
             ))}
           </div>
         </div>
-        <div className="articleItem-content">
+        <div className="articleItem-content" onClick={this.handleArticleItemClick.bind(this, this.props.articleItemData)}>
           <div className="content-left" style={{marginRight: this.props.articleItemData.screenshot ? "24px" : ""}}>
             <h3 className="title">{this.props.articleItemData.title}</h3>
             <div className="text">
@@ -52,9 +79,15 @@ class ArticleItem extends React.Component {
           </div>
           {this.props.articleItemData.screenshot ? <div className="content-right" style={{backgroundImage: `url(${this.props.articleItemData.screenshot})`}}></div> : undefined}
         </div>
-        <div className="articleItem-footer">
-          <span className="like"><i className="iconfont icon-dianzan"></i><span className="count">{this.props.articleItemData.likeCount}</span></span>
-          <span className="comment"><i className="iconfont icon-pinglun"></i><span className="count">{this.props.articleItemData.commentsCount}</span></span>
+        <div className="articleItem-footer" onClick={e => e.stopPropagation()}>
+          <span className={`like ${this.thumbIsActive.call(this, this.props.articleItemData.id || this.props.articleItemData.objectId) ? "active" : ""}`} onClick={this.handleThumbClick.bind(this, this.props.articleItemData)}>
+            <i className={`iconfont ${this.thumbIsActive.call(this, this.props.articleItemData.id || this.props.articleItemData.objectId) ? "icon-dianzan1" : "icon-dianzan"}`}></i>
+            <span className="count">{this.isThumb.call(this, this.props.articleItemData.id || this.props.articleItemData.objectId, this.props.articleItemData.likeCount || this.props.articleItemData.collectionCount)}</span>
+          </span>
+          <span className="comment">
+            <i className="iconfont icon-pinglun"></i>
+            <span className="count">{this.props.articleItemData.commentsCount}</span>
+          </span>
         </div>
       </div>
     )
@@ -62,4 +95,4 @@ class ArticleItem extends React.Component {
 
 }
 
-export default withRouter(ArticleItem);
+export default connect(state => ({...state.profile.articleThumb}), {...actionCreator.profile})(withRouter(ArticleItem));

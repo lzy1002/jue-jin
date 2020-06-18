@@ -1,10 +1,16 @@
 import React from "react";
 import propTypes from "prop-types";
 import {withRouter} from "react-router-dom";
+import {connect} from "react-redux";
 
 import "./UserBox.styl";
 
+import {UserCls} from "../../../assets/js/class.js";
 import {levelIcon} from "../../../assets/js/utils.js";
+
+import actionCreator from "../../../store/actionCreator/index.js";
+
+import FollowBtn from "../../../components/content/FollowBtn/FollowBtn.js";
 
 class UserBox extends React.Component {
   static defaultProps = {
@@ -25,6 +31,18 @@ class UserBox extends React.Component {
   handleAvatarBoxClick(e, userData) {
     this.props.history.push(`/user/${userData.id || userData.objectId}`);
     e.stopPropagation();
+  }
+
+  handleFollowBtnClick(userData) {
+    console.log(userData);
+    const user = new UserCls(userData);
+    console.log(user);
+    this.props.changeUserFollowingState(user);
+  }
+
+  userIsActive(objectId) {
+    const index = this.props.userFollowingList.findIndex(item => item.user.objectId === objectId);
+    return index !== -1;
   }
 
   render() {
@@ -54,14 +72,11 @@ class UserBox extends React.Component {
             : undefined}
           </p>
         </div>
-        <div className="follow-btn">
-          <i className="iconfont icon-Add1"></i>
-          <span>关注</span>
-        </div>
+        <FollowBtn isFollow={this.userIsActive.call(this, this.props.userData.id || this.props.userData.objectId)} handleFollowBtnClick={this.handleFollowBtnClick.bind(this, this.props.userData)}/>
       </div>
     )
   }
 
 }
 
-export default withRouter(UserBox);
+export default connect(state => ({...state.profile.userFollowing}), {...actionCreator.profile})(withRouter(UserBox));

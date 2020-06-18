@@ -1,10 +1,16 @@
 import React from "react";
 import {withRouter} from "react-router-dom";
+import {connect} from "react-redux";
 import propTypes from "prop-types";
 
 import "./UserItem.styl";
 
 import {levelIcon} from "../../../assets/js/utils.js";
+import {UserCls} from "../../../assets/js/class.js";
+
+import actionCreator from "../../../store/actionCreator/index.js";
+
+import FollowBtn from "../../../components/content/FollowBtn/FollowBtn.js";
 
 class UserItem extends React.Component {
   static defaultProps = {
@@ -24,6 +30,17 @@ class UserItem extends React.Component {
     this.props.history.push(`/user/${userId}`);
   }
 
+  handleFollowBtnClick(userData) {
+    console.log(userData);
+    const user = new UserCls(userData);
+    this.props.changeUserFollowingState(user);
+  }
+
+  userIsActive(objectId) {
+    const index = this.props.userFollowingList.findIndex(item => item.user.objectId === objectId);
+    return index !== -1;
+  }
+
   render() {
     return (
       <div className="userItem-wrapper border-1px" onClick={this.handleUserItemClick.bind(this, this.props.userItemData.user.id)}>
@@ -36,14 +53,11 @@ class UserItem extends React.Component {
           {this.props.userItemData.title ? <p className="desc">{this.props.userItemData.title}</p> : undefined}
           {this.props.userItemData.info ? <p className="info">{this.props.userItemData.info}</p> : undefined}
         </div>
-        <div className="follow-btn" onClick={e => e.stopPropagation()}>
-          <i className="iconfont icon-Add1"></i>
-          <span>关注</span>
-        </div>
+        <FollowBtn isFollow={this.userIsActive.call(this, this.props.userItemData.user.id)} handleFollowBtnClick={this.handleFollowBtnClick.bind(this, this.props.userItemData.user)}/>
       </div>
     )
   }
 
 }
 
-export default withRouter(UserItem);
+export default connect(state => ({...state.profile.userFollowing}), {...actionCreator.profile})(withRouter(UserItem));

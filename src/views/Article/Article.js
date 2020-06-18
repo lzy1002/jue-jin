@@ -1,8 +1,12 @@
 import React from "react";
+import {connect} from "react-redux";
 
 import "../../assets/stylus/article.styl";
 import "./Article.styl";
 
+import actionCreator from "../../store/actionCreator/index.js";
+
+import {ArticleCls, UserCls} from "../../assets/js/class.js";
 import {levelIcon} from "../../assets/js/utils.js";
 
 import {getArticleDetailContent, getArticleDetailView, getArticleDetailRelated, getArticleDetailComment} from "../../api/article.js";
@@ -13,6 +17,7 @@ import UserBox from "../../components/content/UserBox/UserBox.js";
 import RelatedItem from "../../components/content/RelatedItem/RelatedItem.js";
 import CommentItem from "../../components/content/CommentItem/CommentItem.js";
 import Loading from "../../components/content/Loading/Loading.js";
+import FollowBtn from "../../components/content/FollowBtn/FollowBtn.js";
 
 class Article extends React.Component {
   constructor(props) {
@@ -60,6 +65,10 @@ class Article extends React.Component {
       this.setState({
         articleDetailContent: res.data.d
       });
+
+      const article = new ArticleCls(res.data.d.entrylist[0]);  // 将当前查看的文章存储到浏览历史中
+      this.props.addArticleWatchHistory(article);
+
       console.log(this.state);
     })
   }
@@ -132,6 +141,17 @@ class Article extends React.Component {
     this.props.history.push(`/user/${userData.objectId}`);
   }
 
+  handleFollowBtnClick(userData) {
+    console.log(userData);
+    const user = new UserCls(userData);
+    this.props.changeUserFollowingState(user);
+  }
+
+  userIsActive(objectId) {
+    const index = this.props.userFollowingList.findIndex(item => item.user.objectId === objectId);
+    return index !== -1;
+  }
+
   render() {
     return (
       <div className="article-wrapper">
@@ -150,10 +170,7 @@ class Article extends React.Component {
                     <span>{this.state.articleDetailContent.entrylist[0].user.username}</span>
                     <img src={levelIcon(this.state.articleDetailContent.entrylist[0].user.level)} alt=""/>
                   </div>
-                  <div className="follow-btn">
-                    <i className="iconfont icon-Add1"></i>
-                    <span>关注</span>
-                  </div>
+                  <FollowBtn isFollow={this.userIsActive.call(this, this.state.articleDetailContent.entrylist[0].user.objectId)} handleFollowBtnClick={this.handleFollowBtnClick.bind(this, this.state.articleDetailContent.entrylist[0].user)}/>
                 </div>
               <div className="title">
                 <span>文章详情页</span>
@@ -224,4 +241,4 @@ class Article extends React.Component {
 
 }
 
-export default Article;
+export default connect(state => ({...state.profile.userFollowing}), {...actionCreator.profile})(Article);

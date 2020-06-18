@@ -1,10 +1,13 @@
 import React from "react";
 import {withRouter} from "react-router-dom";
+import {connect} from "react-redux";
 import propTypes from "prop-types";
 
 import "./PinItem.styl";
 
 import {publishDate} from "../../../assets/js/utils.js";
+
+import actionCreator from "../../../store/actionCreator/index.js";
 
 import UserBox from "../../../components/content/UserBox/UserBox.js";
 import LinkBox from "../../../components/content/LinkBox/LinkBox.js";
@@ -70,9 +73,31 @@ class PinItem extends React.Component {
     e.stopPropagation();
   }
 
+  handleThumbClick(objectId) {
+    this.props.changePinThumbState(objectId);
+  }
+
+  isThumb(objectId, thumbCount) {
+    const index = this.props.pinThumbList.findIndex(item => item === objectId);
+    if(index !== -1) {
+      return thumbCount + 1;
+    }else {
+      if(!thumbCount) {
+        return "点赞";
+      }else {
+        return thumbCount;
+      }
+    }
+  }
+
+  thumbIsActive(objectId) {
+    const index = this.props.pinThumbList.findIndex(item => item === objectId);
+    return index !== -1;
+  }
+
   render() {
     return (
-      <div className="pinItem-wrapper" onClick={this.handlePinItemClick.bind(this, this.props.pinItemData)}>
+      <div className="pinItem-wrapper">
         <div className="pinItem-header">
           <div className="user-box">
             <UserBox userData={this.props.pinItemData.user} createdAt={publishDate(this.props.pinItemData.createdAt)}/>
@@ -81,7 +106,7 @@ class PinItem extends React.Component {
             <i className="iconfont icon-unie644"></i>
           </div>
         </div>
-        <div className="pinItem-content border-1px">
+        <div className="pinItem-content border-1px"  onClick={this.handlePinItemClick.bind(this, this.props.pinItemData)}>
           <div className="text-box">
             <div ref={this.partText}>
               <div className="part-text">
@@ -112,9 +137,9 @@ class PinItem extends React.Component {
           : undefined}
         </div>
         <div className="pinItem-bottom">
-          <div className="bottom-item">
-            <i className="iconfont icon-dianzan"></i>
-            <span>{this.props.pinItemData.likedCount ? this.props.pinItemData.likedCount : "点赞"}</span>
+          <div className={`bottom-item ${this.thumbIsActive.call(this, this.props.pinItemData.id || this.props.pinItemData.objectId) ? "active" : ""}`} onClick={this.handleThumbClick.bind(this, this.props.pinItemData.id || this.props.pinItemData.objectId)}>
+            <i className={`iconfont ${this.thumbIsActive.call(this, this.props.pinItemData.id || this.props.pinItemData.objectId) ? "icon-dianzan1" : "icon-dianzan"}`}></i>
+            <span>{this.isThumb.call(this, this.props.pinItemData.id || this.props.pinItemData.objectId, this.props.pinItemData.likeCount)}</span>
           </div>
           <div className="bottom-item">
             <i className="iconfont icon-pinglun"></i>
@@ -125,11 +150,10 @@ class PinItem extends React.Component {
             <span>分享</span>
           </div>
         </div>
-
       </div>
     )
   }
 
 }
 
-export default withRouter(PinItem);
+export default connect(state => ({...state.profile.pinThumb}), {...actionCreator.profile})(withRouter(PinItem));

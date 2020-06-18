@@ -1,5 +1,6 @@
 import React from "react";
 import {Switch, Route, Redirect} from "react-router-dom";
+import {connect} from "react-redux";
 
 import "./User.styl";
 
@@ -7,10 +8,14 @@ import {getUserInfo} from "../../api/user.js";
 
 import {levelIcon} from "../../assets/js/utils.js";
 import {prefixStyle} from "../../assets/js/dom.js";
+import {UserCls} from "../../assets/js/class.js";
+
+import actionCreator from "../../store/actionCreator/index.js";
 
 import Scroll from "../../components/common/Scroll/Scroll.js";
 
 import TabControl from "../../components/content/TabControl/TabControl.js";
+import FollowBtn from "../../components/content/FollowBtn/FollowBtn.js";
 
 import Actives from "./childrenViews/Actives/Actives.js";
 import Posts from "./childrenViews/Posts/Posts.js";
@@ -111,6 +116,17 @@ class User extends React.Component {
     this.props.history.goBack();
   }
 
+  handleFollowBtnClick(userData) {
+    console.log(userData);
+    const user = new UserCls(userData);
+    this.props.changeUserFollowingState(user);
+  }
+
+  userIsActive(objectId) {
+    const index = this.props.userFollowingList.findIndex(item => item.user.objectId === objectId);
+    return index !== -1;
+  }
+
   render() {
     return (
       <div className="user-wrapper">
@@ -146,12 +162,11 @@ class User extends React.Component {
                       <p className="favorableAuthor">掘金优秀作者</p>
                     : undefined}
                   </div>
-                  <div className="button-box">
-                    <div className="follow-btn">
-                      <i className="iconfont icon-Add1"></i>
-                      <span>关注</span>
+                  {this.state.userInfo.objectId ?
+                    <div className="button-box">
+                      <FollowBtn isFollow={this.userIsActive.call(this, this.state.userInfo.objectId)} handleFollowBtnClick={this.handleFollowBtnClick.bind(this, this.state.userInfo)}/>
                     </div>
-                  </div>
+                  : undefined}
                 </div>
                 <div className="desc">
                   {this.state.userInfo.selfDescription}
@@ -203,4 +218,4 @@ class User extends React.Component {
 
 }
 
-export default User;
+export default connect(state => ({...state.profile.userFollowing}), {...actionCreator.profile})(User);
