@@ -8,8 +8,8 @@ function pins(state = {recommend: {}, hot: {}, follow: {}}, action) {
       break;
     }
     case TYPES.MORE_PINS_RECOMMEND: {
-      state.recommend.items.pageInfo = action.recommend.items.pageInfo;
       state.recommend.items.userActivities.push(...action.recommend.items.userActivities);
+      state.recommend.items.pageInfo = action.recommend.items.pageInfo;
       break;
     }
     case TYPES.INIT_PINS_HOT: {

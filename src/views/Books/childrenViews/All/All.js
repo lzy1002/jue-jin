@@ -54,6 +54,7 @@ class All extends React.Component {
   }
 
   handlePullUpLoad() {
+    if(!this.props.loadMore) return;
     this.props.sagaMoreBooksAll(this.props.pageNum);
   }
 
@@ -67,7 +68,7 @@ class All extends React.Component {
           {this.props.books.length ? this.props.books.map((item, index) => (
             <BookItem key={index} bookItemData={item}/>
           )) : undefined}
-          <div style={{display: this.props.books.length ? "block" : "none"}}>
+          <div style={{display: this.props.books.length && this.props.loadMore ? "block" : "none"}}>
             <Loading/>
           </div>
         </Scroll>

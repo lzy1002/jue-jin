@@ -46,10 +46,21 @@ class Pin extends React.Component {
     getPinComment(pinId, pageNum).then(res => {
       console.log(res);
       this.setState({
-        pinCommentData: res.data.d,
-        loadMore: res.data.d.comments.length ? true : false
+        pinCommentData: res.data.d
       });
-      this.pageNum = this.pageNum + 1
+
+      let nowCount = this.state.pinCommentData.comments.length;
+      this.state.pinCommentData.comments.forEach(item => {
+        if(item.topComment && item.topComment.length) {
+          nowCount += item.topComment.length;
+        }
+      });
+
+      this.setState({
+        loadMore: nowCount !== this.state.pinCommentData.count
+      });
+
+      this.pageNum = this.pageNum + 1;
     })
   }
 
@@ -65,7 +76,7 @@ class Pin extends React.Component {
         pinCommentData: {
           comments: [...prevState.pinCommentData.comments, ...res.data.d.comments],
         },
-        loadMore: res.data.d.comments.length ? true : false
+        loadMore: res.data.d.comments.length !== 0
       }));
       this.pageNum = this.pageNum + 1
     })

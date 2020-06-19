@@ -54,6 +54,7 @@ class Recommend extends React.Component {
   }
 
   handlePullUpLoad() {
+    if(!this.props.items.pageInfo.hasNextPage) return;
     this.props.sagaMorePinsRecommend(this.props.items.pageInfo.endCursor);
   }
 
@@ -71,7 +72,7 @@ class Recommend extends React.Component {
               : undefined}
             </Fragment>
           )) : undefined}
-          <div style={{display: this.props.items ? "block" : "none"}}>
+          <div style={{display: this.props.items && this.props.items.pageInfo.hasNextPage ? "block" : "none"}}>
             <Loading/>
           </div>
         </Scroll>

@@ -1,8 +1,13 @@
 import React from "react";
 import {withRouter} from "react-router-dom";
+import {connect} from "react-redux";
 import propTypes from "prop-types";
 
 import "./TopicItem.styl";
+
+import actionCreator from "../../../store/actionCreator/index.js";
+
+import {TopicCls} from "../../../assets/js/class.js";
 
 class TopicItem extends React.Component {
   static defaultProps = {
@@ -22,6 +27,19 @@ class TopicItem extends React.Component {
     this.props.history.push(`/topic/${topicId}`);
   }
 
+  handleFollowClick(e, topicData) {
+    console.log(topicData);
+    const topic = new TopicCls(topicData);
+    this.props.changeTopicFollowingState(topic);
+    e.stopPropagation();
+  }
+
+  topicIsActive(objectId) {
+    const index = this.props.topicFollowingList.findIndex(item => item.objectId === objectId);
+    return index !== -1;
+
+  }
+
   render() {
     return (
       <div className="topicItem-wrapper border-1px" onClick={this.handleTopicItemClick.bind(this, this.props.topicItemData.objectId)}>
@@ -34,11 +52,11 @@ class TopicItem extends React.Component {
             <span>{this.props.topicItemData.msgsCount}沸点</span>
           </p>
         </div>
-        <div className="follow-btn">关注</div>
+        <div className="follow-btn" onClick={e => this.handleFollowClick.call(this, e, this.props.topicItemData)}>{this.topicIsActive.call(this, this.props.topicItemData.objectId) ? "已关注" : "关注"}</div>
       </div>
     )
   }
 
 }
 
-export default withRouter(TopicItem);
+export default connect(state => ({...state.profile.topicFollowing}), {...actionCreator.profile})(withRouter(TopicItem));

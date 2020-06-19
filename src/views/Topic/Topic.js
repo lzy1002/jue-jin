@@ -1,13 +1,19 @@
 import React from "react";
 import {Switch, Route, Redirect} from "react-router-dom";
+import {connect} from "react-redux";
 
 import "./Topic.styl";
 
 import {getTopicInfo, getTopicAttenders} from "../../api/topic.js";
 
+import {TopicCls} from "../../assets/js/class.js";
+
+import actionCreator from "../../store/actionCreator/index.js";
+
 import Scroll from "../../components/common/Scroll/Scroll.js";
 
 import TabControl from "../../components/content/TabControl/TabControl.js";
+import FollowBtn from "../../components/content/FollowBtn/FollowBtn.js";
 
 import Rank from "./childrenViews/Rank/Rank.js";
 import Newest from "./childrenViews/Newest/Newest.js";
@@ -84,6 +90,18 @@ class Topic extends React.Component {
     this.props.history.goBack();
   }
 
+  handleFollowBtnClick(topicData) {
+    console.log(topicData);
+    const topic = new TopicCls(topicData);
+    this.props.changeTopicFollowingState(topic);
+  }
+
+  topicIsActive(objectId) {
+    const index = this.props.topicFollowingList.findIndex(item => item.objectId === objectId);
+    return index !== -1;
+
+  }
+
   render() {
     return (
       <div className="topic-wrapper">
@@ -116,12 +134,11 @@ class Topic extends React.Component {
                     </div>
                   </div>
                 </div>
-                <div className="follow-box">
-                  <div className="follow-btn">
-                    <i className="iconfont icon-Add1"></i>
-                    <span>关注</span>
+                {this.state.topicInfo.objectId ?
+                  <div className="follow-box">
+                    <FollowBtn isFollow={this.topicIsActive.call(this, this.state.topicInfo.objectId)} handleFollowBtnClick={this.handleFollowBtnClick.bind(this, this.state.topicInfo)}/>
                   </div>
-                </div>
+                : undefined}
               </div>
 
               <div className="info-desc">
@@ -157,4 +174,4 @@ class Topic extends React.Component {
 
 }
 
-export default Topic;
+export default connect(state => ({...state.profile.topicFollowing}), {...actionCreator.profile})(Topic);

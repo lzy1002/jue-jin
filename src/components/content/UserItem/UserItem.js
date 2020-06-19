@@ -43,7 +43,7 @@ class UserItem extends React.Component {
 
   render() {
     return (
-      <div className="userItem-wrapper border-1px" onClick={this.handleUserItemClick.bind(this, this.props.userItemData.user.id)}>
+      <div className="userItem-wrapper border-1px" onClick={this.handleUserItemClick.bind(this, this.props.userItemData.user.id || this.props.userItemData.user.objectId)}>
         <div className="avatar-box" style={{backgroundImage: `url(${this.props.userItemData.user.avatarLarge})`}}></div>
         <div className="content">
           <p className="username">
@@ -53,7 +53,7 @@ class UserItem extends React.Component {
           {this.props.userItemData.title ? <p className="desc">{this.props.userItemData.title}</p> : undefined}
           {this.props.userItemData.info ? <p className="info">{this.props.userItemData.info}</p> : undefined}
         </div>
-        <FollowBtn isFollow={this.userIsActive.call(this, this.props.userItemData.user.id)} handleFollowBtnClick={this.handleFollowBtnClick.bind(this, this.props.userItemData.user)}/>
+        <FollowBtn isFollow={this.userIsActive.call(this, this.props.userItemData.user.id || this.props.userItemData.user.objectId)} handleFollowBtnClick={this.handleFollowBtnClick.bind(this, this.props.userItemData.user)}/>
       </div>
     )
   }

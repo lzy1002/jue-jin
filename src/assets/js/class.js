@@ -19,3 +19,14 @@ export class UserCls {
     this.title = originUser.jobTitle;
   }
 }
+
+export class TopicCls {
+  constructor(originTopic) {
+    this.title = originTopic.title;
+    this.objectId = originTopic.objectId;
+    this.msgsCount = originTopic.msgsCount;
+    this.followersCount = originTopic.followersCount;
+    this.icon = originTopic.icon;
+  }
+
+}

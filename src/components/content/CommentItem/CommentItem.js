@@ -1,8 +1,11 @@
 import React from "react";
 import {withRouter} from "react-router-dom";
+import {connect} from "react-redux";
 import propTypes from "prop-types";
 
 import "./CommentItem.styl";
+
+import actionCreator from "../../../store/actionCreator/index.js";
 
 import {publishDate, levelIcon} from "../../../assets/js/utils.js";
 
@@ -17,11 +20,30 @@ class CommentItem extends React.Component {
 
   constructor(props) {
     super(props);
-
+    console.log(props.commentThumbList);
   }
 
   handleAvatarBoxClick(commentItemData) {
     this.props.history.push(`/user/${commentItemData.userInfo.objectId}`);
+  }
+
+  handleThumbClick(commentId) {
+    console.log(commentId);
+    this.props.changeCommentThumbState(commentId);
+  }
+
+  isThumb(objectId, thumbCount) {
+    const index = this.props.commentThumbList.findIndex(item => item === objectId);
+    if(index !== -1) {
+      return thumbCount + 1;
+    }else {
+      return thumbCount;
+    }
+  }
+
+  thumbIsActive(objectId) {
+    const index = this.props.commentThumbList.findIndex(item => item === objectId);
+    return index !== -1;
   }
 
   render() {
@@ -46,9 +68,9 @@ class CommentItem extends React.Component {
             </div>
           </div>
           <div className="option-box">
-            <div className="like">
-              <i className="iconfont icon-dianzan"></i>
-              <span className="count">{this.props.commentItemData.likesCount}</span>
+            <div className={`like ${this.thumbIsActive.call(this, this.props.commentItemData.id) ? "active" : ""}`} onClick={this.handleThumbClick.bind(this, this.props.commentItemData.id)}>
+              <i className={`iconfont ${this.thumbIsActive.call(this, this.props.commentItemData.id) ? "icon-dianzan1" : "icon-dianzan"}`}></i>
+              <span className="count">{this.isThumb.call(this, this.props.commentItemData.id, this.props.commentItemData.likesCount)}</span>
             </div>
             <div className="comment">
               <i className="iconfont icon-pinglun"></i>
@@ -58,7 +80,7 @@ class CommentItem extends React.Component {
 
         <div className="commentItem-content">
           <p className="user-comment">{this.props.commentItemData.content}</p>
-          {this.props.commentItemData.topComment ?
+          {this.props.commentItemData.topComment && this.props.commentItemData.topComment.length ?
             <ul className="reply">
               {this.props.commentItemData.topComment.map((item, index) => (
                 <li key={item.id} className="reply-item">
@@ -76,4 +98,4 @@ class CommentItem extends React.Component {
 
 }
 
-export default withRouter(CommentItem);
+export default connect(state => ({...state.profile.commentThumb}), {...actionCreator.profile})(withRouter(CommentItem));

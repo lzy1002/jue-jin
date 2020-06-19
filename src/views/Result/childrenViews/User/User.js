@@ -37,14 +37,12 @@ class User extends React.Component {
   componentDidMount() {
     const lastId = "";
     this.getResultData(this.type, this.props.searchKey, lastId);
-
   }
 
   componentWillReceiveProps(nextProps) {
     if(this.props.searchKey === nextProps.searchKey) return;
     const lastId = "";
     this.getResultData(this.type, nextProps.searchKey, lastId);
-
   }
 
   getResultData(type, searchKey, lastId) {

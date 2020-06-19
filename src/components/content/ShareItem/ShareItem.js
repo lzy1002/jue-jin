@@ -1,4 +1,5 @@
 import React from "react";
+import {connect} from "react-redux";
 import {withRouter} from "react-router-dom";
 import propTypes from "prop-types";
 
@@ -17,11 +18,20 @@ class ShareItem extends React.Component {
 
   constructor(props) {
     super(props);
-
+    console.log(props);
   }
 
   handleShareItemClick(shareItemData) {
     this.props.history.push(`/article/${shareItemData.objectId || shareItemData.id}`);
+  }
+
+  isThumb(objectId, thumbCount) {
+    const index = this.props.articleThumbList.findIndex(item => item.objectId === objectId);
+    if(index !== -1) {
+      return thumbCount + 1;
+    }else {
+      return thumbCount;
+    }
   }
 
   render() {
@@ -30,7 +40,7 @@ class ShareItem extends React.Component {
         <div className="shareItem-content">
           <h3 className="title">{this.props.shareItemData.title}</h3>
           <p className="info">
-            <span>{this.props.shareItemData.collectionCount}人赞</span>
+            <span>{this.isThumb.call(this, this.props.shareItemData.objectId || this.props.shareItemData.id, this.props.shareItemData.collectionCount)}人赞</span>
             <span> · </span>
             <span>{this.props.shareItemData.user.username}</span>
             <span> · </span>
@@ -46,4 +56,4 @@ class ShareItem extends React.Component {
 
 }
 
-export default withRouter(ShareItem);
+export default connect(state => ({...state.profile.articleThumb}))(withRouter(ShareItem));

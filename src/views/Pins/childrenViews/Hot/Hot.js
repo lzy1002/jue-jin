@@ -47,6 +47,7 @@ class Hot extends React.Component {
   }
 
   handlePullUpLoad() {
+    if(!this.props.pageInfo.hasNextPage) return;
     this.props.sagaMorePinsHot(this.props.pageInfo.endCursor);
   }
 
@@ -69,7 +70,7 @@ class Hot extends React.Component {
           {this.props.edges ? this.props.edges.map((item, index) => (
             <PinItem key={index} pinItemData={item.node}/>
           )) : undefined}
-          <div style={{display: this.props.edges ? "block" : "none"}}>
+          <div style={{display: this.props.edges && this.props.pageInfo.hasNextPage ? "block" : "none"}}>
             <Loading/>
           </div>
         </Scroll>

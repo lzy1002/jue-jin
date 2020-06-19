@@ -1,6 +1,6 @@
 import * as TYPES from "../action-types.js";
 
-export function profile(state = {articleThumb: {articleThumbList: []}, articleHistory: {articleHistoryList: []}, tagFollowing: {tagFollowingList: []}, userFollowing: {userFollowingList: []}, pinThumb: {pinThumbList: []}}, action) {
+export function profile(state = {articleThumb: {articleThumbList: []}, articleHistory: {articleHistoryList: []}, tagFollowing: {tagFollowingList: []}, userFollowing: {userFollowingList: []}, pinThumb: {pinThumbList: []}, topicFollowing: {topicFollowingList: []}, commentThumb: {commentThumbList: []}}, action) {
   state = JSON.parse(JSON.stringify(state));
   let articleThumbList = JSON.parse(window.localStorage.getItem("_ARTICLE_THUMB_LIST_") || "[]");
   state.articleThumb.articleThumbList = articleThumbList;
@@ -16,6 +16,12 @@ export function profile(state = {articleThumb: {articleThumbList: []}, articleHi
 
   let pinThumbList = JSON.parse(window.localStorage.getItem("_PIN_THUMB_LIST_") || "[]");
   state.pinThumb.pinThumbList = pinThumbList;
+
+  let topicFollowingList = JSON.parse(window.localStorage.getItem("_TOPIC_FOLLOWING_LIST_") || "[]");
+  state.topicFollowing.topicFollowingList = topicFollowingList;
+
+  let commentThumbList = JSON.parse(window.localStorage.getItem("_COMMENT_THUMB_LIST_") || "[]");
+  state.commentThumb.commentThumbList = commentThumbList;
 
   switch (action.type) {
     case TYPES.CHANGE_ARTICLE_THUMB_STATE: {
@@ -80,6 +86,30 @@ export function profile(state = {articleThumb: {articleThumbList: []}, articleHi
 
       window.localStorage.setItem("_PIN_THUMB_LIST_", JSON.stringify(pinThumbList));
       state.pinThumb.pinThumbList = pinThumbList;
+      break;
+    }
+    case TYPES.CHANGE_TOPIC_FOLLOWING_STATE: {
+      const index = topicFollowingList.findIndex(item => item.objectId === action.topic.objectId);
+      if(index !== -1) {
+        topicFollowingList.splice(index, 1);
+      }else {
+        topicFollowingList.unshift(action.topic);
+      }
+
+      window.localStorage.setItem("_TOPIC_FOLLOWING_LIST_", JSON.stringify(topicFollowingList));
+      state.topicFollowing.topicFollowingList = topicFollowingList;
+      break;
+    }
+    case TYPES.CHANGE_COMMENT_THUMB_STATE: {
+      const index = commentThumbList.findIndex(item => item === action.comment);
+      if(index !== -1) {
+        commentThumbList.splice(index, 1);
+      }else {
+        commentThumbList.unshift(action.comment);
+      }
+
+      window.localStorage.setItem("_COMMENT_THUMB_LIST_", JSON.stringify(commentThumbList));
+      state.commentThumb.commentThumbList = commentThumbList;
       break;
     }
 

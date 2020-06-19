@@ -70,6 +70,7 @@ class Hot extends React.Component {
   }
 
   handlePullUpLoad() {
+    if(!this.props.articleFeed.items.pageInfo.hasNextPage) return;
     this.props.sagaMoreHomeHot(this.sign, this.props.articleFeed.items.pageInfo.endCursor);
   }
 
@@ -85,7 +86,7 @@ class Hot extends React.Component {
             {this.props.articleFeed ? this.props.articleFeed.items.edges.map((item, index) => (
               <ArticleItem key={index} articleItemData={item.node}/>
             )) : undefined}
-            <div style={{display: this.props.articleFeed ? "block" : "none"}}>
+            <div style={{display: this.props.articleFeed && this.props.articleFeed.items.pageInfo.hasNextPage ? "block" : "none"}}>
               <Loading/>
             </div>
           </Scroll>

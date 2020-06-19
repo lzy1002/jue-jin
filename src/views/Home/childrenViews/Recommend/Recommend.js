@@ -54,6 +54,7 @@ class Recommend extends React.Component {
   }
 
   handlePullUpLoad() {
+    if(!this.props.articleFeed.items.pageInfo.hasNextPage) return;
     this.props.sagaMoreHomeRecommend(this.props.articleFeed.items.pageInfo.endCursor);
   }
 
@@ -68,7 +69,7 @@ class Recommend extends React.Component {
           {this.props.articleFeed ? this.props.articleFeed.items.edges.map((item, index) => (
             <ArticleItem articleItemData={item.node} key={item.node.id}/>
           )) : undefined}
-          <div style={{display: this.props.articleFeed ? "block" : "none"}}>
+          <div style={{display: this.props.articleFeed && this.props.articleFeed.items.pageInfo.hasNextPage ? "block" : "none"}}>
             <Loading/>
           </div>
         </Scroll>

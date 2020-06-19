@@ -98,7 +98,19 @@ class Article extends React.Component {
       console.log(res);
       this.setState({
         articleDetailComment: res.data.d
-      })
+      });
+
+      let nowCount = this.state.articleDetailComment.comments.length;
+      this.state.articleDetailComment.comments.forEach(item => {
+        if(item.topComment && item.topComment.length) {
+          nowCount += item.topComment.length;
+        }
+      });
+
+      this.setState({
+        loadMore: nowCount !== this.state.articleDetailComment.count
+      });
+
     })
 
   }
@@ -125,10 +137,12 @@ class Article extends React.Component {
       this.setState((prevState) => ({
         articleDetailComment: {
           ...prevState.articleDetailComment,
-          comments: [...prevState.articleDetailComment.comments, ...res.data.d.comments]
+          comments: [...prevState.articleDetailComment.comments, ...res.data.d.comments],
+          count: res.data.d.count
         },
         loadMore: res.data.d.comments.length !== 0
-      }))
+      }));
+
     })
 
   }
@@ -220,7 +234,7 @@ class Article extends React.Component {
             </div>
           : undefined}
 
-          {this.state.articleDetailComment.comments ?
+          {this.state.articleDetailComment.comments && this.state.articleDetailComment.comments.length ?
             <div className="comment-box">
               {this.state.articleDetailComment.comments.map((item, index) => (
                 <CommentItem key={item.id} commentItemData={item}/>

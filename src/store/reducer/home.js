@@ -1,6 +1,6 @@
 import * as TYPES from "../action-types.js";
 
-function home(state = {recommend: {}, follow: {}, hot: {sign: "THREE_DAYS_HOTTEST"}}, action) {
+function home(state = {recommend: {}, follow: {loadMore: true}, hot: {sign: "THREE_DAYS_HOTTEST"}}, action) {
   state = JSON.parse(JSON.stringify(state));
 
   switch (action.type) {
@@ -15,10 +15,12 @@ function home(state = {recommend: {}, follow: {}, hot: {sign: "THREE_DAYS_HOTTES
     }
     case TYPES.INIT_HOME_FOLLOW: {
       state.follow = action.follow;
+      state.follow.loadMore = action.follow.entrylist.length !== 0;
       break;
     }
     case TYPES.MORE_HOME_FOLLOW: {
       state.follow.entrylist.push(...action.follow.entrylist);
+      state.follow.loadMore = action.follow.entrylist.length !== 0;
       break;
     }
     case TYPES.INIT_HOME_HOT: {
@@ -30,6 +32,7 @@ function home(state = {recommend: {}, follow: {}, hot: {sign: "THREE_DAYS_HOTTES
       state.hot.sign = action.sign;
       state.hot.articleFeed.items.edges.push(...action.hot.articleFeed.items.edges);
       state.hot.articleFeed.items.pageInfo = action.hot.articleFeed.items.pageInfo;
+      break;
     }
   }
 

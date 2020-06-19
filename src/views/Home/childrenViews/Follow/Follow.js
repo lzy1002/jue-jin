@@ -54,6 +54,7 @@ class Follow extends React.Component {
   }
 
   handlePullUpLoad() {
+    if(!this.props.loadMore) return;
     const lastId = this.props.entrylist[this.props.entrylist.length - 1].hotIndex;
     this.props.sagaMoreHomeFollow(lastId);
   }
@@ -69,7 +70,7 @@ class Follow extends React.Component {
           {this.props.entrylist ? this.props.entrylist.map((item, index) => (
             <ColumnItem key={index} columnItemData={item}/>
           )) : undefined}
-          <div style={{display: this.props.entrylist ? "block" : "none"}}>
+          <div style={{display: this.props.entrylist && this.props.loadMore ? "block" : "none"}}>
             <Loading/>
           </div>
         </Scroll>

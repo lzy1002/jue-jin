@@ -30,6 +30,18 @@ let profile = {
       type: TYPES.CHANGE_PIN_THUMB_STATE,
       pin
     }
+  },
+  changeTopicFollowingState(topic) {
+    return {
+      type: TYPES.CHANGE_TOPIC_FOLLOWING_STATE,
+      topic
+    }
+  },
+  changeCommentThumbState(comment) {
+    return {
+      type: TYPES.CHANGE_COMMENT_THUMB_STATE,
+      comment
+    }
   }
 
 };
