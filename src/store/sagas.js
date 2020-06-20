@@ -14,14 +14,11 @@ function* initHomeRecommend(action) {
 
 function* moreHomeRecommend(action) {
   const res = yield getHomeRecommend(action.lastId);
-  console.log(res);
   yield put(actionCreator.home.moreHomeRecommend(res.data.data));
 }
 
 function* initHomeFollow() {
   const res = yield getHomeFollow();
-  console.log(res);
-  console.log("发送了请求");
   yield put(actionCreator.home.initHomeFollow(res.data.d));
 }
 
@@ -32,7 +29,6 @@ function* moreHomeFollow(action) {
 
 function* initHomeHot(action) {
   const res = yield getHomeHot(action.sign);
-  console.log(res);
   yield put(actionCreator.home.initHomeHot(action.sign, res.data.data));
 }
 
@@ -43,12 +39,10 @@ function* moreHomeHot(action) {
 
 function* initPinsRecommend(action) {
   const res = yield getPinsRecommend();
-  console.log(res);
   yield put(actionCreator.pins.initPinsRecommend(res.data.data.recommendedActivityFeed));
 }
 
 function* morePinsRecommend(action) {
-  console.log(action);
   const res = yield getPinsRecommend(action.lastId);
   yield put(actionCreator.pins.morePinsRecommend(res.data.data.recommendedActivityFeed));
 }
@@ -56,25 +50,21 @@ function* morePinsRecommend(action) {
 function* initPinsHot(action) {
   const res = yield getPinsHot();
   yield put(actionCreator.pins.initPinsHot(res.data.data.popularPinList.items));
-  console.log(res);
 }
 
 function* morePinsHot(action) {
   const res = yield getPinsHot(action.lastId);
-  console.log(res.data.data.popularPinList.items);
   yield put(actionCreator.pins.morePinsHot(res.data.data.popularPinList.items));
 }
 
 function* initPinsFollow(action) {
   const res = yield getPinsFollow(action.extensions);
-  console.log(res);
   yield put(actionCreator.pins.initPinsFollow(res.data.data.userRecommendationCard));
 
 }
 
 function* initBooksAll(action) {
   const res = yield getBooksAll(action.pageNum);
-  console.log(res);
   yield put(actionCreator.books.initBooksAll(res.data.d));
 }
 

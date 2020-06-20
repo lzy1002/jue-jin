@@ -20,9 +20,14 @@ class Shares extends React.Component {
     this.getUserShare(userId);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if(this.props.match.params.userId === nextProps.match.params.userId) return;
+    const userId = this.props.match.params.userId;
+    this.getUserShare(userId);
+  }
+
   getUserShare(userId) {
     getUserShare(userId).then(res => {
-      console.log(res);
       this.setState({
         userShare: res.data.d.entrylist
       })

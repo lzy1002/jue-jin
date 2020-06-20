@@ -19,12 +19,10 @@ class Newest extends React.Component {
   componentDidMount() {
     const topicId = this.props.match.params.topicId;
     this.getTopicNewest(topicId);
-
   }
 
   getTopicNewest(topicId) {
     getTopicNewest(topicId).then(res => {
-      console.log(res);
       this.setState({
         topicNewest: res.data.d
       })

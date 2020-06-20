@@ -16,7 +16,7 @@ const userAvatar = require("../../assets/images/user.jpg");
 class Profile extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props);
+
   }
 
   render() {

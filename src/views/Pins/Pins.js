@@ -14,7 +14,6 @@ import Hot from "./childrenViews/Hot/Hot.js";
 class Pins extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props);
 
     this.titleList = [
       {path: "/pins/follow", title: "关注"},

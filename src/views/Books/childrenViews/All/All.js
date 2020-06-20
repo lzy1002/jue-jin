@@ -14,7 +14,6 @@ import Loading from "../../../../components/content/Loading/Loading.js";
 class All extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props);
 
     this.state = {
       refreshIsShow: false
@@ -38,10 +37,6 @@ class All extends React.Component {
     this.setState({
       refreshIsShow: false
     })
-  }
-
-  componentDidUpdate() {
-    console.log(this.props);
   }
 
   handlePullDownRefresh() {

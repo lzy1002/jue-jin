@@ -20,12 +20,16 @@ class Actives extends React.Component {
   componentDidMount() {
     const userId = this.props.match.params.userId;
     this.getUserActive(userId);
+  }
 
+  componentWillReceiveProps(nextProps) {
+    if(this.props.match.params.userId === nextProps.match.params.userId) return;
+    const userId = nextProps.match.params.userId;
+    this.getUserActive(userId);
   }
 
   getUserActive(userId) {
     getUserActive(userId).then(res => {
-      console.log(res);
       this.setState({
         userActive: res.data.data.ownActivityFeed.items.userActivities
       })

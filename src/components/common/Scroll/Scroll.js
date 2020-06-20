@@ -39,8 +39,8 @@ class Scroll extends React.Component {
       probeType: this.props.probeType,
       pullUpLoad: this.props.pullUpLoad,
       pullDownRefresh: this.props.pullDownRefresh,
-      stopPropagation: true
-      // preventDefault: false
+      stopPropagation: true,
+      preventDefaultException: {tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT|AUDIO|CODE|PRE)$/}
     });
 
     if(this.props.probeType >= 2) {
@@ -51,7 +51,6 @@ class Scroll extends React.Component {
 
     if(this.props.pullUpLoad) {
       this.BScroll.on("pullingUp", () => {
-        console.log("上拉加载");
         this.props.handlePullUpLoad();
         this.BScroll.finishPullUp();
       })
@@ -59,7 +58,6 @@ class Scroll extends React.Component {
 
     if(this.props.pullDownRefresh) {
       this.BScroll.on("pullingDown", () => {
-        console.log("下拉刷新");
         this.props.handlePullDownRefresh();
         this.BScroll.finishPullDown();
       })

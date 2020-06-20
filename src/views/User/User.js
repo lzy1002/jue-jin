@@ -6,7 +6,7 @@ import "./User.styl";
 
 import {getUserInfo} from "../../api/user.js";
 
-import {levelIcon} from "../../assets/js/utils.js";
+import {levelIcon, defaultAvatar} from "../../assets/js/utils.js";
 import {prefixStyle} from "../../assets/js/dom.js";
 import {UserCls} from "../../assets/js/class.js";
 
@@ -35,7 +35,6 @@ class User extends React.Component {
       headerTrans: false
     };
 
-    this.defaultAvatar = "https://b-gold-cdn.xitu.io/v3/static/img/default-avatar.e30559a.svg";
     this.headerHeight = -1;
     this.userContentTop = -1;
 
@@ -60,7 +59,6 @@ class User extends React.Component {
 
     const userId = this.props.match.params.userId;
     this.getUserInfo(userId);
-
   }
 
   componentWillReceiveProps(nextProps) {  // 路由发生变化重新获取数据
@@ -71,13 +69,12 @@ class User extends React.Component {
 
   getUserInfo(userId) {
     getUserInfo(userId).then(res => {
-      console.log(res);
       this.setState({
         userInfo: res.data.d[userId],
         titleList: [
           {path: `/user/${userId}/actives`, title: "动态"},
           {path: `/user/${userId}/posts`, title: `专栏 ${res.data.d[userId].postedPostsCount}`},
-          {path: `/user/${userId}/pins`, title: `沸点 ${res.data.d[userId].pinCount}`},
+          {path: `/user/${userId}/pins`, title: `沸点 ${res.data.d[userId].pinCount || 0}`},
           {path: `/user/${userId}/shares`, title: `分享 ${res.data.d[userId].postedEntriesCount}`},
           {path: `/user/${userId}/more`, title: "更多"}
         ]
@@ -117,7 +114,6 @@ class User extends React.Component {
   }
 
   handleFollowBtnClick(userData) {
-    console.log(userData);
     const user = new UserCls(userData);
     this.props.changeUserFollowingState(user);
   }
@@ -149,7 +145,7 @@ class User extends React.Component {
         <div className="user-content" ref={this.userContent}>
           <Scroll probeType={this.probeType} handleScrolling={this.handleScrolling.bind(this)}>
             <div className="user-info">
-              <div className="avatar-box" style={{backgroundImage: `url(${this.state.userInfo.avatarLarge || this.defaultAvatar})`}}></div>
+              <div className="avatar-box" style={{backgroundImage: `url(${defaultAvatar(this.state.userInfo.avatarLarge)})`}}></div>
               <div className="content-box">
                 <div className="info-top">
                   <div className="detail">

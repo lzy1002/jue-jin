@@ -13,15 +13,15 @@
       flex 1
       display flex
       align-items center
+      margin-right 20px
       .avatar-box
         width 38px
         height 38px
         border-radius 50%
-        overflow hidden
+        background-repeat no-repeat
+        background-size cover
+        background-position center center
         margin-right 10px
-        img
-          width 100%
-          height 100%
       .user-info
         .username
           color #6a8ba3
@@ -51,7 +51,7 @@
           margin-left 5px
       .like
         &.active
-          color #0cbb0a
+          color $color-thumbed
   .commentItem-content
     padding-left 48px
     .user-comment

@@ -6,7 +6,7 @@ import {connect} from "react-redux";
 import "./UserBox.styl";
 
 import {UserCls} from "../../../assets/js/class.js";
-import {levelIcon} from "../../../assets/js/utils.js";
+import {publishDate, levelIcon, defaultAvatar} from "../../../assets/js/utils.js";
 
 import actionCreator from "../../../store/actionCreator/index.js";
 
@@ -28,15 +28,19 @@ class UserBox extends React.Component {
 
   }
 
-  handleAvatarBoxClick(e, userData) {
+  handleUserBoxClick(e, userData) {
+    if(this.props.location.pathname.startsWith("/user")) {
+      if((userData.id || userData.objectId) === this.props.match.params.userId) {
+        e.stopPropagation();
+        return;
+      }
+    }
     this.props.history.push(`/user/${userData.id || userData.objectId}`);
     e.stopPropagation();
   }
 
   handleFollowBtnClick(userData) {
-    console.log(userData);
     const user = new UserCls(userData);
-    console.log(user);
     this.props.changeUserFollowingState(user);
   }
 
@@ -47,28 +51,30 @@ class UserBox extends React.Component {
 
   render() {
     return (
-      <div className="userBox-wrapper">
-        <div className="avatar-box" onClick={e => this.handleAvatarBoxClick.call(this, e, this.props.userData)}>
-          <img src={this.props.userData.avatarLarge} alt=""/>
-        </div>
+      <div className="userBox-wrapper" onClick={e => this.handleUserBoxClick.call(this, e, this.props.userData)}>
+        <div className="avatar-box" style={{backgroundImage: `url(${defaultAvatar(this.props.userData.avatarLarge)})`}}></div>
         <div className="content-box">
           <p className="username">
             <span>{this.props.userData.username}</span>
-            <img src={levelIcon(this.props.userData.level)} alt=""/>
+            {this.props.userData.level && this.props.userData.level !== 0 ?
+              <img src={levelIcon(this.props.userData.level)} alt=""/>
+            : undefined}
           </p>
           <p className="info">
-            <span>{this.props.userData.jobTitle}</span>
+            {this.props.userData.jobTitle ?
+              <span>{this.props.userData.jobTitle}</span>
+              : undefined}
             {this.props.userData.jobTitle && this.props.userData.company ?
               <span> @ </span>
               : undefined}
-            <span>{this.props.userData.company}</span>
-            {this.props.userData.jobTitle || this.props.userData.company ?
+            {this.props.userData.company ?
+              <span>{this.props.userData.company}</span>
+            : undefined}
+            {this.props.userData.jobTitle && this.props.createdAt || this.props.userData.company && this.props.createdAt ?
               <span> · </span>
             : undefined}
             {this.props.createdAt ?
-              <span>
-                <span>{this.props.createdAt}</span>
-              </span>
+              <span>{publishDate(this.props.createdAt)}</span>
             : undefined}
           </p>
         </div>

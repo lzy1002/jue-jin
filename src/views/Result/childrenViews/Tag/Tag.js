@@ -47,7 +47,6 @@ class Tag extends React.Component {
 
   getResultData(type, searchKey, lastId) {
     getResultData(type, searchKey, lastId).then(res => {
-      console.log(res);
       this.setState({
         tagData: res.data.data.result
       })
@@ -58,7 +57,6 @@ class Tag extends React.Component {
     if(!this.state.tagData.pageInfo.hasNextPage) return;
     const lastId = this.state.tagData.pageInfo.endCursor;
     getResultData(this.type, this.props.searchKey, lastId).then(res => {
-      console.log(res);
       this.setState({
         tagData: {
           edges: [...this.state.tagData.edges, ...res.data.data.result.edges],

@@ -6,7 +6,7 @@ import "./TabBar.styl";
 class TabBar extends React.Component {
   constructor(props) {
     super(props);
-    console.log(this.props);
+
     this.state = {
       home: "/home/recommend",
       pins: "/pins/recommend",

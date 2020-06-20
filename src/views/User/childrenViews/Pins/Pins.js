@@ -21,9 +21,14 @@ class Pins extends React.Component {
     this.getUserPins(userId);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if(this.props.match.params.userId === nextProps.match.params.userId) return;
+    const userId = this.props.match.params.userId;
+    this.getUserPins(userId);
+  }
+
   getUserPins(userId) {
     getUserPins(userId).then(res => {
-      console.log(res);
       this.setState({
         pins: res.data.d
       })

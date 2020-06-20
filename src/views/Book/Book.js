@@ -32,7 +32,6 @@ class Book extends React.Component {
 
   getBookInfo(bookId) {
     getBookInfo(bookId).then(res => {
-      console.log(res);
       this.setState({
         infoData: res.data.d
       })
@@ -41,7 +40,6 @@ class Book extends React.Component {
 
   getBookBuyer(bookId) {
     getBookBuyer(bookId).then(res => {
-      console.log(res);
       this.setState({
         buyerData: res.data.d
       })
@@ -51,7 +49,6 @@ class Book extends React.Component {
 
   getBookSection(bookId) {
     getBookSection(bookId).then(res => {
-      console.log(res);
       this.setState({
         sectionData: res.data.d
       })

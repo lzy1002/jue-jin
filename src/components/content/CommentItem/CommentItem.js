@@ -7,7 +7,7 @@ import "./CommentItem.styl";
 
 import actionCreator from "../../../store/actionCreator/index.js";
 
-import {publishDate, levelIcon} from "../../../assets/js/utils.js";
+import {publishDate, levelIcon, defaultAvatar} from "../../../assets/js/utils.js";
 
 class CommentItem extends React.Component {
   static defaultProps = {
@@ -20,15 +20,14 @@ class CommentItem extends React.Component {
 
   constructor(props) {
     super(props);
-    console.log(props.commentThumbList);
+
   }
 
-  handleAvatarBoxClick(commentItemData) {
+  handleUserBoxClick(commentItemData) {
     this.props.history.push(`/user/${commentItemData.userInfo.objectId}`);
   }
 
   handleThumbClick(commentId) {
-    console.log(commentId);
     this.props.changeCommentThumbState(commentId);
   }
 
@@ -50,15 +49,13 @@ class CommentItem extends React.Component {
     return (
       <div className="commentItem-wrapper border-1px">
         <div className="commentItem-header">
-          <div className="user-box">
-            <div className="avatar-box" onClick={this.handleAvatarBoxClick.bind(this, this.props.commentItemData)}>
-              <img src={this.props.commentItemData.userInfo.avatarLarge} alt=""/>
-            </div>
+          <div className="user-box" onClick={this.handleUserBoxClick.bind(this, this.props.commentItemData)}>
+            <div className="avatar-box" style={{backgroundImage: `url(${defaultAvatar(this.props.commentItemData.userInfo.avatarLarge)})`}}></div>
             <div className="user-info">
               <p className="username">
                 <span>{this.props.commentItemData.userInfo.username}</span>
                 <img src={levelIcon(this.props.commentItemData.userInfo.level)} alt=""/>
-                </p>
+              </p>
               <p className="job">
                 {this.props.commentItemData.userInfo.jobTitle ?
                   <span>{this.props.commentItemData.userInfo.jobTitle} · </span>

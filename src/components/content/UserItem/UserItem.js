@@ -5,7 +5,7 @@ import propTypes from "prop-types";
 
 import "./UserItem.styl";
 
-import {levelIcon} from "../../../assets/js/utils.js";
+import {levelIcon, defaultAvatar} from "../../../assets/js/utils.js";
 import {UserCls} from "../../../assets/js/class.js";
 
 import actionCreator from "../../../store/actionCreator/index.js";
@@ -44,11 +44,13 @@ class UserItem extends React.Component {
   render() {
     return (
       <div className="userItem-wrapper border-1px" onClick={this.handleUserItemClick.bind(this, this.props.userItemData.user.id || this.props.userItemData.user.objectId)}>
-        <div className="avatar-box" style={{backgroundImage: `url(${this.props.userItemData.user.avatarLarge})`}}></div>
+        <div className="avatar-box" style={{backgroundImage: `url(${defaultAvatar(this.props.userItemData.user.avatarLarge)})`}}></div>
         <div className="content">
           <p className="username">
             <span>{this.props.userItemData.user.username}</span>
-            <img src={levelIcon(this.props.userItemData.user.level)} alt=""/>
+            {this.props.userItemData.user.level ?
+              <img src={levelIcon(this.props.userItemData.user.level)} alt=""/>
+            : undefined}
           </p>
           {this.props.userItemData.title ? <p className="desc">{this.props.userItemData.title}</p> : undefined}
           {this.props.userItemData.info ? <p className="info">{this.props.userItemData.info}</p> : undefined}

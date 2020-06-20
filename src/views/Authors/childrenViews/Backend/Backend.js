@@ -27,7 +27,6 @@ class Backend extends React.Component {
 
   getAuthorsData(position, lastId) {
     getAuthorsData(position, lastId).then(res => {
-      console.log(res);
       this.setState({
         authorsData: res.data.data.articleAuthorRecommendationList.items
       })

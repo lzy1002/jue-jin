@@ -14,7 +14,6 @@ class LinkBox extends React.Component {
 
   constructor(props) {
     super(props);
-    console.log(props);
 
     this.defaultLinkImg = "https://b-gold-cdn.xitu.io/v3/static/img/defaultThumb.023ed66.svg";
   }

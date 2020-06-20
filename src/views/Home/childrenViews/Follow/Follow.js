@@ -40,10 +40,6 @@ class Follow extends React.Component {
     });
   }
 
-  componentDidUpdate() {
-    console.log(this.props);
-  }
-
   handlePullDownRefresh() {
     this.setState({
       refreshIsShow: true

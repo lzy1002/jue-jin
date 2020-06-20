@@ -30,7 +30,6 @@ class Recommend extends React.Component {
 
   getAuthorsData(position, lastId) {
     getAuthorsData(position, lastId).then(res => {
-      console.log(res);
       this.setState({
         authorsData: res.data.data.articleAuthorRecommendationList.items
       })
@@ -43,7 +42,6 @@ class Recommend extends React.Component {
 
     const lastId = this.state.authorsData.pageInfo.endCursor;
     getAuthorsData(this.position, lastId).then(res => {
-      console.log(res);
       this.setState({
         authorsData: {
           edges: [...this.state.authorsData.edges, ...res.data.data.articleAuthorRecommendationList.items.edges],

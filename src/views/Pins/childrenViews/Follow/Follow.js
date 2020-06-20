@@ -37,10 +37,6 @@ class Follow extends React.Component {
     })
   }
 
-  componentDidUpdate() {
-    console.log(this.props);
-  }
-
   handleChange() {
     const extensions = this.props.items.map(item => item.id);
     this.props.sagaInitPinsFollow(extensions);

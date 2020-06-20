@@ -47,7 +47,6 @@ class All extends React.Component {
 
   getResultData(type, searchKey, lastId) {
     getResultData(type, searchKey, lastId).then(res => {
-      console.log(res);
       this.setState({
         allData: res.data.data.result
       })
@@ -58,7 +57,6 @@ class All extends React.Component {
     if(!this.state.allData.pageInfo.hasNextPage) return;
     const lastId = this.state.allData.pageInfo.endCursor;
     getResultData(this.type, this.props.searchKey, lastId).then(res => {
-      console.log(res);
       this.setState({
         allData: {
           edges: [...this.state.allData.edges, ...res.data.data.result.edges],
@@ -66,7 +64,6 @@ class All extends React.Component {
         }
       })
     })
-
   }
 
   render() {

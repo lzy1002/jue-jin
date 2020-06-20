@@ -14,7 +14,6 @@ import Refresh from "../../../../components/content/Refresh/Refresh.js";
 class Recommend extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props);
 
     this.state = {
       refreshIsShow: false
@@ -38,10 +37,6 @@ class Recommend extends React.Component {
     this.setState({
       refreshIsShow: false
     })
-  }
-
-  componentDidUpdate() {
-    console.log(this.props);
   }
 
   handlePullDownRefresh() {

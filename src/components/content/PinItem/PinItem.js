@@ -5,8 +5,6 @@ import propTypes from "prop-types";
 
 import "./PinItem.styl";
 
-import {publishDate} from "../../../assets/js/utils.js";
-
 import actionCreator from "../../../store/actionCreator/index.js";
 
 import UserBox from "../../../components/content/UserBox/UserBox.js";
@@ -34,7 +32,6 @@ class PinItem extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.partText.current.offsetHeight, "===", this.allText.current.offsetHeight);
     const partHeight = this.partText.current.offsetHeight;
     const allHeight = this.allText.current.offsetHeight;
     if(partHeight !== allHeight) {
@@ -64,11 +61,17 @@ class PinItem extends React.Component {
   }
 
   handlePinItemClick(pinItemData) {
-    console.log(pinItemData);
     this.props.history.push(`/pin/${pinItemData.objectId || pinItemData.id}`);
   }
 
   handleTopicClick(e, topic) {
+    if(this.props.location.pathname.startsWith("/topic")) {
+      if((topic.id || topic.objectId) === this.props.match.params.topicId) {
+        e.stopPropagation();
+        return;
+      }
+    }
+
     this.props.history.push(`/topic/${topic.id || topic.objectId}`);
     e.stopPropagation();
   }
@@ -100,7 +103,7 @@ class PinItem extends React.Component {
       <div className="pinItem-wrapper">
         <div className="pinItem-header">
           <div className="user-box">
-            <UserBox userData={this.props.pinItemData.user} createdAt={publishDate(this.props.pinItemData.createdAt)}/>
+            <UserBox userData={this.props.pinItemData.user} createdAt={this.props.pinItemData.createdAt}/>
           </div>
           <div className="more">
             <i className="iconfont icon-unie644"></i>
@@ -139,7 +142,7 @@ class PinItem extends React.Component {
         <div className="pinItem-bottom">
           <div className={`bottom-item ${this.thumbIsActive.call(this, this.props.pinItemData.id || this.props.pinItemData.objectId) ? "active" : ""}`} onClick={this.handleThumbClick.bind(this, this.props.pinItemData.id || this.props.pinItemData.objectId)}>
             <i className={`iconfont ${this.thumbIsActive.call(this, this.props.pinItemData.id || this.props.pinItemData.objectId) ? "icon-dianzan1" : "icon-dianzan"}`}></i>
-            <span>{this.isThumb.call(this, this.props.pinItemData.id || this.props.pinItemData.objectId, this.props.pinItemData.likeCount)}</span>
+            <span>{this.isThumb.call(this, this.props.pinItemData.id || this.props.pinItemData.objectId, this.props.pinItemData.likeCount || this.props.pinItemData.likedCount || 0)}</span>
           </div>
           <div className="bottom-item">
             <i className="iconfont icon-pinglun"></i>

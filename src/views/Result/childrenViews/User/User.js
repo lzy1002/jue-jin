@@ -47,7 +47,6 @@ class User extends React.Component {
 
   getResultData(type, searchKey, lastId) {
     getResultData(type, searchKey, lastId).then(res => {
-      console.log(res);
       this.setState({
         userData: res.data.data.result
       })
@@ -58,7 +57,6 @@ class User extends React.Component {
     if(!this.state.userData.pageInfo.hasNextPage) return;
     const lastId = this.state.userData.pageInfo.endCursor;
     getResultData(this.type, this.props.searchKey, lastId).then(res => {
-      console.log(res);
       this.setState({
         userData: {
           edges: [...this.state.userData.edges, ...res.data.data.result.edges],
@@ -66,7 +64,6 @@ class User extends React.Component {
         }
       })
     })
-
   }
 
   render() {

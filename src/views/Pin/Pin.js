@@ -28,14 +28,12 @@ class Pin extends React.Component {
 
   componentDidMount() {
     const pinId = this.props.match.params.pinId;
-    console.log(pinId);
     this.getPinContent(pinId);
     this.getPinComment(pinId, this.pageNum);
   }
 
   getPinContent(pinId) {
     getPinContent(pinId).then(res => {
-      console.log(res);
       this.setState({
         pinContentData: res.data.d
       })
@@ -44,7 +42,6 @@ class Pin extends React.Component {
 
   getPinComment(pinId, pageNum) {
     getPinComment(pinId, pageNum).then(res => {
-      console.log(res);
       this.setState({
         pinCommentData: res.data.d
       });
@@ -104,9 +101,9 @@ class Pin extends React.Component {
           <Scroll pullUpLoad={this.pullUpLoad} handlePullUpLoad={this.handlePullUpLoad.bind(this)}>
             <div className="detail-box">
               <div className="user-box">
-                <UserBox userData={this.state.pinContentData.user}/>
+                <UserBox userData={this.state.pinContentData.user} createdAt={this.state.pinContentData.createdAt}/>
               </div>
-              <div className="text">
+              <div className="pin-text">
                 {this.state.pinContentData.content}
               </div>
               {this.state.pinContentData.pictures && this.state.pinContentData.pictures.length ?

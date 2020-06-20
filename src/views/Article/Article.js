@@ -7,7 +7,7 @@ import "./Article.styl";
 import actionCreator from "../../store/actionCreator/index.js";
 
 import {ArticleCls, UserCls} from "../../assets/js/class.js";
-import {levelIcon} from "../../assets/js/utils.js";
+import {levelIcon, defaultAvatar} from "../../assets/js/utils.js";
 
 import {getArticleDetailContent, getArticleDetailView, getArticleDetailRelated, getArticleDetailComment} from "../../api/article.js";
 
@@ -22,7 +22,6 @@ import FollowBtn from "../../components/content/FollowBtn/FollowBtn.js";
 class Article extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props);
 
     this.state = {
       articleDetailContent: {},
@@ -40,7 +39,6 @@ class Article extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props.match.params.articleId);
     const articleId = this.props.match.params.articleId;
     this.getArticleDetailContent(articleId);
     this.getArticleDetailView(articleId);
@@ -49,7 +47,6 @@ class Article extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(this.props.location.pathname, nextProps.location.pathname);
     if(this.props.location.pathname === nextProps.location.pathname) return;
     const articleId = nextProps.match.params.articleId;
     this.getArticleDetailContent(articleId);
@@ -61,31 +58,25 @@ class Article extends React.Component {
 
   getArticleDetailContent(articleId) {
     getArticleDetailContent(articleId).then(res => {
-      console.log(res);
       this.setState({
         articleDetailContent: res.data.d
       });
 
       const article = new ArticleCls(res.data.d.entrylist[0]);  // 将当前查看的文章存储到浏览历史中
       this.props.addArticleWatchHistory(article);
-
-      console.log(this.state);
     })
   }
 
   getArticleDetailView(articleId) {
     getArticleDetailView(articleId).then(res => {
-      console.log(res);
       this.setState({
         articleDetailView: res.data.d
       });
-      console.log(this.state);
     })
   }
 
   getArticleDetailRelated(articleId) {
     getArticleDetailRelated(articleId).then(res => {
-      console.log(res);
       this.setState({
         articleDetailRelated: res.data.d.entrylist
       })
@@ -95,7 +86,6 @@ class Article extends React.Component {
 
   getArticleDetailComment(articleId) {
     getArticleDetailComment(articleId).then(res => {
-      console.log(res);
       this.setState({
         articleDetailComment: res.data.d
       });
@@ -110,9 +100,7 @@ class Article extends React.Component {
       this.setState({
         loadMore: nowCount !== this.state.articleDetailComment.count
       });
-
     })
-
   }
 
   handleScrolling(position) {
@@ -133,7 +121,6 @@ class Article extends React.Component {
     const articleId = this.props.match.params.articleId;
     const createdAt = this.state.articleDetailComment.comments[this.state.articleDetailComment.comments.length - 1].createdAt || "";
     getArticleDetailComment(articleId, createdAt).then(res => {
-      console.log(res);
       this.setState((prevState) => ({
         articleDetailComment: {
           ...prevState.articleDetailComment,
@@ -142,21 +129,18 @@ class Article extends React.Component {
         },
         loadMore: res.data.d.comments.length !== 0
       }));
-
     })
-
   }
 
   handleBack() {
     this.props.history.goBack();
   }
 
-  handleAvatarBoxClick(e, userData) {
+  handleUserClick(e, userData) {
     this.props.history.push(`/user/${userData.objectId}`);
   }
 
   handleFollowBtnClick(userData) {
-    console.log(userData);
     const user = new UserCls(userData);
     this.props.changeUserFollowingState(user);
   }
@@ -164,6 +148,15 @@ class Article extends React.Component {
   userIsActive(objectId) {
     const index = this.props.userFollowingList.findIndex(item => item.user.objectId === objectId);
     return index !== -1;
+  }
+
+  articleIsThumb(articleId, thumbCount) {
+    const index = this.props.articleThumbList.findIndex(item => item.objectId === articleId);
+    if(index !== -1) {
+      return thumbCount + 1;
+    }else {
+      return thumbCount;
+    }
   }
 
   render() {
@@ -176,10 +169,8 @@ class Article extends React.Component {
           <div className="content">
             {this.state.articleDetailContent.entrylist ?
               <div className="trans-box" style={{transform: this.state.headerTrans ? "translateY(0)" : "translateY(-50%)"}}>
-                <div className="user">
-                  <div className="avatar-box" onClick={e => this.handleAvatarBoxClick.call(this, e, this.state.articleDetailContent.entrylist[0].user)}>
-                    <img src={this.state.articleDetailContent.entrylist[0].user.avatarLarge} alt=""/>
-                  </div>
+                <div className="user" onClick={e => this.handleUserClick.call(this, e, this.state.articleDetailContent.entrylist[0].user)}>
+                  <div className="avatar-box" style={{backgroundImage: `url(${defaultAvatar(this.state.articleDetailContent.entrylist[0].user.avatarLarge)})`}}></div>
                   <div className="username">
                     <span>{this.state.articleDetailContent.entrylist[0].user.username}</span>
                     <img src={levelIcon(this.state.articleDetailContent.entrylist[0].user.level)} alt=""/>
@@ -195,7 +186,6 @@ class Article extends React.Component {
             <i className="iconfont icon-unie644"></i>
           </div>
         </div>
-
 
         <Scroll ref={this.scroll} probeType={this.probeType} pullUpLoad={this.pullUpLoad} handleScrolling={this.handleScrolling.bind(this)} handlePullUpLoad={this.handlePullUpLoad.bind(this)}>
           {this.state.articleDetailContent.entrylist && this.state.articleDetailView.content ?
@@ -214,7 +204,7 @@ class Article extends React.Component {
               <div className="article-info">
                 <span>阅读: {this.state.articleDetailContent.entrylist[0].viewsCount}</span>
                 <span> · </span>
-                <span>赞: {this.state.articleDetailContent.entrylist[0].collectionCount}</span>
+                <span>赞: {this.articleIsThumb(this.props.match.params.articleId, this.state.articleDetailContent.entrylist[0].collectionCount)}</span>
               </div>
             </div>
           : undefined}
@@ -246,13 +236,10 @@ class Article extends React.Component {
           : undefined}
 
           </Scroll>
-
-
       </div>
-
     )
   }
 
 }
 
-export default connect(state => ({...state.profile.userFollowing}), {...actionCreator.profile})(Article);
+export default connect(state => ({...state.profile.userFollowing, ...state.profile.articleThumb}), {...actionCreator.profile})(Article);

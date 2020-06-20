@@ -23,12 +23,10 @@ class Ios extends React.Component {
   componentDidMount() {
     const lastId = "";
     this.getAuthorsData(this.position, lastId);
-
   }
 
   getAuthorsData(position, lastId) {
     getAuthorsData(position, lastId).then(res => {
-      console.log(res);
       this.setState({
         authorsData: res.data.data.articleAuthorRecommendationList.items
       })

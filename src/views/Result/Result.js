@@ -18,7 +18,6 @@ import TabControl from "../../components/content/TabControl/TabControl.js";
 class Result extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props);
 
     this.state = {
       searchKey: "",

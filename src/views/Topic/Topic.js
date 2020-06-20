@@ -21,7 +21,6 @@ import Newest from "./childrenViews/Newest/Newest.js";
 class Topic extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props);
 
     this.state = {
       topicInfo: {},
@@ -47,12 +46,10 @@ class Topic extends React.Component {
     const topicId = this.props.match.params.topicId;
     this.getTopicInfo(topicId);
     this.getTopicAttenders(topicId);
-
   }
 
   getTopicInfo(topicId) {
     getTopicInfo(topicId).then(res => {
-      console.log(res);
       this.setState({
         topicInfo: res.data.d
       })
@@ -61,7 +58,6 @@ class Topic extends React.Component {
 
   getTopicAttenders(topicId) {
     getTopicAttenders(topicId).then(res => {
-      console.log(res);
       this.setState({
         topicAttenders: res.data.d
       })
@@ -91,7 +87,6 @@ class Topic extends React.Component {
   }
 
   handleFollowBtnClick(topicData) {
-    console.log(topicData);
     const topic = new TopicCls(topicData);
     this.props.changeTopicFollowingState(topic);
   }
@@ -99,7 +94,6 @@ class Topic extends React.Component {
   topicIsActive(objectId) {
     const index = this.props.topicFollowingList.findIndex(item => item.objectId === objectId);
     return index !== -1;
-
   }
 
   render() {

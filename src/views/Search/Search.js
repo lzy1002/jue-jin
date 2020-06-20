@@ -27,7 +27,6 @@ class Search extends React.Component {
 
   getSearchSlider() {
     getSearchSlider().then(res => {
-      console.log(res);
       this.setState({
         sliderData: res.data.data.advertisementCard.items
       })

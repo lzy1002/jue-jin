@@ -15,7 +15,6 @@ import Scroll from "../../../../components/common/Scroll/Scroll.js";
 class Recommend extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props);
 
     this.state = {
       refreshIsShow: false
@@ -38,10 +37,6 @@ class Recommend extends React.Component {
     this.setState({
       refreshIsShow: false
     });
-  }
-
-  componentDidUpdate() {
-    console.log(this.props);
   }
 
   handlePullDownRefresh() {

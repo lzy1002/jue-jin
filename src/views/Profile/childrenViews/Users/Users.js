@@ -1,5 +1,4 @@
 import React from "react";
-import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
 
 import "./Users.styl";
@@ -38,4 +37,4 @@ class Users extends React.Component {
 
 }
 
-export default connect(state => ({...state.profile.userFollowing}))(withRouter(Users));
+export default connect(state => ({...state.profile.userFollowing}))(Users);

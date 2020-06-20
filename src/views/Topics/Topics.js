@@ -30,7 +30,6 @@ class Topics extends React.Component {
 
   getTopicsList(page) {
     getTopicsList(page).then(res => {
-      console.log(res);
       this.setState({
         topicsData: res.data.d
       });
@@ -41,7 +40,6 @@ class Topics extends React.Component {
   handlePullUpLoad() {
     if(!this.state.loadMore) return;
     getTopicsList(this.page).then(res => {
-      console.log(res);
       this.setState({
         topicsData: {
           list: [...this.state.topicsData.list, ...res.data.d.list],

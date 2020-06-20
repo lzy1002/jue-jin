@@ -23,7 +23,6 @@ class Rank extends React.Component {
 
   getTopicRank(topicId) {
     getTopicRank(topicId).then(res => {
-      console.log(res);
       this.setState({
         topicRank: res.data.d
       })

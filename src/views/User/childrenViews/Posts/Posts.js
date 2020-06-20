@@ -18,12 +18,16 @@ class Posts extends React.Component {
   componentDidMount() {
     const userId = this.props.match.params.userId;
     this.getUserPosts(userId);
+  }
 
+  componentWillReceiveProps(nextProps) {
+    if(this.props.match.params.userId === nextProps.match.params.userId) return;
+    const userId = this.props.match.params.userId;
+    this.getUserPosts(userId);
   }
 
   getUserPosts(userId) {
     getUserPosts(userId).then(res => {
-      console.log(res);
       this.setState({
         userPosts: res.data.d.entrylist
       })

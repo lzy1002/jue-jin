@@ -1,5 +1,4 @@
 import React from "react";
-import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
 
 import "./Watched.styl";
@@ -31,11 +30,10 @@ class Watched extends React.Component {
             ))}
           </Scroll>
         </div>
-
       </div>
     )
   }
 
 }
 
-export default connect(state => ({...state.profile.articleHistory}))(withRouter(Watched));
+export default connect(state => ({...state.profile.articleHistory}))(Watched);

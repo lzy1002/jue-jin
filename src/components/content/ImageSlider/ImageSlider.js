@@ -13,12 +13,16 @@ class ImageSlider extends React.Component {
   }
 
   componentWillReceiveProps() {
-    window.setTimeout(() => {
+    this.timeId = window.setTimeout(() => {
       this.setSliderWidth.call(this);
       this.initSlider.call(this);
 
       this.play();
     }, 20);
+  }
+
+  componentWillUnmount() {  // 组件销毁之前清除掉componentWillReceiveProps中创建的定时器 避免在组件销毁之后定时器还会执行 导致定时器中调用的方法中 在组件销毁之后拿取ref引用 组件销毁后ref引用也会被销毁 所以拿引用调用属性时会报错  解决页面快速切换时定时器在组件销毁之后执行导致报错的问题
+    window.clearTimeout(this.timeId);
   }
 
   setSliderWidth() {

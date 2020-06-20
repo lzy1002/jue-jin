@@ -2,25 +2,25 @@ import * as TYPES from "../action-types.js";
 
 export function profile(state = {articleThumb: {articleThumbList: []}, articleHistory: {articleHistoryList: []}, tagFollowing: {tagFollowingList: []}, userFollowing: {userFollowingList: []}, pinThumb: {pinThumbList: []}, topicFollowing: {topicFollowingList: []}, commentThumb: {commentThumbList: []}}, action) {
   state = JSON.parse(JSON.stringify(state));
-  let articleThumbList = JSON.parse(window.localStorage.getItem("_ARTICLE_THUMB_LIST_") || "[]");
+  let articleThumbList = JSON.parse(window.localStorage.getItem("__ARTICLE_THUMB_LIST__") || "[]");
   state.articleThumb.articleThumbList = articleThumbList;
 
-  let articleHistoryList = JSON.parse(window.localStorage.getItem("_ARTICLE_HISTORY_LIST_") || "[]");
+  let articleHistoryList = JSON.parse(window.localStorage.getItem("__ARTICLE_HISTORY_LIST__") || "[]");
   state.articleHistory.articleHistoryList = articleHistoryList;
 
-  let tagFollowingList = JSON.parse(window.localStorage.getItem("_TAG_FOLLOWING_LIST_") || "[]");
+  let tagFollowingList = JSON.parse(window.localStorage.getItem("__TAG_FOLLOWING_LIST__") || "[]");
   state.tagFollowing.tagFollowingList = tagFollowingList;
 
-  let userFollowingList = JSON.parse(window.localStorage.getItem("_USER_FOLLOWING_LIST_") || "[]");
+  let userFollowingList = JSON.parse(window.localStorage.getItem("__USER_FOLLOWING_LIST__") || "[]");
   state.userFollowing.userFollowingList = userFollowingList;
 
-  let pinThumbList = JSON.parse(window.localStorage.getItem("_PIN_THUMB_LIST_") || "[]");
+  let pinThumbList = JSON.parse(window.localStorage.getItem("__PIN_THUMB_LIST__") || "[]");
   state.pinThumb.pinThumbList = pinThumbList;
 
-  let topicFollowingList = JSON.parse(window.localStorage.getItem("_TOPIC_FOLLOWING_LIST_") || "[]");
+  let topicFollowingList = JSON.parse(window.localStorage.getItem("__TOPIC_FOLLOWING_LIST__") || "[]");
   state.topicFollowing.topicFollowingList = topicFollowingList;
 
-  let commentThumbList = JSON.parse(window.localStorage.getItem("_COMMENT_THUMB_LIST_") || "[]");
+  let commentThumbList = JSON.parse(window.localStorage.getItem("__COMMENT_THUMB_LIST__") || "[]");
   state.commentThumb.commentThumbList = commentThumbList;
 
   switch (action.type) {
@@ -32,7 +32,7 @@ export function profile(state = {articleThumb: {articleThumbList: []}, articleHi
       }else {
         articleThumbList.unshift(action.article);
       }
-      window.localStorage.setItem("_ARTICLE_THUMB_LIST_", JSON.stringify(articleThumbList));
+      window.localStorage.setItem("__ARTICLE_THUMB_LIST__", JSON.stringify(articleThumbList));
       state.articleThumb.articleThumbList = articleThumbList;
       break;
     }
@@ -47,7 +47,7 @@ export function profile(state = {articleThumb: {articleThumbList: []}, articleHi
         articleHistoryList.pop();
       }
 
-      window.localStorage.setItem("_ARTICLE_HISTORY_LIST_", JSON.stringify(articleHistoryList));
+      window.localStorage.setItem("__ARTICLE_HISTORY_LIST__", JSON.stringify(articleHistoryList));
       state.articleHistory.articleHistoryList = articleHistoryList;
       break;
     }
@@ -60,7 +60,7 @@ export function profile(state = {articleThumb: {articleThumbList: []}, articleHi
         tagFollowingList.unshift(action.tag);
       }
 
-      window.localStorage.setItem("_TAG_FOLLOWING_LIST_", JSON.stringify(tagFollowingList));
+      window.localStorage.setItem("__TAG_FOLLOWING_LIST__", JSON.stringify(tagFollowingList));
       state.tagFollowing.tagFollowingList = tagFollowingList;
       break;
     }
@@ -72,7 +72,7 @@ export function profile(state = {articleThumb: {articleThumbList: []}, articleHi
         userFollowingList.unshift(action.user);
       }
 
-      window.localStorage.setItem("_USER_FOLLOWING_LIST_", JSON.stringify(userFollowingList));
+      window.localStorage.setItem("__USER_FOLLOWING_LIST__", JSON.stringify(userFollowingList));
       state.userFollowing.userFollowingList = userFollowingList;
       break;
     }
@@ -84,7 +84,7 @@ export function profile(state = {articleThumb: {articleThumbList: []}, articleHi
         pinThumbList.unshift(action.pin);
       }
 
-      window.localStorage.setItem("_PIN_THUMB_LIST_", JSON.stringify(pinThumbList));
+      window.localStorage.setItem("__PIN_THUMB_LIST__", JSON.stringify(pinThumbList));
       state.pinThumb.pinThumbList = pinThumbList;
       break;
     }
@@ -96,7 +96,7 @@ export function profile(state = {articleThumb: {articleThumbList: []}, articleHi
         topicFollowingList.unshift(action.topic);
       }
 
-      window.localStorage.setItem("_TOPIC_FOLLOWING_LIST_", JSON.stringify(topicFollowingList));
+      window.localStorage.setItem("__TOPIC_FOLLOWING_LIST__", JSON.stringify(topicFollowingList));
       state.topicFollowing.topicFollowingList = topicFollowingList;
       break;
     }
@@ -108,7 +108,7 @@ export function profile(state = {articleThumb: {articleThumbList: []}, articleHi
         commentThumbList.unshift(action.comment);
       }
 
-      window.localStorage.setItem("_COMMENT_THUMB_LIST_", JSON.stringify(commentThumbList));
+      window.localStorage.setItem("__COMMENT_THUMB_LIST__", JSON.stringify(commentThumbList));
       state.commentThumb.commentThumbList = commentThumbList;
       break;
     }

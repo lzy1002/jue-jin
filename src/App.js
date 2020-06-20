@@ -20,7 +20,7 @@ import TabBar from "./components/content/TabBar/TabBar.js";
 class App extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props);
+
   }
 
   render() {

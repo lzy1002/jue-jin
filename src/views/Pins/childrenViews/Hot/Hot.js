@@ -14,7 +14,6 @@ import Refresh from "../../../../components/content/Refresh/Refresh.js";
 class Hot extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props);
 
     this.state = {
       refreshIsShow: false
@@ -26,12 +25,10 @@ class Hot extends React.Component {
 
   componentDidMount() {
     if(this.props.edges) return;
-    console.log(123);
     this.setState({
       refreshIsShow: true
     });
     this.props.sagaInitPinsHot();
-
   }
 
   componentWillReceiveProps(nextProps) {
@@ -39,11 +36,6 @@ class Hot extends React.Component {
     this.setState({
       refreshIsShow: false
     })
-
-  }
-
-  componentDidUpdate() {
-    console.log(this.props);
   }
 
   handlePullUpLoad() {

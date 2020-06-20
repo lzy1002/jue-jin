@@ -2,15 +2,26 @@ export const publishDate = (createdAt) => {
   const createDate = new Date(createdAt).getTime();
   const nowDate = new Date().getTime();
   const publishDate = nowDate - createDate;
-  const hour = publishDate / 1000 / 60 / 60;
+  const second = publishDate / 1000;
+  const minute = Math.floor(second / 60);
+  const hour = Math.floor(minute / 60);
+  const day = Math.floor(hour / 24);
+  const month = Math.floor(day / 30);
+  const year = Math.floor(day / 365);
 
-  if(hour < 1) {
-    return Math.floor(publishDate / 1000 / 60) + "分钟前";
-  }else if(hour >= 24) {
-    return Math.floor(hour / 24) + "天前";
+  if(minute < 1) {
+    return "刚刚";
+  }else if(minute >= 1 && hour < 1) {
+    return `${minute}分钟前`;
+  }else if(hour >= 1 && day < 1) {
+    return `${hour}小时前`;
+  }else if(day >= 1 && month < 1) {
+    return `${day}天前`;
+  }else if(month >= 1 && year < 1) {
+    return `${month}月前`;
+  }else if(year >= 1) {
+    return `${year}年前`;
   }
-
-  return Math.floor(hour) + "小时前";
 };
 
 export const levelIcon = (level) => {
@@ -22,4 +33,8 @@ export const levelIcon = (level) => {
     case 5: return "https://b-gold-cdn.xitu.io/v3/static/img/lv-5.f8d5198.svg";
     case 6: return "https://b-gold-cdn.xitu.io/v3/static/img/lv-6.74bd93a.svg";
   }
+};
+
+export const defaultAvatar = (avatarUrl) => {
+  return avatarUrl || "https://b-gold-cdn.xitu.io/v3/static/img/default-avatar.e30559a.svg";
 };

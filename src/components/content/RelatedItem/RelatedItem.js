@@ -1,4 +1,5 @@
 import React from "react";
+import {connect} from "react-redux";
 import propTypes from "prop-types";
 import {withRouter} from "react-router-dom";
 
@@ -21,7 +22,16 @@ class RelatedItem extends React.Component {
   }
 
   handleArticleItemClick(articleItemData) {
-    this.props.history.replace(`/article/${articleItemData.id || articleItemData.objectId}`);
+    this.props.history.push(`/article/${articleItemData.id || articleItemData.objectId}`);
+  }
+
+  articleIsThumb(articleId, thumbCount) {
+    const index = this.props.articleThumbList.findIndex(item => item.objectId === articleId);
+    if(index !== -1) {
+      return thumbCount + 1;
+    }else {
+      return thumbCount;
+    }
   }
 
   render() {
@@ -29,7 +39,7 @@ class RelatedItem extends React.Component {
       <div className="related-wrapper border-1px" onClick={this.handleArticleItemClick.bind(this, this.props.relatedItemData)}>
         <h3 className="related-title">{this.props.relatedItemData.title}</h3>
         <p className="related-info">
-          <span>{this.props.relatedItemData.likeCount || this.props.relatedItemData.collectionCount}赞 · {this.props.relatedItemData.user.username} · {publishDate(this.props.relatedItemData.createdAt)}</span>
+          <span>{this.articleIsThumb(this.props.relatedItemData.id || this.props.relatedItemData.objectId, this.props.relatedItemData.likeCount || this.props.relatedItemData.collectionCount)}赞 · {this.props.relatedItemData.user.username} · {publishDate(this.props.relatedItemData.createdAt)}</span>
         </p>
       </div>
     )
@@ -37,4 +47,4 @@ class RelatedItem extends React.Component {
 
 }
 
-export default withRouter(RelatedItem);
+export default connect(state => ({...state.profile.articleThumb}))(withRouter(RelatedItem));

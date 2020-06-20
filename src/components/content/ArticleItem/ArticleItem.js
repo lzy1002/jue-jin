@@ -8,6 +8,7 @@ import "./ArticleItem.styl";
 import actionCreator from "../../../store/actionCreator/index.js";
 
 import {ArticleCls} from "../../../assets/js/class.js";
+import {defaultAvatar} from "../../../assets/js/utils.js";
 
 class ArticleItem extends React.Component {
   static defaultProps = {
@@ -28,6 +29,13 @@ class ArticleItem extends React.Component {
   }
 
   handleUserBoxClick(e, articleItemData) {
+    if(this.props.location.pathname.startsWith("/user")) {
+      if((articleItemData.user.id || articleItemData.user.objectId) === this.props.match.params.userId) {
+        e.stopPropagation();
+        return;
+      }
+    }
+
     this.props.history.push(`/user/${articleItemData.user.id || articleItemData.user.objectId}`);
     e.stopPropagation();  // 阻止合成事件间的事件冒泡
   }
@@ -59,9 +67,7 @@ class ArticleItem extends React.Component {
       <div className="articleItem-wrapper">
         <div className="articleItem-header">
           <div className="user-box" onClick={e => this.handleUserBoxClick.call(this, e, this.props.articleItemData)}>
-            <div className="avatar">
-              <img src={this.props.articleItemData.user.avatarLarge} alt=""/>
-            </div>
+            <div className="avatar" style={{backgroundImage: `url(${defaultAvatar(this.props.articleItemData.user.avatarLarge)})`}}></div>
             <span className="username">{this.props.articleItemData.user.username}</span>
           </div>
           <div className="language-box">
