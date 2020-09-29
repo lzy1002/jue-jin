@@ -1,63 +1,33 @@
 import {request} from "../assets/js/request.js";
 
-export function getPinsRecommend(lastId = "") {
+export function getPinsRecommend(cursor = "0") {
   const data = {
-    extensions: {
-      query: {
-        id: "e3e03965a15cf246cf7cc3944086843b"
-      }
-    },
-    variables: {
-      after: lastId,
-      afterPosition: ""
-    }
+    cursor,
+    limit: 20,
+    id_type: 4,
+    sort_type: 300
   };
 
   return request({
+    url: "/pins/recommend",
     method: "post",
-    url: "https://android-api.juejin.im/graphql",
     data
   })
 
 }
 
-export function getPinsHot(lastId = "") {
+export function getPinsHot(cursor = "0") {
   const data = {
-    variables: {
-      after: lastId,
-      first: 20
-    },
-    extensions: {
-      query: {
-        id: "1b6b07b2ffcdc06c43114d79ca131afa"
-      }
-    }
+    cursor,
+    limit: 20,
+    id_type: 4,
+    sort_type: 200
   };
 
   return request({
     method: "post",
-    url: "https://android-api.juejin.im/graphql",
+    url: "/pins/hot",
     data
   })
 
-}
-
-export function getPinsFollow(extensions = []) {
-  const data = {
-    extensions: {
-      query: {
-        id: "038909ed3577b0925031b01b445819a0"
-      }
-    },
-    variables: {
-      excluded: extensions,
-      limit: 8
-    }
-  };
-
-  return request({
-    method: "post",
-    url: "https://android-api.juejin.im/graphql",
-    data
-  })
 }

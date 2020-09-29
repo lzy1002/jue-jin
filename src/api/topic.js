@@ -1,75 +1,64 @@
 import {request} from "../assets/js/request.js";
 
 export function getTopicInfo(topicId) {
-  const params = {
-    uid: "",
-    token: "",
-    src: "android",
-    device_id: 9685
+  const data = {
+    topic_id: topicId
   };
 
   return request({
-    url: `/topic/info/v1/topic/${topicId}`,
-    params
+    method: "post",
+    url: `/topic/info`,
+    data
   })
 
 }
 
 export function getTopicAttenders(topicId) {
-  const params = {
-    topicId: topicId,
-    page: 0,
-    pageSize: 20,
-    uid: "",
-    token: "",
-    device_id: 9685,
-    client_id: 9685,
-    src: "android"
+  const data = {
+    cursor: "0",
+    limit: 6,
+    item_id: topicId,
+    id_type: 11
   };
 
   return request({
+    method: "post",
     url: "/topic/attenders",
-    params
+    data
   })
 
 }
 
-export function getTopicRank(topicId) {
-  const params = {
-    topicId: topicId,
-    sortType: "rank",
-    page: 0,
-    pageSize: 20,
-    uid: "",
-    token: "",
-    device_id: 9685,
-    client_id: 9685,
-    src: "android"
+export function getTopicRank(topicId, cursor = "0") {
+  const data = {
+    cursor,
+    limit: 20,
+    id_type: 4,
+    sort_type: 200,
+    topic_id: topicId
   };
 
   return request({
+    method: "post",
     url: "/topic/rank",
-    params
+    data
   })
 
 }
 
-export function getTopicNewest(topicId) {
-  const params = {
-    topicId: topicId,
-    sortType: "newest",
-    page: 0,
-    pageSize: 20,
-    uid: "",
-    token: "",
-    device_id: 9685,
-    client_id: 9685,
-    src: "android"
+export function getTopicNewest(topicId, cursor = "0") {
+  const data = {
+    cursor,
+    limit: 20,
+    id_type: 4,
+    sort_type: 500,
+    topic_id: topicId
   };
 
   return request({
+    method: "post",
     url: "/topic/newest",
-    params
+    data
   })
 
 }

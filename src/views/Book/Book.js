@@ -2,7 +2,7 @@ import React from "react";
 
 import "./Book.styl";
 
-import {getBookInfo, getBookBuyer, getBookSection} from "../../api/book.js";
+import {getBookInfo} from "../../api/book.js";
 
 import {levelIcon} from "../../assets/js/utils.js";
 
@@ -15,9 +15,7 @@ class Book extends React.Component {
     super(props);
 
     this.state = {
-      infoData: {},
-      buyerData: [],
-      sectionData: []
+      infoData: {}
     };
 
   }
@@ -25,34 +23,13 @@ class Book extends React.Component {
   componentDidMount() {
     const bookId = this.props.match.params.bookId;
     this.getBookInfo(bookId);
-    this.getBookBuyer(bookId);
-    this.getBookSection(bookId);
-
   }
 
   getBookInfo(bookId) {
     getBookInfo(bookId).then(res => {
       this.setState({
-        infoData: res.data.d
+        infoData: res.data
       })
-    })
-  }
-
-  getBookBuyer(bookId) {
-    getBookBuyer(bookId).then(res => {
-      this.setState({
-        buyerData: res.data.d
-      })
-
-    })
-  }
-
-  getBookSection(bookId) {
-    getBookSection(bookId).then(res => {
-      this.setState({
-        sectionData: res.data.d
-      })
-
     })
   }
 
@@ -72,7 +49,7 @@ class Book extends React.Component {
             <i className="iconfont icon-fanhui"></i>
           </div>
           <div className="content">
-            {this.state.infoData.title}
+            {this.state.infoData.data && this.state.infoData.data.booklet.base_info.title}
           </div>
           <div className="more">
             <i className="iconfont icon-unie644"></i>
@@ -81,59 +58,52 @@ class Book extends React.Component {
 
         <div className="book-content">
           <Scroll>
-            <div className="info-box">
-              {this.state.infoData.userData ?
+            {this.state.infoData.data ?
+              <div className="info-box">
                 <div className="book-info border-1px">
-                  <div className="avatar" style={{backgroundImage: `url(${this.state.infoData.img})`}}></div>
+                  <div className="avatar" style={{backgroundImage: `url(${this.state.infoData.data.booklet.base_info.cover_img})`}}></div>
                   <div className="content">
-                    <h3 className="title">{this.state.infoData.title}</h3>
-                    <p className="desc">{this.state.infoData.desc}</p>
+                    <h3 className="title">{this.state.infoData.data.booklet.base_info.title}</h3>
+                    <p className="desc">{this.state.infoData.data.booklet.base_info.summary}</p>
                     <div className="user-box">
-                      <div className="user" onClick={this.handleUserClick.bind(this, this.state.infoData.userData.objectId)}>
-                        <div className="user-avatar" style={{backgroundImage: `url(${this.state.infoData.userData.avatarLarge})`}}></div>
+                      <div className="user" onClick={this.handleUserClick.bind(this, this.state.infoData.data.booklet.user_info.user_id)}>
+                        <div className="user-avatar" style={{backgroundImage: `url(${this.state.infoData.data.booklet.user_info.avatar_large})`}}></div>
                         <span className="username">
-                          <span>{this.state.infoData.userData.username}</span>
-                          <img src={levelIcon(this.state.infoData.userData.level)} alt=""/>
+                          <span>{this.state.infoData.data.booklet.user_info.user_name}</span>
+                          <img src={levelIcon(this.state.infoData.data.booklet.user_info.level)} alt=""/>
                         </span>
                       </div>
                       <i className="iconfont icon-tianjiaqunzu"></i>
                     </div>
                   </div>
                 </div>
-              : undefined}
-              {this.state.buyerData.length ?
                 <div className="buyer-info border-1px">
                   <div className="buy-count">
                     <img src="https://b-gold-cdn.xitu.io/v3/static/img/buy-icon.1323aad.svg" alt=""/>
-                    <span>{this.state.infoData.buyCount}人已购买</span>
-                  </div>
-                  <div className="buyer">
-                    {this.state.buyerData.length ? this.state.buyerData.slice(0, 6).map((item, index) => (
-                      <div key={item.id} className="buyer-item" style={{backgroundImage: `url(${item.avatarLarge})`}} onClick={this.handleUserClick.bind(this, item.id)}></div>
-                    )) : undefined}
+                    <span>{this.state.infoData.data.booklet.base_info.buy_count}人已购买</span>
                   </div>
                 </div>
-              : undefined}
-            </div>
-
-            <div className="section-box">
-              <div className="section-title">小册内容</div>
-              <div className="section">
-                {this.state.sectionData.length ? this.state.sectionData.map((item, index) => (
-                  <SectionItem key={index} sectionItemData={item} num={index}/>
-                )) : undefined}
               </div>
-            </div>
+            : undefined}
 
-            <div className="desc-box">
-              {this.state.infoData.summaryHtml ?
-                <div className="article-content" dangerouslySetInnerHTML={{__html: this.state.infoData.summaryHtml}}></div>
-              : undefined}
-            </div>
+            {this.state.infoData.data ?
+              <div className="section-box">
+                <div className="section-title">小册内容</div>
+                <div className="section">
+                  {this.state.infoData.data.sections.map((item, index) => (
+                    <SectionItem key={index} sectionItemData={item} num={index}/>
+                  ))}
+                </div>
+              </div>
+            : undefined}
 
+            {this.state.infoData.data ?
+              <div className="desc-box">
+                <div className="article-content" dangerouslySetInnerHTML={{__html: this.state.infoData.data.introduction.content}}></div>
+              </div>
+            : undefined}
           </Scroll>
         </div>
-
       </div>
     )
   }

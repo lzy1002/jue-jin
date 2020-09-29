@@ -1,36 +1,30 @@
 import {request} from "../assets/js/request.js";
 
 export function getPinContent(pinId) {
-  const params = {
-    msgId: pinId,
-    token: "",
-    uid: "",
-    device_id: 9685,
-    client_id: 9685,
-    src: "android"
+  const data = {
+    msg_id: pinId
   };
 
   return request({
     url: "/pin/content",
-    params
+    method: "post",
+    data
   })
 }
 
-export function getPinComment(pinId, pageNum = 1) {
-  const params = {
-    pageNum,
-    pageSize: 20,
-    rankType: "new",
-    token: "",
-    uid: "",
-    device_id: 9685,
-    client_id: 9685,
-    src: "android"
+export function getPinComment(pinId, cursor = "0") {
+  const data = {
+    cursor,
+    limit: 20,
+    client_type: 2606,
+    item_id: pinId,
+    item_type: 4
   };
 
   return request({
-    url: `/pin/comment/v1/comments/${pinId}`,
-    params
+    url: `/pin/comment`,
+    method: "post",
+    data
   })
 
 }

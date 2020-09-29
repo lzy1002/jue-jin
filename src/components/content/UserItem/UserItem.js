@@ -31,31 +31,30 @@ class UserItem extends React.Component {
   }
 
   handleFollowBtnClick(userData) {
-    console.log(userData);
     const user = new UserCls(userData);
     this.props.changeUserFollowingState(user);
   }
 
-  userIsActive(objectId) {
-    const index = this.props.userFollowingList.findIndex(item => item.user.objectId === objectId);
+  userIsActive(userId) {
+    const index = this.props.userFollowingList.findIndex(item => item.user_id === userId);
     return index !== -1;
   }
 
   render() {
     return (
-      <div className="userItem-wrapper border-1px" onClick={this.handleUserItemClick.bind(this, this.props.userItemData.user.id || this.props.userItemData.user.objectId)}>
-        <div className="avatar-box" style={{backgroundImage: `url(${defaultAvatar(this.props.userItemData.user.avatarLarge)})`}}></div>
+      <div className="userItem-wrapper border-1px" onClick={this.handleUserItemClick.bind(this, this.props.userItemData.user_id)}>
+        <div className="avatar-box" style={{backgroundImage: `url(${defaultAvatar(this.props.userItemData.avatar_large)})`}}></div>
         <div className="content">
           <p className="username">
-            <span>{this.props.userItemData.user.username}</span>
-            {this.props.userItemData.user.level ?
-              <img src={levelIcon(this.props.userItemData.user.level)} alt=""/>
+            <span>{this.props.userItemData.user_name}</span>
+            {this.props.userItemData.level ?
+              <img src={levelIcon(this.props.userItemData.level)} alt=""/>
             : undefined}
           </p>
-          {this.props.userItemData.title ? <p className="desc">{this.props.userItemData.title}</p> : undefined}
-          {this.props.userItemData.info ? <p className="info">{this.props.userItemData.info}</p> : undefined}
+          {this.props.userItemData.job_title ? <p className="job">{this.props.userItemData.job_title}</p> : undefined}
+          {this.props.userItemData.company ? <p className="company">{this.props.userItemData.company}</p> : undefined}
         </div>
-        <FollowBtn isFollow={this.userIsActive.call(this, this.props.userItemData.user.id || this.props.userItemData.user.objectId)} handleFollowBtnClick={this.handleFollowBtnClick.bind(this, this.props.userItemData.user)}/>
+        <FollowBtn isFollow={this.userIsActive.call(this, this.props.userItemData.user_id)} handleFollowBtnClick={this.handleFollowBtnClick.bind(this, this.props.userItemData)}/>
       </div>
     )
   }

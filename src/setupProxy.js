@@ -2,147 +2,307 @@ const proxy = require("http-proxy-middleware");
 
 module.exports = function (app) {
   app.use(
-    proxy.createProxyMiddleware("/home/follow", {
-      target: "http://timeline-merger-ms.juejin.im",
+    proxy.createProxyMiddleware("/home/recommend/hot", {
+      target: "https://apinew.juejin.im",
       changeOrigin: true,
+      headers: {
+        referer: "https://juejin.im/",
+        host: "apinew.juejin.im",
+        origin: "https://juejin.im"
+      },
       pathRewrite: {
-        "/home/follow": "/v1/get_entry_by_period"
+        "/home/recommend/hot": "/recommend_api/v1/article/recommend_all_feed"
+      }
+    }),
+    proxy.createProxyMiddleware("/home/recommend/list", {
+      target: "https://apinew.juejin.im",
+      changeOrigin: true,
+      headers: {
+        referer: "https://juejin.im/",
+        host: "apinew.juejin.im",
+        origin: "https://juejin.im"
+      },
+      pathRewrite: {
+        "/home/recommend/list": "/recommend_api/v1/article/recommend_all_feed"
+      }
+    }),
+    proxy.createProxyMiddleware("/home/hot", {
+      target: "https://apinew.juejin.im",
+      changeOrigin: true,
+      headers: {
+        referer: "https://juejin.im/",
+        host: "apinew.juejin.im",
+        origin: "https://juejin.im"
+      },
+      pathRewrite: {
+        "/home/hot": "/recommend_api/v1/article/recommend_all_feed"
+      }
+    }),
+
+    proxy.createProxyMiddleware("/home/follow", {
+      target: "https://apinew.juejin.im",
+      changeOrigin: true,
+      headers: {
+        referer: "https://juejin.im/",
+        host: "apinew.juejin.im",
+        origin: "https://juejin.im"
+      },
+      pathRewrite: {
+        "/home/follow": "/recommend_api/v1/article/recommend_all_feed"
       }
     }),
     proxy.createProxyMiddleware("/article/content", {
-      target: "http://timeline-merger-ms.juejin.im",
+      target: "https://apinew.juejin.im",
       changeOrigin: true,
+      headers: {
+        referer: "https://juejin.im/",
+        host: "apinew.juejin.im",
+        origin: "https://juejin.im"
+      },
       pathRewrite: {
-        "/article/content": "/v1/get_entry_by_ids"
-      }
-    }),
-    proxy.createProxyMiddleware("/article/view", {
-      target: "https://entry-view-storage-api-ms.juejin.im",
-      changeOrigin: true,
-      pathRewrite: {
-        "/article/view": "/v1/getEntryView"
+        "/article/content": "/content_api/v1/article/detail"
       }
     }),
     proxy.createProxyMiddleware("/article/related", {
-      target: "http://timeline-merger-ms.juejin.im",
+      target: "https://apinew.juejin.im",
       changeOrigin: true,
+      headers: {
+        referer: "https://juejin.im/",
+        host: "apinew.juejin.im",
+        origin: "https://juejin.im"
+      },
       pathRewrite: {
-        "/article/related": "/v1/get_related_entry"
+        "/article/related": "/recommend_api/v1/article/recommend_article_detail_feed"
       }
     }),
     proxy.createProxyMiddleware("/article/comment", {
-      target: "https://comment-wrapper-ms.juejin.im",
+      target: "https://apinew.juejin.im",
       changeOrigin: true,
+      headers: {
+        referer: "https://juejin.im/",
+        host: "apinew.juejin.im",
+        origin: "https://juejin.im"
+      },
       pathRewrite: {
-        "/article/comment": ""
+        "/article/comment": "/interact_api/v1/comment/list"
       }
     }),
     proxy.createProxyMiddleware("/user/info", {
-      target: "https://lccro-api-ms.juejin.im",
+      target: "https://apinew.juejin.im",
       changeOrigin: true,
+      headers: {
+        referer: "https://juejin.im/",
+        host: "apinew.juejin.im",
+        origin: "https://juejin.im"
+      },
       pathRewrite: {
-        "/user/info": "/v1/get_multi_user"
+        "/user/info": "/user_api/v1/user/get"
       }
     }),
-    proxy.createProxyMiddleware("/user/pins", {
-      target: "https://short-msg-ms.juejin.im",
+    proxy.createProxyMiddleware("/user/active", {
+      target: "https://apinew.juejin.im",
       changeOrigin: true,
+      headers: {
+        referer: "https://juejin.im/",
+        host: "apinew.juejin.im",
+        origin: "https://juejin.im"
+      },
       pathRewrite: {
-        "/user/pins": "/v1/getUserList"
+        "/user/active": "/user_api/v1/user/dynamic"
+      }
+    }),
+
+    proxy.createProxyMiddleware("/user/pins", {
+      target: "https://apinew.juejin.im",
+      changeOrigin: true,
+      headers: {
+        referer: "https://juejin.im/",
+        host: "apinew.juejin.im",
+        origin: "https://juejin.im"
+      },
+      pathRewrite: {
+        "/user/pins": "/content_api/v1/short_msg/query_list"
       }
     }),
     proxy.createProxyMiddleware("/user/posts", {
-      target: "http://timeline-merger-ms.juejin.im",
+      target: "https://apinew.juejin.im",
       changeOrigin: true,
+      headers: {
+        referer: "https://juejin.im/",
+        host: "apinew.juejin.im",
+        origin: "https://juejin.im"
+      },
       pathRewrite: {
-        "/user/posts": "/v1/get_entry_by_self"
+        "/user/posts": "/content_api/v1/article/query_list"
       }
     }),
-    proxy.createProxyMiddleware("/user/share", {
-      target: "http://timeline-merger-ms.juejin.im",
+    proxy.createProxyMiddleware("/pins/recommend", {
+      target: "https://apinew.juejin.im",
       changeOrigin: true,
+      headers: {
+        referer: "https://juejin.im/",
+        host: "apinew.juejin.im",
+        origin: "https://juejin.im"
+      },
       pathRewrite: {
-        "/user/share": "/v1/get_entry_by_self"
+        "/pins/recommend": "/recommend_api/v1/short_msg/recommend"
+      }
+    }),
+    proxy.createProxyMiddleware("/pins/hot", {
+      target: "https://apinew.juejin.im",
+      changeOrigin: true,
+      headers: {
+        referer: "https://juejin.im/",
+        host: "apinew.juejin.im",
+        origin: "https://juejin.im"
+      },
+      pathRewrite: {
+        "/pins/hot": "recommend_api/v1/short_msg/hot"
       }
     }),
     proxy.createProxyMiddleware("/pin/content", {
-      target: "https://short-msg-ms.juejin.im",
+      target: "https://apinew.juejin.im",
       changeOrigin: true,
+      headers: {
+        referer: "https://juejin.im/",
+        host: "apinew.juejin.im",
+        origin: "https://juejin.im"
+      },
       pathRewrite: {
-        "/pin/content": "/v1/getByID"
+        "/pin/content": "/content_api/v1/short_msg/detail"
       }
     }),
     proxy.createProxyMiddleware("/pin/comment", {
-      target: "https://hot-topic-comment-wrapper-ms.juejin.im",
+      target: "https://apinew.juejin.im",
       changeOrigin: true,
+      headers: {
+        referer: "https://juejin.im/",
+        host: "apinew.juejin.im",
+        origin: "https://juejin.im"
+      },
       pathRewrite: {
-        "/pin/comment": ""
+        "/pin/comment": "/interact_api/v1/comment/list"
       }
     }),
-    proxy.createProxyMiddleware("/topic/info", {
-      target: "https://short-msg-ms.juejin.im",
+    proxy.createProxyMiddleware("/search/slider", {
+      target: "https://apinew.juejin.im",
       changeOrigin: true,
+      headers: {
+        referer: "https://juejin.im/",
+        host: "apinew.juejin.im",
+        origin: "https://juejin.im"
+      },
       pathRewrite: {
-        "/topic/info": ""
+        "/search/slider": "/content_api/v1/advert/query_adverts"
       }
     }),
-    proxy.createProxyMiddleware("/topic/attenders", {
-      target: "https://short-msg-ms.juejin.im",
+    proxy.createProxyMiddleware("/result/data", {
+      target: "https://apinew.juejin.im",
       changeOrigin: true,
+      headers: {
+        referer: "https://juejin.im/",
+        host: "apinew.juejin.im",
+        origin: "https://juejin.im"
+      },
       pathRewrite: {
-        "/topic/attenders": "/v1/topic/attenders"
+        "/result/data": "/search_api/v1/search"
       }
     }),
-    proxy.createProxyMiddleware("/topic/rank", {
-      target: "https://short-msg-ms.juejin.im",
+    proxy.createProxyMiddleware("/authors/data", {
+      target: "https://apinew.juejin.im",
       changeOrigin: true,
+      headers: {
+        referer: "https://juejin.im/",
+        host: "apinew.juejin.im",
+        origin: "https://juejin.im"
+      },
       pathRewrite: {
-        "/topic/rank": "/v1/pinList/topic"
-      }
-    }),
-    proxy.createProxyMiddleware("/topic/newest", {
-      target: "https://short-msg-ms.juejin.im",
-      changeOrigin: true,
-      pathRewrite: {
-        "/topic/newest": "/v1/pinList/topic"
+        "/authors/data": "/user_api/v1/author/recommend"
       }
     }),
     proxy.createProxyMiddleware("/topics/list", {
-      target: "https://short-msg-ms.juejin.im",
+      target: "https://apinew.juejin.im",
       changeOrigin: true,
+      headers: {
+        referer: "https://juejin.im/",
+        host: "apinew.juejin.im",
+        origin: "https://juejin.im"
+      },
       pathRewrite: {
-        "/topics/list": "/v1/topicList"
+        "/topics/list": "/tag_api/v1/query_topic_list"
+      }
+    }),
+    proxy.createProxyMiddleware("/topic/info", {
+      target: "https://apinew.juejin.im",
+      changeOrigin: true,
+      headers: {
+        referer: "https://juejin.im/",
+        host: "apinew.juejin.im",
+        origin: "https://juejin.im"
+      },
+      pathRewrite: {
+        "/topic/info": "/tag_api/v1/query_topic_detail"
+      }
+    }),
+    proxy.createProxyMiddleware("/topic/attenders", {
+      target: "https://apinew.juejin.im",
+      changeOrigin: true,
+      headers: {
+        referer: "https://juejin.im/",
+        host: "apinew.juejin.im",
+        origin: "https://juejin.im"
+      },
+      pathRewrite: {
+        "/topic/attenders": "/interact_api/v1/follow/follower_list"
+      }
+    }),
+    proxy.createProxyMiddleware("/topic/rank", {
+      target: "https://apinew.juejin.im",
+      changeOrigin: true,
+      headers: {
+        referer: "https://juejin.im/",
+        host: "apinew.juejin.im",
+        origin: "https://juejin.im"
+      },
+      pathRewrite: {
+        "/topic/rank": "/recommend_api/v1/short_msg/topic"
+      }
+    }),
+    proxy.createProxyMiddleware("/topic/newest", {
+      target: "https://apinew.juejin.im",
+      changeOrigin: true,
+      headers: {
+        referer: "https://juejin.im/",
+        host: "apinew.juejin.im",
+        origin: "https://juejin.im"
+      },
+      pathRewrite: {
+        "/topic/newest": "/recommend_api/v1/short_msg/topic"
       }
     }),
     proxy.createProxyMiddleware("/books/all", {
-      target: "https://xiaoce-timeline-api-ms.juejin.im",
+      target: "https://apinew.juejin.im",
       changeOrigin: true,
+      headers: {
+        referer: "https://juejin.im/",
+        host: "apinew.juejin.im",
+        origin: "https://juejin.im"
+      },
       pathRewrite: {
-        "/books/all": "/v1/getListByLastTime"
+        "/books/all": "/booklet_api/v1/booklet/listbycategory"
       }
     }),
     proxy.createProxyMiddleware("/book/info", {
-      target: "https://xiaoce-cache-api-ms.juejin.im",
+      target: "https://apinew.juejin.im",
       changeOrigin: true,
+      headers: {
+        referer: "https://juejin.im/",
+        host: "apinew.juejin.im",
+        origin: "https://juejin.im"
+      },
       pathRewrite: {
-        "/book/info": "/v1/get"
-      }
-    }),
-    proxy.createProxyMiddleware("/book/buyer", {
-      target: "https://xiaoce-cache-api-ms.juejin.im",
-      changeOrigin: true,
-      pathRewrite: {
-        "/book/buyer": "/v1/getListBuy"
-      }
-    }),
-    proxy.createProxyMiddleware("/book/section", {
-      target: "https://xiaoce-cache-api-ms.juejin.im",
-      changeOrigin: true,
-      pathRewrite: {
-        "/book/section": "/v1/getListSection"
+        "/book/info": "/booklet_api/v1/booklet/get"
       }
     })
-
   )
-
 };

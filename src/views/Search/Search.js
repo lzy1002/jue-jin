@@ -15,7 +15,7 @@ class Search extends React.Component {
     super(props);
 
     this.state = {
-      sliderData: []
+      sliderData: {}
     };
 
     this.tagBoxIsShow = false;
@@ -28,7 +28,7 @@ class Search extends React.Component {
   getSearchSlider() {
     getSearchSlider().then(res => {
       this.setState({
-        sliderData: res.data.data.advertisementCard.items
+        sliderData: res.data
       })
     })
   }
@@ -44,9 +44,9 @@ class Search extends React.Component {
         <div className="search-content">
           <Scroll>
             <ImageSlider>
-              {this.state.sliderData.map((item, index) => (
-                <div key={item.id} style={{backgroundImage: `url(${item.imageUrl})`}}></div>
-              ))}
+              {this.state.sliderData.data ? this.state.sliderData.data.map((item, index) => (
+                <div key={item.advert_id} style={{backgroundImage: `url(${item.picture})`}}></div>
+              )) : undefined}
             </ImageSlider>
 
             <div className="option-box">

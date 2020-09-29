@@ -24,7 +24,7 @@ class Hot extends React.Component {
   }
 
   componentDidMount() {
-    if(this.props.edges) return;
+    if(this.props.data) return;
     this.setState({
       refreshIsShow: true
     });
@@ -32,15 +32,15 @@ class Hot extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(!nextProps.edges) return;
+    if(!nextProps.data) return;
     this.setState({
       refreshIsShow: false
     })
   }
 
   handlePullUpLoad() {
-    if(!this.props.pageInfo.hasNextPage) return;
-    this.props.sagaMorePinsHot(this.props.pageInfo.endCursor);
+    if(!this.props.has_more) return;
+    this.props.sagaMorePinsHot(this.props.cursor);
   }
 
   handlePullDownRefresh() {
@@ -59,10 +59,10 @@ class Hot extends React.Component {
           <Refresh/>
         </div>
         <Scroll pullUpLoad={this.pullUpLoad} pullDownRefresh={this.pullDownRefresh} handlePullUpLoad={this.handlePullUpLoad.bind(this)} handlePullDownRefresh={this.handlePullDownRefresh.bind(this)}>
-          {this.props.edges ? this.props.edges.map((item, index) => (
-            <PinItem key={index} pinItemData={item.node}/>
+          {this.props.data ? this.props.data.map((item, index) => (
+            <PinItem key={index} pinItemData={item}/>
           )) : undefined}
-          <div style={{display: this.props.edges && this.props.pageInfo.hasNextPage ? "block" : "none"}}>
+          <div style={{display: this.props.data && this.props.has_more ? "block" : "none"}}>
             <Loading/>
           </div>
         </Scroll>

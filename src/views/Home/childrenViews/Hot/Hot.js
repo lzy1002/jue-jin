@@ -20,12 +20,12 @@ class Hot extends React.Component {
       refreshIsShow: false
     };
 
-    this.sign = "THREE_DAYS_HOTTEST";
+    this.sign = 3;
     this.tabTagsList = [
-      {title: "三天内", sign: "THREE_DAYS_HOTTEST"},
-      {title: "七天内", sign: "WEEKLY_HOTTEST"},
-      {title: "30天内", sign: "MONTHLY_HOTTEST"},
-      {title: "全部", sign: "HOTTEST"}
+      {title: "三天内", sign: 3},
+      {title: "七天内", sign: 7},
+      {title: "30天内", sign: 30},
+      {title: "全部", sign: 0}
     ];
 
     this.pullDownRefresh = true;
@@ -35,7 +35,7 @@ class Hot extends React.Component {
   }
 
   componentDidMount() {
-    if(this.props.articleFeed) return;
+    if(this.props.hotData) return;
     this.setState({
       refreshIsShow: true
     });
@@ -43,7 +43,7 @@ class Hot extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(!nextProps.articleFeed) return;
+    if(!nextProps.hotData) return;
     this.setState({
       refreshIsShow: false
     })
@@ -70,8 +70,8 @@ class Hot extends React.Component {
   }
 
   handlePullUpLoad() {
-    if(!this.props.articleFeed.items.pageInfo.hasNextPage) return;
-    this.props.sagaMoreHomeHot(this.sign, this.props.articleFeed.items.pageInfo.endCursor);
+    if(!this.props.hotData.has_more) return;
+    this.props.sagaMoreHomeHot(this.sign, this.props.hotData.cursor);
   }
 
   render() {
@@ -83,10 +83,10 @@ class Hot extends React.Component {
         <TabTags actionSign={this.props.sign} tabTagsList={this.tabTagsList} handleTagsItemClick={this.handleTagsItemClick.bind(this)}/>
         <div className="hot-box">
           <Scroll ref={this.scroll} pullDownRefresh={this.pullDownRefresh} pullUpLoad={this.pullUpLoad} handlePullDownRefresh={this.handlePullDownRefresh.bind(this)} handlePullUpLoad={this.handlePullUpLoad.bind(this)}>
-            {this.props.articleFeed ? this.props.articleFeed.items.edges.map((item, index) => (
-              <ArticleItem key={index} articleItemData={item.node}/>
+            {this.props.hotData ? this.props.hotData.data.filter(item => item.item_type === 2).map((item, index) => (
+              <ArticleItem key={index} articleItemData={item.item_info}/>
             )) : undefined}
-            <div style={{display: this.props.articleFeed && this.props.articleFeed.items.pageInfo.hasNextPage ? "block" : "none"}}>
+            <div style={{display: this.props.hotData && this.props.hotData.has_more ? "block" : "none"}}>
               <Loading/>
             </div>
           </Scroll>

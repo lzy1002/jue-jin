@@ -20,7 +20,6 @@ import FollowBtn from "../../components/content/FollowBtn/FollowBtn.js";
 import Actives from "./childrenViews/Actives/Actives.js";
 import Posts from "./childrenViews/Posts/Posts.js";
 import Pins from "./childrenViews/Pins/Pins.js";
-import Shares from "./childrenViews/Shares/Shares.js";
 import More from "./childrenViews/More/More.js";
 
 const TRANSFORM = prefixStyle("transform");
@@ -70,12 +69,11 @@ class User extends React.Component {
   getUserInfo(userId) {
     getUserInfo(userId).then(res => {
       this.setState({
-        userInfo: res.data.d[userId],
+        userInfo: res.data.data,
         titleList: [
           {path: `/user/${userId}/actives`, title: "动态"},
-          {path: `/user/${userId}/posts`, title: `专栏 ${res.data.d[userId].postedPostsCount}`},
-          {path: `/user/${userId}/pins`, title: `沸点 ${res.data.d[userId].pinCount || 0}`},
-          {path: `/user/${userId}/shares`, title: `分享 ${res.data.d[userId].postedEntriesCount}`},
+          {path: `/user/${userId}/posts`, title: `文章`},
+          {path: `/user/${userId}/pins`, title: `沸点`},
           {path: `/user/${userId}/more`, title: "更多"}
         ]
       })
@@ -118,8 +116,8 @@ class User extends React.Component {
     this.props.changeUserFollowingState(user);
   }
 
-  userIsActive(objectId) {
-    const index = this.props.userFollowingList.findIndex(item => item.user.objectId === objectId);
+  userIsActive(userId) {
+    const index = this.props.userFollowingList.findIndex(item => item.user_id === userId);
     return index !== -1;
   }
 
@@ -133,7 +131,7 @@ class User extends React.Component {
           </div>
           <div className="content">
             <div className="username" style={{transform: this.state.headerTrans ? `translateY(${0}px)` : `translateY(${50}px)`}}>
-              <span>{this.state.userInfo.username}</span>
+              <span>{this.state.userInfo.user_name}</span>
               <img src={levelIcon(this.state.userInfo.level)} alt=""/>
             </div>
           </div>
@@ -145,39 +143,39 @@ class User extends React.Component {
         <div className="user-content" ref={this.userContent}>
           <Scroll probeType={this.probeType} handleScrolling={this.handleScrolling.bind(this)}>
             <div className="user-info">
-              <div className="avatar-box" style={{backgroundImage: `url(${defaultAvatar(this.state.userInfo.avatarLarge)})`}}></div>
+              <div className="avatar-box" style={{backgroundImage: `url(${defaultAvatar(this.state.userInfo.avatar_large)})`}}></div>
               <div className="content-box">
                 <div className="info-top">
                   <div className="detail">
                     <h3 className="username">
-                      <span>{this.state.userInfo.username}</span>
+                      <span>{this.state.userInfo.user_name}</span>
                       <img src={levelIcon(this.state.userInfo.level)} alt=""/>
                     </h3>
-                    <p className="job">{this.state.userInfo.jobTitle}</p>
-                    {this.state.userInfo.roles && this.state.userInfo.roles.favorableAuthor.isGranted ?
+                    <p className="job">{this.state.userInfo.job_title}</p>
+                    {this.state.userInfo.favorable_author ?
                       <p className="favorableAuthor">掘金优秀作者</p>
                     : undefined}
                   </div>
-                  {this.state.userInfo.objectId ?
+                  {this.state.userInfo.user_id ?
                     <div className="button-box">
-                      <FollowBtn isFollow={this.userIsActive.call(this, this.state.userInfo.objectId)} handleFollowBtnClick={this.handleFollowBtnClick.bind(this, this.state.userInfo)}/>
+                      <FollowBtn isFollow={this.userIsActive.call(this, this.state.userInfo.user_id)} handleFollowBtnClick={this.handleFollowBtnClick.bind(this, this.state.userInfo)}/>
                     </div>
                   : undefined}
                 </div>
                 <div className="desc">
-                  {this.state.userInfo.selfDescription}
+                  {this.state.userInfo.description}
                 </div>
                 <div className="info-bottom">
                   <div className="info-bottom-item">
-                    <p className="count">{this.state.userInfo.followeesCount}</p>
+                    <p className="count">{this.state.userInfo.followee_count}</p>
                     <p className="text">关注</p>
                   </div>
                   <div className="info-bottom-item">
-                    <p className="count">{this.state.userInfo.followersCount}</p>
+                    <p className="count">{this.state.userInfo.follower_count}</p>
                     <p className="text">关注者</p>
                   </div>
                   <div className="info-bottom-item">
-                    <p className="count">{this.state.userInfo.juejinPower}</p>
+                    <p className="count">{this.state.userInfo.power}</p>
                     <p className="text">掘力值</p>
                   </div>
                 </div>
@@ -200,7 +198,6 @@ class User extends React.Component {
               <Route path="/user/:userId/actives" component={Actives}/>
               <Route path="/user/:userId/posts" component={Posts}/>
               <Route path="/user/:userId/pins" component={Pins}/>
-              <Route path="/user/:userId/shares" component={Shares}/>
               <Route path="/user/:userId/more" component={More}/>
               <Redirect from="/user/:userId" to="/user/:userId/actives"/>
             </Switch>

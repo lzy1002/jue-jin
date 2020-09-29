@@ -1,20 +1,16 @@
 import {request} from "../assets/js/request.js";
 
-export function getTopicsList(page) {
-  const params = {
-    device_id: 9685,
-    client_id: 9685,
-    src: "android",
-    uid: "",
-    token: "",
-    sortType: "new",
-    page,
-    pageSize: 20
+export function getTopicsList(cursor = "0") {
+  const data = {
+    sort_type: 7,
+    cursor,
+    limit: 20
   };
 
   return request({
+    method: "post",
     url: "/topics/list",
-    params
+    data
   })
 
 }

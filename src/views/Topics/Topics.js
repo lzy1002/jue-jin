@@ -18,39 +18,34 @@ class Topics extends React.Component {
       loadMore: true
     };
 
-    this.page = 0;
-
     this.pullUpLoad = true;
 
   }
 
   componentDidMount() {
-    this.getTopicsList(this.page);
+    const cursor = "0";
+    this.getTopicsList(cursor);
   }
 
-  getTopicsList(page) {
-    getTopicsList(page).then(res => {
+  getTopicsList(cursor) {
+    getTopicsList(cursor).then(res => {
       this.setState({
-        topicsData: res.data.d
+        topicsData: res.data
       });
-      this.page = this.page + 1;
     })
   }
 
   handlePullUpLoad() {
-    if(!this.state.loadMore) return;
-    getTopicsList(this.page).then(res => {
-      this.setState({
+    if(!this.state.topicsData.has_more) return;
+    getTopicsList(this.state.topicsData.cursor).then(res => {
+      this.setState((prevState) => ({
         topicsData: {
-          list: [...this.state.topicsData.list, ...res.data.d.list],
-          total: res.data.d.total
+          ...prevState.topicsData,
+          data: [...prevState.topicsData.data, ...res.data.data],
+          cursor: res.data.cursor,
+          has_more: res.data.has_more
         }
-      });
-      this.setState({
-        loadMore: this.state.topicsData.list.length !== this.state.topicsData.total
-      });
-
-      this.page = this.page + 1;
+      }))
     })
   }
 
@@ -72,10 +67,10 @@ class Topics extends React.Component {
         <div className="topics-content">
           <Scroll pullUpLoad={this.pullUpLoad} handlePullUpLoad={this.handlePullUpLoad.bind(this)}>
             <div className="topics-box">
-              {this.state.topicsData.list ? this.state.topicsData.list.map((item, index) => (
+              {this.state.topicsData.data ? this.state.topicsData.data.map((item, index) => (
                 <TopicItem key={index} topicItemData={item}/>
               )) : undefined}
-              <div style={{display: this.state.topicsData.list && this.state.loadMore ? "block" : "none"}}>
+              <div style={{display: this.state.topicsData.data && this.state.topicsData.has_more ? "block" : "none"}}>
                 <Loading/>
               </div>
             </div>

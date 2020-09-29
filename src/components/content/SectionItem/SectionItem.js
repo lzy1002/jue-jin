@@ -28,8 +28,8 @@ class SectionItem extends React.Component {
         <div className="content">
           <h3 className="title">{this.props.sectionItemData.title}</h3>
           <p className="info">
-            <span>{this.props.sectionItemData.pv}次学习</span>
-            <span>{this.props.sectionItemData.commentCount || 0}条评论</span>
+            <span>{this.props.sectionItemData.read_count}次学习</span>
+            <span>{this.props.sectionItemData.comment_count || 0}条评论</span>
           </p>
         </div>
       </div>

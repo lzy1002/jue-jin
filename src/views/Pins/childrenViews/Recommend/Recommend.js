@@ -25,7 +25,7 @@ class Recommend extends React.Component {
   }
 
   componentDidMount() {
-    if(this.props.items) return;
+    if(this.props.data) return;
     this.setState({
       refreshIsShow: true
     });
@@ -33,7 +33,7 @@ class Recommend extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(!nextProps.items) return;
+    if(!nextProps.data) return;
     this.setState({
       refreshIsShow: false
     })
@@ -49,8 +49,8 @@ class Recommend extends React.Component {
   }
 
   handlePullUpLoad() {
-    if(!this.props.items.pageInfo.hasNextPage) return;
-    this.props.sagaMorePinsRecommend(this.props.items.pageInfo.endCursor);
+    if(!this.props.has_more) return;
+    this.props.sagaMorePinsRecommend(this.props.cursor);
   }
 
   render() {
@@ -60,14 +60,12 @@ class Recommend extends React.Component {
           <Refresh/>
         </div>
         <Scroll pullDownRefresh={this.pullDownRefresh} pullUpLoad={this.pullUpLoad} handlePullDownRefresh={this.handlePullDownRefresh.bind(this)} handlePullUpLoad={this.handlePullUpLoad.bind(this)}>
-          {this.props.items ? this.props.items.userActivities.map((item, index) => (
+          {this.props.data ? this.props.data.map((item, index) => (
             <Fragment key={index}>
-              {item.userActivity.action === "PUBLISH_PIN" ?
-                <PinItem pinItemData={{user: item.userActivity.actors[0], ...item.userActivity.pins[0]}}/>
-              : undefined}
+              <PinItem pinItemData={item}/>
             </Fragment>
           )) : undefined}
-          <div style={{display: this.props.items && this.props.items.pageInfo.hasNextPage ? "block" : "none"}}>
+          <div style={{display: this.props.data && this.props.has_more ? "block" : "none"}}>
             <Loading/>
           </div>
         </Scroll>

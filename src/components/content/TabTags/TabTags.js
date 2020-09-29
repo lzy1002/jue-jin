@@ -11,7 +11,7 @@ class TabTags extends React.Component {
   };
 
   static propTypes = {
-    actionSign: propTypes.string,
+    actionSign: propTypes.number,
     tabTagsList: propTypes.array,
     handleTagsItemClick: propTypes.func
   };

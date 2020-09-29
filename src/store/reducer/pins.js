@@ -1,6 +1,6 @@
 import * as TYPES from "../action-types.js";
 
-function pins(state = {recommend: {}, hot: {}, follow: {}}, action) {
+function pins(state = {recommend: {}, hot: {}}, action) {
   state = JSON.parse(JSON.stringify(state));
   switch (action.type) {
     case TYPES.INIT_PINS_RECOMMEND: {
@@ -8,8 +8,9 @@ function pins(state = {recommend: {}, hot: {}, follow: {}}, action) {
       break;
     }
     case TYPES.MORE_PINS_RECOMMEND: {
-      state.recommend.items.userActivities.push(...action.recommend.items.userActivities);
-      state.recommend.items.pageInfo = action.recommend.items.pageInfo;
+      state.recommend.data.push(...action.recommend.data);
+      state.recommend.has_more = action.recommend.has_more;
+      state.recommend.cursor = action.recommend.cursor;
       break;
     }
     case TYPES.INIT_PINS_HOT: {
@@ -17,12 +18,9 @@ function pins(state = {recommend: {}, hot: {}, follow: {}}, action) {
       break;
     }
     case TYPES.MORE_PINS_HOT: {
-      state.hot.edges.push(...action.hot.edges);
-      state.hot.pageInfo = action.hot.pageInfo;
-      break;
-    }
-    case TYPES.INIT_PINS_FOLLOW: {
-      state.follow = action.follow;
+      state.hot.data.push(...action.hot.data);
+      state.hot.has_more = action.hot.has_more;
+      state.hot.cursor = action.hot.cursor;
       break;
     }
   }

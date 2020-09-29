@@ -3,16 +3,22 @@
 
 .shareItem-wrapper
   display flex
+  height 70px
   padding 10px
+  margin-bottom 10px
   background-color $color-background-d
   border-1px($color-border)
   .shareItem-content
     flex 1
+    width 0
     .title
       font-size $font-size-small-x
       font-weight 400
       line-height 1.2
       margin-bottom 14px
+      overflow hidden
+      text-overflow ellipsis
+      white-space nowrap
     .info
       font-size $font-size-small
       color $color-text-l

@@ -5,8 +5,6 @@ import {withRouter} from "react-router-dom";
 
 import "./RelatedItem.styl";
 
-import {publishDate} from "../../../assets/js/utils.js";
-
 class RelatedItem extends React.Component {
   static defaultProps = {
     relatedItemData: {}
@@ -22,7 +20,7 @@ class RelatedItem extends React.Component {
   }
 
   handleArticleItemClick(articleItemData) {
-    this.props.history.push(`/article/${articleItemData.id || articleItemData.objectId}`);
+    this.props.history.push(`/article/${articleItemData.article_id}`);
   }
 
   articleIsThumb(articleId, thumbCount) {
@@ -37,9 +35,9 @@ class RelatedItem extends React.Component {
   render() {
     return (
       <div className="related-wrapper border-1px" onClick={this.handleArticleItemClick.bind(this, this.props.relatedItemData)}>
-        <h3 className="related-title">{this.props.relatedItemData.title}</h3>
+        <h3 className="related-title">{this.props.relatedItemData.article_info.title}</h3>
         <p className="related-info">
-          <span>{this.articleIsThumb(this.props.relatedItemData.id || this.props.relatedItemData.objectId, this.props.relatedItemData.likeCount || this.props.relatedItemData.collectionCount)}赞 · {this.props.relatedItemData.user.username} · {publishDate(this.props.relatedItemData.createdAt)}</span>
+          <span>{this.articleIsThumb(this.props.relatedItemData.article_id, this.props.relatedItemData.article_info.digg_count)}赞 · {this.props.relatedItemData.article_info.comment_count}评论 · {this.props.relatedItemData.author_user_info.user_name}</span>
         </p>
       </div>
     )

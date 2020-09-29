@@ -17,37 +17,37 @@ class Recommend extends React.Component {
       authorsData: {}
     };
 
-    this.position = "recommended";
+    this.categoryId = "";
 
     this.pullUpLoad = true;
 
   }
 
   componentDidMount() {
-    const lastId = "";
-    this.getAuthorsData(this.position, lastId);
+    const lastId = "0";
+    this.getAuthorsData(this.categoryId, lastId);
   }
 
-  getAuthorsData(position, lastId) {
-    getAuthorsData(position, lastId).then(res => {
+  getAuthorsData(categoryId, lastId) {
+    getAuthorsData(categoryId, lastId).then(res => {
       this.setState({
-        authorsData: res.data.data.articleAuthorRecommendationList.items
+        authorsData: res.data
       })
     })
   }
 
   handlePullUpLoad() {
-    const hasNextPage = this.state.authorsData.pageInfo.hasNextPage;
-    if(!hasNextPage) return;
-
-    const lastId = this.state.authorsData.pageInfo.endCursor;
-    getAuthorsData(this.position, lastId).then(res => {
-      this.setState({
+    if(!this.state.authorsData.has_more) return;
+    const lastId = this.state.authorsData.cursor;
+    getAuthorsData(this.categoryId, lastId).then(res => {
+      this.setState((prevState) => ({
         authorsData: {
-          edges: [...this.state.authorsData.edges, ...res.data.data.articleAuthorRecommendationList.items.edges],
-          pageInfo: res.data.data.articleAuthorRecommendationList.items.pageInfo
+          ...prevState.authorsData,
+          data: [...prevState.authorsData.data, ...res.data.data],
+          cursor: res.data.cursor,
+          has_more: res.data.has_more
         }
-      })
+      }))
     })
   }
 
@@ -55,10 +55,10 @@ class Recommend extends React.Component {
     return(
       <div className="authorsRecommend-wrapper">
         <Scroll pullUpLoad={this.pullUpLoad} handlePullUpLoad={this.handlePullUpLoad.bind(this)}>
-          {this.state.authorsData.edges ? this.state.authorsData.edges.map((item, index) => (
-            <UserItem key={index} userItemData={{user: item.node.author, title: item.node.author.jobTitle, info: item.node.description}}/>
+          {this.state.authorsData.data ? this.state.authorsData.data.map((item, index) => (
+            <UserItem key={index} userItemData={item}/>
           )) : undefined}
-          <div style={{display: this.state.authorsData.pageInfo && this.state.authorsData.pageInfo.hasNextPage ? "block" : "none"}}>
+          <div style={{display: this.state.authorsData.data && this.state.authorsData.has_more ? "block" : "none"}}>
             <Loading/>
           </div>
         </Scroll>

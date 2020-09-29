@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Fragment} from "react";
 import {connect} from "react-redux";
 
 import actionCreator from "../../../../store/actionCreator/index.js";
@@ -8,7 +8,7 @@ import "./Follow.styl";
 import Scroll from "../../../../components/common/Scroll/Scroll.js";
 
 import LoginTip from "../../../../components/content/LoginTip/LoginTip.js";
-import ColumnItem from "../../../../components/content/ColumnItem/ColumnItem.js";
+import ArticleItem from "../../../../components/content/ArticleItem/ArticleItem.js";
 import Refresh from "../../../../components/content/Refresh/Refresh.js";
 import Loading from "../../../../components/content/Loading/Loading.js";
 
@@ -25,7 +25,7 @@ class Follow extends React.Component {
   }
 
   componentDidMount() {
-    if(this.props.entrylist) return;
+    if(this.props.data) return;
     this.setState({
       refreshIsShow: true
     });
@@ -34,7 +34,7 @@ class Follow extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(!nextProps.entrylist) return;
+    if(!nextProps.data) return;
     this.setState({
       refreshIsShow: false
     });
@@ -50,9 +50,8 @@ class Follow extends React.Component {
   }
 
   handlePullUpLoad() {
-    if(!this.props.loadMore) return;
-    const lastId = this.props.entrylist[this.props.entrylist.length - 1].hotIndex;
-    this.props.sagaMoreHomeFollow(lastId);
+    if(!this.props.has_more) return;
+    this.props.sagaMoreHomeFollow(this.props.cursor);
   }
 
   render() {
@@ -63,10 +62,12 @@ class Follow extends React.Component {
         </div>
         <Scroll pullDownRefresh={this.pullDownRefresh} pullUpLoad={this.pullUpLoad} handlePullDownRefresh={this.handlePullDownRefresh.bind(this)} handlePullUpLoad={this.handlePullUpLoad.bind(this)}>
           <LoginTip/>
-          {this.props.entrylist ? this.props.entrylist.map((item, index) => (
-            <ColumnItem key={index} columnItemData={item}/>
+          {this.props.data ? this.props.data.map((item, index) => (
+            <Fragment key={index}>
+              {item.item_type === 2 ? <ArticleItem articleItemData={item.item_info}/> : undefined}
+            </Fragment>
           )) : undefined}
-          <div style={{display: this.props.entrylist && this.props.loadMore ? "block" : "none"}}>
+          <div style={{display: this.props.data && this.props.has_more ? "block" : "none"}}>
             <Loading/>
           </div>
         </Scroll>

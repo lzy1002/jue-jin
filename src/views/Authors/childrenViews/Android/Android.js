@@ -16,19 +16,19 @@ class Android extends React.Component {
       authorsData: {}
     };
 
-    this.position = "android";
+    this.categoryId = "6809635626879549454";
 
   }
 
   componentDidMount() {
     const lastId = "";
-    this.getAuthorsData(this.position, lastId);
+    this.getAuthorsData(this.categoryId, lastId);
   }
 
-  getAuthorsData(position, lastId) {
-    getAuthorsData(position, lastId).then(res => {
+  getAuthorsData(categoryId, lastId) {
+    getAuthorsData(categoryId, lastId).then(res => {
       this.setState({
-        authorsData: res.data.data.articleAuthorRecommendationList.items
+        authorsData: res.data
       })
     })
   }
@@ -37,8 +37,8 @@ class Android extends React.Component {
     return(
       <div className="authorsAndroid-wrapper">
         <Scroll>
-          {this.state.authorsData.edges ? this.state.authorsData.edges.map((item, index) => (
-            <UserItem key={index} userItemData={{user: item.node.author, title: item.node.author.jobTitle, info: item.node.description}}/>
+          {this.state.authorsData.data ? this.state.authorsData.data.map((item, index) => (
+            <UserItem key={index} userItemData={item}/>
           )) : undefined}
         </Scroll>
       </div>

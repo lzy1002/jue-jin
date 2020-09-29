@@ -5,7 +5,7 @@ import "./Actives.styl";
 import {getUserActive} from "../../../../api/user.js";
 
 import PinItem from "../../../../components/content/PinItem/PinItem.js";
-import ColumnItem from "../../../../components/content/ColumnItem/ColumnItem.js";
+import ArticleItem from "../../../../components/content/ArticleItem/ArticleItem.js";
 import FollowedItem from "../../../../components/content/FollowedItem/FollowedItem.js";
 
 class Actives extends React.Component {
@@ -13,7 +13,7 @@ class Actives extends React.Component {
     super(props);
 
     this.state = {
-      userActive: []
+      userActive: {}
     }
   }
 
@@ -31,7 +31,7 @@ class Actives extends React.Component {
   getUserActive(userId) {
     getUserActive(userId).then(res => {
       this.setState({
-        userActive: res.data.data.ownActivityFeed.items.userActivities
+        userActive: res.data.data
       })
     })
   }
@@ -39,28 +39,49 @@ class Actives extends React.Component {
   render() {
     return (
       <div className="userActives-wrapper">
-        {this.state.userActive.map((item, index) => (
+        {this.state.userActive.list ? this.state.userActive.list.map((item, index) => (
           <Fragment key={index}>
-            {item.userActivity.action === "PUBLISH_PIN" ?
-              <PinItem pinItemData={{user: item.userActivity.actors[0], ...item.userActivity.pins[0]}}/>
+            {item.target_type === "short_msg" ?
+              <Fragment>
+                {item.action === 2 ?
+                  <PinItem pinItemData={item.target_data}/>
+                : undefined}
+
+                {item.action === 3 ?
+                  <div className="like-box">
+                    <div className="like-header border-1px">
+                      <span className="username">{item.user.user_name}</span>
+                      <span>赞了这篇沸点</span>
+                    </div>
+                    <PinItem pinItemData={item.target_data}/>
+                  </div>
+                : undefined}
+
+              </Fragment>
             : undefined}
-            {item.userActivity.action === "LIKE_ARTICLE" ?
-              <div className="like-box">
-                <div className="like-header border-1px">
-                  <span className="username">{item.userActivity.actors[0].username}</span>
-                  <span>赞了这篇文章</span>
-                </div>
-                <ColumnItem columnItemData={{user: item.userActivity.actors[0], ...item.userActivity.entries[0]}}/>
-              </div>
+            {item.target_type === "article" ?
+              <Fragment>
+                {item.action === 0 ?
+                  <ArticleItem articleItemData={item.target_data}/>
+                : undefined}
+
+                {item.action === 1 ?
+                  <div className="like-box">
+                    <div className="like-header border-1px">
+                      <span className="username">{item.user.user_name}</span>
+                      <span>赞了这篇文章</span>
+                    </div>
+                    <ArticleItem articleItemData={item.target_data}/>
+                  </div>
+                  : undefined}
+
+              </Fragment>
             : undefined}
-            {item.userActivity.action === "PUBLISH_ARTICLE" ?
-              <ColumnItem columnItemData={{user: item.userActivity.actors[0], ...item.userActivity.entries[0]}}/>
-            : undefined}
-            {item.userActivity.action === "FOLLOW_USER" ?
-              <FollowedItem followedItemData={{actor: item.userActivity.actors[0], user: item.userActivity.users[0]}}/>
+            {item.target_type === "user" ?
+              <FollowedItem followedItemData={item}/>
             : undefined}
           </Fragment>
-        ))}
+        )) : undefined}
       </div>
     )
   }

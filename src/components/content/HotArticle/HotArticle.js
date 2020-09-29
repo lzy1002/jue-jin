@@ -34,7 +34,7 @@ class HotArticle extends React.Component {
         </div>
         <div className="article-box">
           {this.props.hotArticleList.map((item, index) => (
-            <RelatedItem key={item.entry.id} relatedItemData={item.entry}/>
+            <RelatedItem key={item.item_info.article_id} relatedItemData={item.item_info}/>
           ))}
         </div>
       </div>

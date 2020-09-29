@@ -24,7 +24,7 @@ class Rank extends React.Component {
   getTopicRank(topicId) {
     getTopicRank(topicId).then(res => {
       this.setState({
-        topicRank: res.data.d
+        topicRank: res.data
       })
     })
   }
@@ -32,8 +32,8 @@ class Rank extends React.Component {
   render() {
     return (
       <div className="rank-wrapper">
-        {this.state.topicRank.list ? this.state.topicRank.list.map((item, index) => (
-          <PinItem key={item.objectId} pinItemData={item}/>
+        {this.state.topicRank.data ? this.state.topicRank.data.map((item, index) => (
+          <PinItem key={item.msg_id} pinItemData={item}/>
         )) : undefined}
       </div>
     )

@@ -25,8 +25,7 @@ export function profile(state = {articleThumb: {articleThumbList: []}, articleHi
 
   switch (action.type) {
     case TYPES.CHANGE_ARTICLE_THUMB_STATE: {
-      console.log(action.article);
-      const index = articleThumbList.findIndex(item => item.objectId === action.article.objectId);
+      const index = articleThumbList.findIndex(item => item.articleId === action.article.articleId);
       if(index !== -1) {
         articleThumbList.splice(index, 1);
       }else {
@@ -37,7 +36,7 @@ export function profile(state = {articleThumb: {articleThumbList: []}, articleHi
       break;
     }
     case TYPES.ADD_ARTICLE_WATCH_HISTORY: {
-      const index = articleHistoryList.findIndex(item => item.objectId === action.article.objectId);
+      const index = articleHistoryList.findIndex(item => item.articleId === action.article.articleId);
       if(index !== -1) {
         articleHistoryList.splice(index, 1);
       }
@@ -52,8 +51,7 @@ export function profile(state = {articleThumb: {articleThumbList: []}, articleHi
       break;
     }
     case TYPES.CHANGE_TAG_FOLLOWING_STATE: {
-      const index = tagFollowingList.findIndex(item => item.id === action.tag.id);
-      console.log(index);
+      const index = tagFollowingList.findIndex(item => item.tag_id === action.tag.tag_id);
       if(index !== -1) {
         tagFollowingList.splice(index, 1);
       }else {
@@ -65,7 +63,7 @@ export function profile(state = {articleThumb: {articleThumbList: []}, articleHi
       break;
     }
     case TYPES.CHANGE_USER_FOLLOWING_STATE: {
-      const index = userFollowingList.findIndex(item => item.user.objectId === action.user.user.objectId);
+      const index = userFollowingList.findIndex(item => item.user_id === action.user.user_id);
       if(index !== -1) {
         userFollowingList.splice(index, 1);
       }else {
@@ -89,7 +87,7 @@ export function profile(state = {articleThumb: {articleThumbList: []}, articleHi
       break;
     }
     case TYPES.CHANGE_TOPIC_FOLLOWING_STATE: {
-      const index = topicFollowingList.findIndex(item => item.objectId === action.topic.objectId);
+      const index = topicFollowingList.findIndex(item => item.topicId === action.topic.topicId);
       if(index !== -1) {
         topicFollowingList.splice(index, 1);
       }else {

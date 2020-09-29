@@ -11,7 +11,7 @@ class Posts extends React.Component {
     super(props);
 
     this.state = {
-      userPosts: []
+      userPosts: {}
     }
   }
 
@@ -29,7 +29,7 @@ class Posts extends React.Component {
   getUserPosts(userId) {
     getUserPosts(userId).then(res => {
       this.setState({
-        userPosts: res.data.d.entrylist
+        userPosts: res.data
       })
     })
   }
@@ -37,9 +37,9 @@ class Posts extends React.Component {
   render() {
     return (
       <div className="userPosts-wrapper">
-        {this.state.userPosts.map((item, index) => (
-          <ArticleItem key={item.objectId} articleItemData={item}/>
-        ))}
+        {this.state.userPosts.data ? this.state.userPosts.data.map((item, index) => (
+          <ArticleItem key={item.article_id} articleItemData={item}/>
+        )) : undefined}
       </div>
     )
   }

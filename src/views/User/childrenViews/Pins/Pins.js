@@ -30,7 +30,7 @@ class Pins extends React.Component {
   getUserPins(userId) {
     getUserPins(userId).then(res => {
       this.setState({
-        pins: res.data.d
+        pins: res.data
       })
     })
   }
@@ -38,7 +38,7 @@ class Pins extends React.Component {
   render() {
     return (
       <div className="userPins-wrapper">
-        {this.state.pins.list ? this.state.pins.list.map((item, index) => (
+        {this.state.pins.data ? this.state.pins.data.map((item, index) => (
           <PinItem key={index} pinItemData={item}/>
         )) : undefined}
       </div>

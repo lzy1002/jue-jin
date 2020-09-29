@@ -1,10 +1,10 @@
 import * as TYPES from "../action-types.js";
 
 let books = {
-  sagaInitBooksAll(pageNum) {
+  sagaInitBooksAll(cursor) {
     return {
       type: TYPES.SAGA_INIT_BOOKS_ALL,
-      pageNum
+      cursor
     }
   },
   initBooksAll(all) {
@@ -13,10 +13,10 @@ let books = {
       all
     }
   },
-  sagaMoreBooksAll(pageNum) {
+  sagaMoreBooksAll(cursor) {
     return {
       type: TYPES.SAGA_MORE_BOOKS_ALL,
-      pageNum
+      cursor
     }
   },
   moreBooksAll(all) {

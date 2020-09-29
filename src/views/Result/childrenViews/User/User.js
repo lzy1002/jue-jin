@@ -28,41 +28,43 @@ class User extends React.Component {
       userData: {}
     };
 
-    this.type = "USER";
+    this.type = 1;
 
     this.pullUpLoad = true;
 
   }
 
   componentDidMount() {
-    const lastId = "";
+    const lastId = "0";
     this.getResultData(this.type, this.props.searchKey, lastId);
   }
 
   componentWillReceiveProps(nextProps) {
     if(this.props.searchKey === nextProps.searchKey) return;
-    const lastId = "";
+    const lastId = "0";
     this.getResultData(this.type, nextProps.searchKey, lastId);
   }
 
   getResultData(type, searchKey, lastId) {
     getResultData(type, searchKey, lastId).then(res => {
       this.setState({
-        userData: res.data.data.result
+        userData: res.data
       })
     })
   }
 
   handlePullUpLoad() {
-    if(!this.state.userData.pageInfo.hasNextPage) return;
-    const lastId = this.state.userData.pageInfo.endCursor;
+    if(!this.state.userData.has_more) return;
+    const lastId = this.state.userData.cursor;
     getResultData(this.type, this.props.searchKey, lastId).then(res => {
-      this.setState({
+      this.setState((prevState) => ({
         userData: {
-          edges: [...this.state.userData.edges, ...res.data.data.result.edges],
-          pageInfo: res.data.data.result.pageInfo
+          ...prevState.userData,
+          data: [...prevState.userData.data, ...res.data.data],
+          cursor: res.data.cursor,
+          has_more: res.data.has_more
         }
-      })
+      }))
     })
   }
 
@@ -70,14 +72,14 @@ class User extends React.Component {
     return (
       <div className="resultUser-wrapper">
         <Scroll pullUpLoad={this.pullUpLoad} handlePullUpLoad={this.handlePullUpLoad.bind(this)}>
-          {this.state.userData.edges ? this.state.userData.edges.map((item, index) => (
+          {this.state.userData.data ? this.state.userData.data.map((item, index) => (
             <Fragment key={index}>
-              {item.node.type === "UserSearchResultItem" ?
-                <UserItem userItemData={{user: item.node.user}}/>
+              {item.result_type === 1 ?
+                <UserItem userItemData={item.result_model}/>
               : undefined}
             </Fragment>
           )) : undefined}
-          <div style={{display: this.state.userData.edges && this.state.userData.pageInfo.hasNextPage ? "block" : "none"}}>
+          <div style={{display: this.state.userData.data && this.state.userData.has_more ? "block" : "none"}}>
             <Loading/>
           </div>
         </Scroll>

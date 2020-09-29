@@ -16,19 +16,19 @@ class Frontend extends React.Component {
       authorsData: {}
     };
 
-    this.position = "frontend";
+    this.categoryId = "6809637767543259144";
 
   }
 
   componentDidMount() {
-    const lastId = "";
-    this.getAuthorsData(this.position, lastId);
+    const lastId = "0";
+    this.getAuthorsData(this.categoryId, lastId);
   }
 
-  getAuthorsData(position, lastId) {
-    getAuthorsData(position, lastId).then(res => {
+  getAuthorsData(categoryId, lastId) {
+    getAuthorsData(categoryId, lastId).then(res => {
       this.setState({
-        authorsData: res.data.data.articleAuthorRecommendationList.items
+        authorsData: res.data
       })
     })
   }
@@ -37,8 +37,8 @@ class Frontend extends React.Component {
     return(
       <div className="authorsFrontend-wrapper">
         <Scroll>
-          {this.state.authorsData.edges ? this.state.authorsData.edges.map((item, index) => (
-            <UserItem key={index} userItemData={{user: item.node.author, title: item.node.author.jobTitle, info: item.node.description}}/>
+          {this.state.authorsData.data ? this.state.authorsData.data.map((item, index) => (
+            <UserItem key={index} userItemData={item}/>
           )) : undefined}
         </Scroll>
       </div>

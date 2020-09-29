@@ -6,6 +6,8 @@ import "./Topic.styl";
 
 import {getTopicInfo, getTopicAttenders} from "../../api/topic.js";
 
+import {defaultAvatar} from "../../assets/js/utils.js";
+
 import {TopicCls} from "../../assets/js/class.js";
 
 import actionCreator from "../../store/actionCreator/index.js";
@@ -51,7 +53,7 @@ class Topic extends React.Component {
   getTopicInfo(topicId) {
     getTopicInfo(topicId).then(res => {
       this.setState({
-        topicInfo: res.data.d
+        topicInfo: res.data
       })
     })
   }
@@ -59,7 +61,7 @@ class Topic extends React.Component {
   getTopicAttenders(topicId) {
     getTopicAttenders(topicId).then(res => {
       this.setState({
-        topicAttenders: res.data.d
+        topicAttenders: res.data
       })
     })
   }
@@ -91,8 +93,8 @@ class Topic extends React.Component {
     this.props.changeTopicFollowingState(topic);
   }
 
-  topicIsActive(objectId) {
-    const index = this.props.topicFollowingList.findIndex(item => item.objectId === objectId);
+  topicIsActive(topicId) {
+    const index = this.props.topicFollowingList.findIndex(item => item.topicId === topicId);
     return index !== -1;
   }
 
@@ -104,52 +106,54 @@ class Topic extends React.Component {
             <i className="iconfont icon-fanhui"></i>
           </div>
           <div className="content">
-            <span className="title" style={{display: this.state.titleIsShow ? "block" : "none"}}>{this.state.topicInfo.title}</span>
+            {this.state.topicInfo.data ?
+              <span className="title" style={{display: this.state.titleIsShow ? "block" : "none"}}>{this.state.topicInfo.data.topic.title}</span>
+            : undefined}
           </div>
           <div className="share">
             <i className="iconfont icon-fenxiang"></i>
           </div>
         </div>
+
         <div className="topic-content">
           <Scroll probeType={this.probeType} handleScrolling={this.handleScrolling.bind(this)}>
-            <div className="topic-info">
-              <div className="info-top">
-                <div className="img-box" style={{backgroundImage: `url(${this.state.topicInfo.icon})`}}></div>
-                <div className="info-content">
-                  <h3 className="title">{this.state.topicInfo.title}</h3>
-                  <div className="other">
-                    <div className="other-item">
-                      <p className="count">{this.state.topicInfo.followersCount}</p>
-                      <p className="text">关注者</p>
-                    </div>
-                    <div className="other-item">
-                      <p className="count">{this.state.topicInfo.msgsCount}</p>
-                      <p className="text">沸点</p>
+            {this.state.topicInfo.data && this.state.topicAttenders.data ?
+              <div className="topic-info">
+                <div className="info-top">
+                  <div className="img-box" style={{backgroundImage: `url(${this.state.topicInfo.data.topic.icon})`}}></div>
+                  <div className="info-content">
+                    <h3 className="title">{this.state.topicInfo.data.topic.title}</h3>
+                    <div className="other">
+                      <div className="other-item">
+                        <p className="count">{this.state.topicInfo.data.topic.follower_count}</p>
+                        <p className="text">关注者</p>
+                      </div>
+                      <div className="other-item">
+                        <p className="count">{this.state.topicInfo.data.topic.msg_count}</p>
+                        <p className="text">沸点</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-                {this.state.topicInfo.objectId ?
                   <div className="follow-box">
-                    <FollowBtn isFollow={this.topicIsActive.call(this, this.state.topicInfo.objectId)} handleFollowBtnClick={this.handleFollowBtnClick.bind(this, this.state.topicInfo)}/>
+                    <FollowBtn isFollow={this.topicIsActive.call(this, this.state.topicInfo.data.topic.topic_id)} handleFollowBtnClick={this.handleFollowBtnClick.bind(this, this.state.topicInfo.data)}/>
                   </div>
-                : undefined}
-              </div>
-
-              <div className="info-desc">
-                {this.state.topicInfo.description}
-              </div>
-              <div className="info-attenders">
-                <div className="attenders-box">
-                  {this.state.topicAttenders.list ? this.state.topicAttenders.list.slice(0, 6).map((item, index) => (
-                    <div key={item.objectId} className="avatar-item" onClick={this.handleAvatarItemClick.bind(this, item.objectId)}>
-                      <img src={item.avatarLarge} alt=""/>
-                    </div>
-                  )) : undefined}
                 </div>
-                <span className="total">已有{this.state.topicAttenders.total}人参加</span>
-              </div>
-            </div>
 
+                <div className="info-desc">
+                  {this.state.topicInfo.data.topic.description}
+                </div>
+                <div className="info-attenders">
+                  <div className="attenders-box">
+                    {this.state.topicAttenders.data ? this.state.topicAttenders.data.slice(0, 6).map((item, index) => (
+                      <div key={item.user_id} className="avatar-item" onClick={this.handleAvatarItemClick.bind(this, item.user_id)}>
+                        <img src={defaultAvatar(item.avatar_large)} alt=""/>
+                      </div>
+                    )) : undefined}
+                  </div>
+                  <span className="total">已有{this.state.topicAttenders.count}人参加</span>
+                </div>
+              </div>
+              : undefined}
             <div className="tabControl-box border-1px">
               <TabControl titleList={this.titleList} tabBgColor={this.tabBgColor} arrowIsShow={this.arrowIsShow} activeColor={this.activeColor} titleColor={this.titleColor} lineBgColor={this.lineBgColor}/>
             </div>

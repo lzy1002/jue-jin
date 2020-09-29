@@ -24,7 +24,7 @@ class Newest extends React.Component {
   getTopicNewest(topicId) {
     getTopicNewest(topicId).then(res => {
       this.setState({
-        topicNewest: res.data.d
+        topicNewest: res.data
       })
     })
   }
@@ -32,8 +32,8 @@ class Newest extends React.Component {
   render() {
     return (
       <div className="newest-wrapper">
-        {this.state.topicNewest.list ? this.state.topicNewest.list.map((item, index) => (
-          <PinItem key={item.objectId} pinItemData={item}/>
+        {this.state.topicNewest.data ? this.state.topicNewest.data.map((item, index) => (
+          <PinItem key={item.msg_id} pinItemData={item}/>
         )) : undefined}
       </div>
     )

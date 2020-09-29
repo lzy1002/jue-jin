@@ -61,27 +61,27 @@ class PinItem extends React.Component {
   }
 
   handlePinItemClick(pinItemData) {
-    this.props.history.push(`/pin/${pinItemData.objectId || pinItemData.id}`);
+    this.props.history.push(`/pin/${pinItemData.msg_id}`);
   }
 
   handleTopicClick(e, topic) {
     if(this.props.location.pathname.startsWith("/topic")) {
-      if((topic.id || topic.objectId) === this.props.match.params.topicId) {
+      if(topic.topic_id === this.props.match.params.topicId) {
         e.stopPropagation();
         return;
       }
     }
 
-    this.props.history.push(`/topic/${topic.id || topic.objectId}`);
+    this.props.history.push(`/topic/${topic.topic_id}`);
     e.stopPropagation();
   }
 
-  handleThumbClick(objectId) {
-    this.props.changePinThumbState(objectId);
+  handleThumbClick(pinId) {
+    this.props.changePinThumbState(pinId);
   }
 
-  isThumb(objectId, thumbCount) {
-    const index = this.props.pinThumbList.findIndex(item => item === objectId);
+  isThumb(pinId, thumbCount) {
+    const index = this.props.pinThumbList.findIndex(item => item === pinId);
     if(index !== -1) {
       return thumbCount + 1;
     }else {
@@ -93,8 +93,8 @@ class PinItem extends React.Component {
     }
   }
 
-  thumbIsActive(objectId) {
-    const index = this.props.pinThumbList.findIndex(item => item === objectId);
+  thumbIsActive(pinId) {
+    const index = this.props.pinThumbList.findIndex(item => item === pinId);
     return index !== -1;
   }
 
@@ -103,7 +103,7 @@ class PinItem extends React.Component {
       <div className="pinItem-wrapper">
         <div className="pinItem-header">
           <div className="user-box">
-            <UserBox userData={this.props.pinItemData.user} createdAt={this.props.pinItemData.createdAt}/>
+            <UserBox userData={this.props.pinItemData.author_user_info} createdAt={parseInt(this.props.pinItemData.msg_Info.ctime) * 1000}/>
           </div>
           <div className="more">
             <i className="iconfont icon-unie644"></i>
@@ -113,40 +113,40 @@ class PinItem extends React.Component {
           <div className="text-box">
             <div ref={this.partText}>
               <div className="part-text">
-                {this.props.pinItemData.content}
+                {this.props.pinItemData.msg_Info.content}
               </div>
             </div>
             <div className="all-text" ref={this.allText}>
-              {this.props.pinItemData.content}
+              {this.props.pinItemData.msg_Info.content}
             </div>
             <div className="open-text" style={{display: this.state.openTextIsShow ? "block" : "none"}} onClick={e => this.handleOpenTextClick.call(this, e)}>{this.state.isAll ? "收起全文" : "展开全文"}</div>
           </div>
-          {this.props.pinItemData.pictures.length ?
+          {this.props.pinItemData.msg_Info.pic_list.length ?
             <div className="image-box">
-              {this.props.pinItemData.pictures.map((item, index) => (
+              {this.props.pinItemData.msg_Info.pic_list.map((item, index) => (
                 <div key={index} className="img" style={{backgroundImage: `url(${item})`}}></div>
               ))}
             </div>
           : undefined}
-          {this.props.pinItemData.url ?
+          {this.props.pinItemData.msg_Info.url ?
             <div className="link-box">
-              <LinkBox linkData={{url: this.props.pinItemData.url, urlPic: this.props.pinItemData.urlPic, urlTitle: this.props.pinItemData.urlTitle}}/>
+              <LinkBox linkData={{url: this.props.pinItemData.msg_Info.url, urlPic: this.props.pinItemData.msg_Info.url_pic, urlTitle: this.props.pinItemData.msg_Info.url_title}}/>
             </div>
           : undefined}
-          {this.props.pinItemData.topic ?
+          {this.props.pinItemData.topic.title ?
             <div className="tag-box">
               <div className="tag-item" onClick={e => this.handleTopicClick.call(this, e, this.props.pinItemData.topic)}>{this.props.pinItemData.topic.title}</div>
             </div>
           : undefined}
         </div>
         <div className="pinItem-bottom">
-          <div className={`bottom-item ${this.thumbIsActive.call(this, this.props.pinItemData.id || this.props.pinItemData.objectId) ? "active" : ""}`} onClick={this.handleThumbClick.bind(this, this.props.pinItemData.id || this.props.pinItemData.objectId)}>
-            <i className={`iconfont ${this.thumbIsActive.call(this, this.props.pinItemData.id || this.props.pinItemData.objectId) ? "icon-dianzan1" : "icon-dianzan"}`}></i>
-            <span>{this.isThumb.call(this, this.props.pinItemData.id || this.props.pinItemData.objectId, this.props.pinItemData.likeCount || this.props.pinItemData.likedCount || 0)}</span>
+          <div className={`bottom-item ${this.thumbIsActive.call(this, this.props.pinItemData.msg_Info.msg_id) ? "active" : ""}`} onClick={this.handleThumbClick.bind(this, this.props.pinItemData.msg_Info.msg_id)}>
+            <i className={`iconfont ${this.thumbIsActive.call(this, this.props.pinItemData.msg_Info.msg_id) ? "icon-dianzan1" : "icon-dianzan"}`}></i>
+            <span>{this.isThumb.call(this, this.props.pinItemData.msg_Info.msg_id, this.props.pinItemData.msg_Info.digg_count || 0)}</span>
           </div>
           <div className="bottom-item">
             <i className="iconfont icon-pinglun"></i>
-            <span>{this.props.pinItemData.commentCount ? this.props.pinItemData.commentCount : "评论"}</span>
+            <span>{this.props.pinItemData.msg_Info.comment_count ? this.props.pinItemData.msg_Info.comment_count : "评论"}</span>
           </div>
           <div className="bottom-item">
             <i className="iconfont icon-fenxiang"></i>

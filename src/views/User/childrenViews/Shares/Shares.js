@@ -2,7 +2,7 @@ import React from "react";
 
 import "./Shares.styl";
 
-import {getUserShare} from "../../../../api/user.js";
+// import {getUserShare} from "../../../../api/user.js";
 
 import ShareItem from "../../../../components/content/ShareItem/ShareItem.js";
 

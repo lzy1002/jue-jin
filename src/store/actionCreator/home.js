@@ -1,6 +1,17 @@
 import * as TYPES from "../action-types.js";
 
 let home = {
+  sagaInitHomeRecommendHotArticle() {
+    return {
+      type: TYPES.SAGA_INIT_HOME_RECOMMEND_HOT_ARTICLE
+    }
+  },
+  initHomeRecommendHotArticle(hotArticle) {
+    return {
+      type: TYPES.INIT_HOME_RECOMMEND_HOT_ARTICLE,
+      hotArticle
+    }
+  },
   sagaInitHomeRecommend() {
     return {
       type: TYPES.SAGA_INIT_HOME_RECOMMEND
@@ -35,10 +46,10 @@ let home = {
       follow
     }
   },
-  sagaMoreHomeFollow(lastId) {
+  sagaMoreHomeFollow(cursor) {
     return {
       type: TYPES.SAGA_MORE_HOME_FOLLOW,
-      lastId
+      cursor
     }
   },
   moreHomeFollow(follow) {

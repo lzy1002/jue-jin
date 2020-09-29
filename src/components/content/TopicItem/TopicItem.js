@@ -28,31 +28,29 @@ class TopicItem extends React.Component {
   }
 
   handleFollowClick(e, topicData) {
-    console.log(topicData);
     const topic = new TopicCls(topicData);
     this.props.changeTopicFollowingState(topic);
     e.stopPropagation();
   }
 
-  topicIsActive(objectId) {
-    const index = this.props.topicFollowingList.findIndex(item => item.objectId === objectId);
+  topicIsActive(topicId) {
+    const index = this.props.topicFollowingList.findIndex(item => item.topicId === topicId);
     return index !== -1;
-
   }
 
   render() {
     return (
-      <div className="topicItem-wrapper border-1px" onClick={this.handleTopicItemClick.bind(this, this.props.topicItemData.objectId)}>
-        <div className="img-box" style={{backgroundImage: `url(${this.props.topicItemData.icon})`}}></div>
+      <div className="topicItem-wrapper border-1px" onClick={this.handleTopicItemClick.bind(this, this.props.topicItemData.topic_id)}>
+        <div className="img-box" style={{backgroundImage: `url(${this.props.topicItemData.topic.icon})`}}></div>
         <div className="content">
-          <p className="title">{this.props.topicItemData.title}</p>
+          <p className="title">{this.props.topicItemData.topic.title}</p>
           <p className="info">
-            <span>{this.props.topicItemData.followersCount}关注者</span>
+            <span>{this.props.topicItemData.topic.follower_count}关注者</span>
             <span> · </span>
-            <span>{this.props.topicItemData.msgsCount}沸点</span>
+            <span>{this.props.topicItemData.topic.msg_count}沸点</span>
           </p>
         </div>
-        <div className="follow-btn" onClick={e => this.handleFollowClick.call(this, e, this.props.topicItemData)}>{this.topicIsActive.call(this, this.props.topicItemData.objectId) ? "已关注" : "关注"}</div>
+        <div className="follow-btn" onClick={e => this.handleFollowClick.call(this, e, this.props.topicItemData)}>{this.topicIsActive.call(this, this.props.topicItemData.topic_id) ? "已关注" : "关注"}</div>
       </div>
     )
   }

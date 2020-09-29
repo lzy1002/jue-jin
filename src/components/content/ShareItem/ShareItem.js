@@ -22,11 +22,11 @@ class ShareItem extends React.Component {
   }
 
   handleShareItemClick(shareItemData) {
-    this.props.history.push(`/article/${shareItemData.objectId || shareItemData.id}`);
+    this.props.history.push(`/article/${shareItemData.articleId}`);
   }
 
-  isThumb(objectId, thumbCount) {
-    const index = this.props.articleThumbList.findIndex(item => item.objectId === objectId);
+  isThumb(articleId, thumbCount) {
+    const index = this.props.articleThumbList.findIndex(item => item.articleId === articleId);
     if(index !== -1) {
       return thumbCount + 1;
     }else {
@@ -40,11 +40,11 @@ class ShareItem extends React.Component {
         <div className="shareItem-content">
           <h3 className="title">{this.props.shareItemData.title}</h3>
           <p className="info">
-            <span>{this.isThumb.call(this, this.props.shareItemData.objectId || this.props.shareItemData.id, this.props.shareItemData.collectionCount)}人赞</span>
+            <span>{this.isThumb.call(this, this.props.shareItemData.articleId, this.props.shareItemData.diggCount)}人赞</span>
             <span> · </span>
-            <span>{this.props.shareItemData.user.username}</span>
+            <span>{this.props.shareItemData.user.user_name}</span>
             <span> · </span>
-            <span>{publishDate(this.props.shareItemData.createdAt)}</span>
+            <span>{publishDate(parseInt(this.props.shareItemData.createdAt) * 1000)}</span>
           </p>
         </div>
         {this.props.shareItemData.screenshot ?

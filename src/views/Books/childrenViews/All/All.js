@@ -25,15 +25,16 @@ class All extends React.Component {
   }
 
   componentDidMount() {
-    if(this.props.books.length) return;
+    if(this.props.data) return;
     this.setState({
       refreshIsShow: true
     });
-    this.props.sagaInitBooksAll(1);
+    const cursor = "0";
+    this.props.sagaInitBooksAll(cursor);
   }
 
   componentWillReceiveProps(nextProps) {
-    if(!nextProps.books.length) return;
+    if(!nextProps.data) return;
     this.setState({
       refreshIsShow: false
     })
@@ -43,14 +44,15 @@ class All extends React.Component {
     this.setState({
       refreshIsShow: true
     });
+    const cursor = "0";
     window.setTimeout(() => {
-      this.props.sagaInitBooksAll(1);
+      this.props.sagaInitBooksAll(cursor);
     }, 1000);
   }
 
   handlePullUpLoad() {
-    if(!this.props.loadMore) return;
-    this.props.sagaMoreBooksAll(this.props.pageNum);
+    if(!this.props.has_more) return;
+    this.props.sagaMoreBooksAll(this.props.cursor);
   }
 
   render() {
@@ -60,10 +62,10 @@ class All extends React.Component {
           <Refresh/>
         </div>
         <Scroll pullDownRefresh={this.pullDownRefresh} pullUpLoad={this.pullUpLoad} handlePullUpLoad={this.handlePullUpLoad.bind(this)} handlePullDownRefresh={this.handlePullDownRefresh.bind(this)}>
-          {this.props.books.length ? this.props.books.map((item, index) => (
+          {this.props.data ? this.props.data.map((item, index) => (
             <BookItem key={index} bookItemData={item}/>
           )) : undefined}
-          <div style={{display: this.props.books.length && this.props.loadMore ? "block" : "none"}}>
+          <div style={{display: this.props.data && this.props.has_more ? "block" : "none"}}>
             <Loading/>
           </div>
         </Scroll>

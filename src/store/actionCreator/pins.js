@@ -46,18 +46,6 @@ let pins = {
       type: TYPES.MORE_PINS_HOT,
       hot
     }
-  },
-  sagaInitPinsFollow(extensions) {
-    return {
-      type: TYPES.SAGA_INIT_PINS_FOLLOW,
-      extensions
-    }
-  },
-  initPinsFollow(follow) {
-    return {
-      type: TYPES.INIT_PINS_FOLLOW,
-      follow
-    }
   }
 
 };
